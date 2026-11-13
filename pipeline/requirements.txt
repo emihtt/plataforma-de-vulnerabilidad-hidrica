@@ -1,0 +1,11 @@
+pandas
+geopandas
+shapely
+pyproj
+requests
+pyyaml
+pytest
+numpy
+openpyxl
+qrcode[pil]
+xlrd

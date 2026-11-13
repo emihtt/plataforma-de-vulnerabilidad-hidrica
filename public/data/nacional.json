@@ -1,0 +1,203 @@
+{
+ "generado": "2026-11-13",
+ "fuente": "INEGI. Censo de Población y Vivienda 2020. Principales resultados por localidad (ITER), nacional",
+ "viviendas_sin_agua": 1215497,
+ "personas_est": 4412978,
+ "nota_personas": "Estimación: viviendas sin agua entubada por promedio de ocupantes de cada entidad.",
+ "localidades_mitad_o_mas": 17766,
+ "localidades_con_dato": 108150,
+ "por_tamano": [
+  {
+   "tamano": "Menos de 250 habitantes",
+   "localidades": 74370,
+   "viviendas": 250852,
+   "personas_est": 962439
+  },
+  {
+   "tamano": "250 a 2,499 habitantes",
+   "localidades": 29595,
+   "viviendas": 485062,
+   "personas_est": 1916219
+  },
+  {
+   "tamano": "2,500 a 14,999 habitantes",
+   "localidades": 3444,
+   "viviendas": 175621,
+   "personas_est": 692701
+  },
+  {
+   "tamano": "15,000 habitantes o más",
+   "localidades": 741,
+   "viviendas": 277768,
+   "personas_est": 997680
+  },
+  {
+   "tamano": "Localidades de una y dos viviendas (el censo solo publica el agregado)",
+   "localidades": null,
+   "viviendas": 26194,
+   "personas_est": -156061
+  }
+ ],
+ "por_entidad": [
+  {
+   "entidad": "Veracruz de Ignacio de la Llave",
+   "viviendas": 202241,
+   "personas_est": 681552
+  },
+  {
+   "entidad": "Chiapas",
+   "viviendas": 133616,
+   "personas_est": 546489
+  },
+  {
+   "entidad": "México",
+   "viviendas": 118409,
+   "personas_est": 439297
+  },
+  {
+   "entidad": "Oaxaca",
+   "viviendas": 110050,
+   "personas_est": 401682
+  },
+  {
+   "entidad": "Guerrero",
+   "viviendas": 103991,
+   "personas_est": 388926
+  },
+  {
+   "entidad": "Puebla",
+   "viviendas": 76093,
+   "personas_est": 291436
+  },
+  {
+   "entidad": "San Luis Potosí",
+   "viviendas": 57307,
+   "personas_est": 208024
+  },
+  {
+   "entidad": "Guanajuato",
+   "viviendas": 42957,
+   "personas_est": 166244
+  },
+  {
+   "entidad": "Tabasco",
+   "viviendas": 41215,
+   "personas_est": 147550
+  },
+  {
+   "entidad": "Michoacán de Ocampo",
+   "viviendas": 34767,
+   "personas_est": 127943
+  },
+  {
+   "entidad": "Hidalgo",
+   "viviendas": 33315,
+   "personas_est": 119601
+  },
+  {
+   "entidad": "Ciudad de México",
+   "viviendas": 29004,
+   "personas_est": 96293
+  },
+  {
+   "entidad": "Baja California",
+   "viviendas": 23823,
+   "personas_est": 77663
+  },
+  {
+   "entidad": "Morelos",
+   "viviendas": 22616,
+   "personas_est": 79156
+  },
+  {
+   "entidad": "Tamaulipas",
+   "viviendas": 18631,
+   "personas_est": 61296
+  },
+  {
+   "entidad": "Chihuahua",
+   "viviendas": 17437,
+   "personas_est": 56670
+  },
+  {
+   "entidad": "Jalisco",
+   "viviendas": 16375,
+   "personas_est": 58295
+  },
+  {
+   "entidad": "Querétaro",
+   "viviendas": 13717,
+   "personas_est": 48421
+  },
+  {
+   "entidad": "Sinaloa",
+   "viviendas": 12998,
+   "personas_est": 45363
+  },
+  {
+   "entidad": "Sonora",
+   "viviendas": 12370,
+   "personas_est": 41316
+  },
+  {
+   "entidad": "Nuevo León",
+   "viviendas": 12098,
+   "personas_est": 42222
+  },
+  {
+   "entidad": "Baja California Sur",
+   "viviendas": 11973,
+   "personas_est": 39511
+  },
+  {
+   "entidad": "Campeche",
+   "viviendas": 10343,
+   "personas_est": 36718
+  },
+  {
+   "entidad": "Durango",
+   "viviendas": 9676,
+   "personas_est": 35704
+  },
+  {
+   "entidad": "Nayarit",
+   "viviendas": 9339,
+   "personas_est": 31659
+  },
+  {
+   "entidad": "Quintana Roo",
+   "viviendas": 9234,
+   "personas_est": 29733
+  },
+  {
+   "entidad": "Coahuila de Zaragoza",
+   "viviendas": 8789,
+   "personas_est": 30586
+  },
+  {
+   "entidad": "Zacatecas",
+   "viviendas": 8210,
+   "personas_est": 29966
+  },
+  {
+   "entidad": "Yucatán",
+   "viviendas": 7800,
+   "personas_est": 27456
+  },
+  {
+   "entidad": "Tlaxcala",
+   "viviendas": 3332,
+   "personas_est": 13095
+  },
+  {
+   "entidad": "Aguascalientes",
+   "viviendas": 2137,
+   "personas_est": 7864
+  },
+  {
+   "entidad": "Colima",
+   "viviendas": 1634,
+   "personas_est": 5245
+  }
+ ]
+}

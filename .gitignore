@@ -1,0 +1,18 @@
+# Documentos internos de Regenera: nunca se publican
+interno/
+CLAUDE.md
+LEEME_primero.md
+
+# Datos crudos e intermedios (se regeneran con el pipeline)
+data/crudo/
+data/procesado/
+
+# Entornos y dependencias
+.venv/
+node_modules/
+dist/
+__pycache__/
+*.pyc
+.env
+.env.*
+.DS_Store

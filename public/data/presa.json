@@ -1,0 +1,776 @@
+{
+ "presa": "Valle de Bravo",
+ "capacidad_mm3": 394.39,
+ "capacidad_nota": "Capacidad al nivel de aguas máximas ordinarias, según Conagua",
+ "origen": "semilla",
+ "ultima_actualizacion": "2026-11-05",
+ "ultima_fecha_servicio": "2025-04-21",
+ "generado": "2026-11-13",
+ "serie": [
+  {
+   "fecha": "2023-01-02",
+   "porcentaje": 55.68,
+   "almacenamiento_mm3": 219.578,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2023-01-09",
+   "porcentaje": 55.68,
+   "almacenamiento_mm3": 219.578,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2023-01-16",
+   "porcentaje": 55.87,
+   "almacenamiento_mm3": 220.344,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2023-01-23",
+   "porcentaje": 55.9,
+   "almacenamiento_mm3": 220.472,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2023-01-30",
+   "porcentaje": 55.42,
+   "almacenamiento_mm3": 218.554,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2023-02-06",
+   "porcentaje": 55.16,
+   "almacenamiento_mm3": 217.527,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2023-02-13",
+   "porcentaje": 54.34,
+   "almacenamiento_mm3": 214.302,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2023-02-20",
+   "porcentaje": 54.07,
+   "almacenamiento_mm3": 213.265,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2023-02-27",
+   "porcentaje": 53.18,
+   "almacenamiento_mm3": 209.74,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2023-03-06",
+   "porcentaje": 52.78,
+   "almacenamiento_mm3": 208.162,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2023-03-13",
+   "porcentaje": 51.91,
+   "almacenamiento_mm3": 204.713,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2023-03-20",
+   "porcentaje": 51.36,
+   "almacenamiento_mm3": 202.568,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2023-03-27",
+   "porcentaje": 50.64,
+   "almacenamiento_mm3": 199.724,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2023-04-03",
+   "porcentaje": 49.66,
+   "almacenamiento_mm3": 195.869,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2023-04-10",
+   "porcentaje": 48.88,
+   "almacenamiento_mm3": 192.777,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2023-04-17",
+   "porcentaje": 48.22,
+   "almacenamiento_mm3": 190.191,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2023-04-24",
+   "porcentaje": 47.2,
+   "almacenamiento_mm3": 186.17,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2023-05-01",
+   "porcentaje": 46.02,
+   "almacenamiento_mm3": 181.5,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2023-05-08",
+   "porcentaje": 45.24,
+   "almacenamiento_mm3": 178.41,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2023-05-15",
+   "porcentaje": 43.98,
+   "almacenamiento_mm3": 173.456,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2023-05-22",
+   "porcentaje": 43.03,
+   "almacenamiento_mm3": 169.719,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2023-05-29",
+   "porcentaje": 42.52,
+   "almacenamiento_mm3": 167.69,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2023-06-05",
+   "porcentaje": 41.75,
+   "almacenamiento_mm3": 164.659,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2023-06-12",
+   "porcentaje": 40.73,
+   "almacenamiento_mm3": 160.649,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2023-06-19",
+   "porcentaje": 39.81,
+   "almacenamiento_mm3": 157.011,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2023-06-26",
+   "porcentaje": 38.54,
+   "almacenamiento_mm3": 151.981,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2023-07-03",
+   "porcentaje": 37.78,
+   "almacenamiento_mm3": 149.009,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2023-07-10",
+   "porcentaje": 37.43,
+   "almacenamiento_mm3": 147.628,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2023-07-17",
+   "porcentaje": 36.97,
+   "almacenamiento_mm3": 145.8,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2023-07-24",
+   "porcentaje": 36.6,
+   "almacenamiento_mm3": 144.359,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2023-07-31",
+   "porcentaje": 36.27,
+   "almacenamiento_mm3": 143.047,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2023-08-07",
+   "porcentaje": 35.97,
+   "almacenamiento_mm3": 141.863,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2023-08-14",
+   "porcentaje": 35.7,
+   "almacenamiento_mm3": 140.808,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2023-08-21",
+   "porcentaje": 35.47,
+   "almacenamiento_mm3": 139.884,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2023-08-28",
+   "porcentaje": 35.13,
+   "almacenamiento_mm3": 138.56,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2023-09-04",
+   "porcentaje": 34.73,
+   "almacenamiento_mm3": 136.966,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2023-09-11",
+   "porcentaje": 35.57,
+   "almacenamiento_mm3": 140.28,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2023-09-18",
+   "porcentaje": 35.97,
+   "almacenamiento_mm3": 141.863,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2023-09-25",
+   "porcentaje": 36.34,
+   "almacenamiento_mm3": 143.31,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2023-10-02",
+   "porcentaje": 36.47,
+   "almacenamiento_mm3": 143.835,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2023-10-09",
+   "porcentaje": 37.03,
+   "almacenamiento_mm3": 146.061,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2023-10-16",
+   "porcentaje": 38.09,
+   "almacenamiento_mm3": 150.242,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2023-10-23",
+   "porcentaje": 38.58,
+   "almacenamiento_mm3": 152.141,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2023-10-30",
+   "porcentaje": 37.94,
+   "almacenamiento_mm3": 149.621,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2023-11-06",
+   "porcentaje": 37.37,
+   "almacenamiento_mm3": 147.367,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2023-11-13",
+   "porcentaje": 36.84,
+   "almacenamiento_mm3": 145.276,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2023-11-20",
+   "porcentaje": 36.6,
+   "almacenamiento_mm3": 144.359,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2023-11-27",
+   "porcentaje": 37.3,
+   "almacenamiento_mm3": 147.106,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2023-12-04",
+   "porcentaje": 37.2,
+   "almacenamiento_mm3": 146.714,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2023-12-11",
+   "porcentaje": 37.07,
+   "almacenamiento_mm3": 146.192,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2023-12-18",
+   "porcentaje": 36.8,
+   "almacenamiento_mm3": 145.145,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2023-12-25",
+   "porcentaje": 37.37,
+   "almacenamiento_mm3": 147.367,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2024-01-01",
+   "porcentaje": 35.97,
+   "almacenamiento_mm3": 141.863,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2024-01-08",
+   "porcentaje": 35.67,
+   "almacenamiento_mm3": 140.676,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2024-01-15",
+   "porcentaje": 35.13,
+   "almacenamiento_mm3": 138.56,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2024-01-22",
+   "porcentaje": 34.39,
+   "almacenamiento_mm3": 135.634,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2024-01-29",
+   "porcentaje": 33.88,
+   "almacenamiento_mm3": 133.627,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2024-02-05",
+   "porcentaje": 33.2,
+   "almacenamiento_mm3": 130.934,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2024-02-12",
+   "porcentaje": 32.51,
+   "almacenamiento_mm3": 128.218,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2024-02-19",
+   "porcentaje": 32.02,
+   "almacenamiento_mm3": 126.301,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2024-02-26",
+   "porcentaje": 31.39,
+   "almacenamiento_mm3": 123.812,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2024-03-04",
+   "porcentaje": 30.65,
+   "almacenamiento_mm3": 120.864,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2024-03-11",
+   "porcentaje": 29.69,
+   "almacenamiento_mm3": 117.111,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2024-03-18",
+   "porcentaje": 28.73,
+   "almacenamiento_mm3": 113.319,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2024-03-25",
+   "porcentaje": 27.91,
+   "almacenamiento_mm3": 110.077,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2024-04-01",
+   "porcentaje": 27.0,
+   "almacenamiento_mm3": 106.48,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2024-04-08",
+   "porcentaje": 26.6,
+   "almacenamiento_mm3": 104.9,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2024-04-15",
+   "porcentaje": 26.83,
+   "almacenamiento_mm3": 105.821,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2024-04-22",
+   "porcentaje": 27.03,
+   "almacenamiento_mm3": 106.613,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2024-04-29",
+   "porcentaje": 27.17,
+   "almacenamiento_mm3": 107.142,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2024-05-06",
+   "porcentaje": 27.37,
+   "almacenamiento_mm3": 107.939,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2024-05-13",
+   "porcentaje": 27.54,
+   "almacenamiento_mm3": 108.605,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2024-05-20",
+   "porcentaje": 27.61,
+   "almacenamiento_mm3": 108.872,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2024-05-27",
+   "porcentaje": 27.84,
+   "almacenamiento_mm3": 109.809,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2024-06-03",
+   "porcentaje": 27.88,
+   "almacenamiento_mm3": 109.943,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2024-06-10",
+   "porcentaje": 27.23,
+   "almacenamiento_mm3": 107.407,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2024-06-17",
+   "porcentaje": 26.83,
+   "almacenamiento_mm3": 105.821,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2024-06-24",
+   "porcentaje": 26.53,
+   "almacenamiento_mm3": 104.633,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2024-07-01",
+   "porcentaje": 27.0,
+   "almacenamiento_mm3": 106.48,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2024-07-08",
+   "porcentaje": 27.54,
+   "almacenamiento_mm3": 108.605,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2024-07-15",
+   "porcentaje": 28.49,
+   "almacenamiento_mm3": 112.369,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2024-07-22",
+   "porcentaje": 29.54,
+   "almacenamiento_mm3": 116.517,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2024-07-29",
+   "porcentaje": 30.39,
+   "almacenamiento_mm3": 119.868,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2024-08-05",
+   "porcentaje": 31.64,
+   "almacenamiento_mm3": 124.783,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2024-08-12",
+   "porcentaje": 32.61,
+   "almacenamiento_mm3": 128.627,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2024-08-19",
+   "porcentaje": 34.09,
+   "almacenamiento_mm3": 134.431,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2024-08-26",
+   "porcentaje": 35.43,
+   "almacenamiento_mm3": 139.752,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2024-09-02",
+   "porcentaje": 38.02,
+   "almacenamiento_mm3": 149.93,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2024-09-09",
+   "porcentaje": 40.86,
+   "almacenamiento_mm3": 161.148,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2024-09-16",
+   "porcentaje": 44.28,
+   "almacenamiento_mm3": 174.649,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2024-09-23",
+   "porcentaje": 47.96,
+   "almacenamiento_mm3": 189.168,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2024-09-30",
+   "porcentaje": 50.36,
+   "almacenamiento_mm3": 198.631,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2024-10-07",
+   "porcentaje": 52.58,
+   "almacenamiento_mm3": 207.369,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2024-10-14",
+   "porcentaje": 55.25,
+   "almacenamiento_mm3": 217.912,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2024-10-21",
+   "porcentaje": 58.08,
+   "almacenamiento_mm3": 229.047,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2024-10-28",
+   "porcentaje": 60.96,
+   "almacenamiento_mm3": 240.41,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2024-11-04",
+   "porcentaje": 62.97,
+   "almacenamiento_mm3": 248.365,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2024-11-11",
+   "porcentaje": 64.66,
+   "almacenamiento_mm3": 254.996,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2024-11-18",
+   "porcentaje": 66.0,
+   "almacenamiento_mm3": 260.287,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2024-11-25",
+   "porcentaje": 66.3,
+   "almacenamiento_mm3": 261.47,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2024-12-02",
+   "porcentaje": 66.82,
+   "almacenamiento_mm3": 263.521,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2024-12-09",
+   "porcentaje": 66.96,
+   "almacenamiento_mm3": 264.103,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2024-12-16",
+   "porcentaje": 67.0,
+   "almacenamiento_mm3": 264.248,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2024-12-23",
+   "porcentaje": 67.33,
+   "almacenamiento_mm3": 265.548,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2024-12-30",
+   "porcentaje": 67.44,
+   "almacenamiento_mm3": 265.98,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2025-01-06",
+   "porcentaje": 67.69,
+   "almacenamiento_mm3": 266.982,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2025-01-13",
+   "porcentaje": 68.49,
+   "almacenamiento_mm3": 270.1,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2025-01-20",
+   "porcentaje": 68.34,
+   "almacenamiento_mm3": 269.537,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2025-01-27",
+   "porcentaje": 68.02,
+   "almacenamiento_mm3": 268.264,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2025-02-10",
+   "porcentaje": 67.66,
+   "almacenamiento_mm3": 266.84,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2025-02-17",
+   "porcentaje": 67.26,
+   "almacenamiento_mm3": 265.26,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2025-02-24",
+   "porcentaje": 67.15,
+   "almacenamiento_mm3": 264.827,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2025-03-03",
+   "porcentaje": 66.67,
+   "almacenamiento_mm3": 262.938,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2025-03-10",
+   "porcentaje": 66.18,
+   "almacenamiento_mm3": 261.027,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2025-03-17",
+   "porcentaje": 66.22,
+   "almacenamiento_mm3": 261.175,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2025-03-24",
+   "porcentaje": 66.37,
+   "almacenamiento_mm3": 261.765,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2025-03-31",
+   "porcentaje": 65.81,
+   "almacenamiento_mm3": 259.542,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2025-04-07",
+   "porcentaje": 65.77,
+   "almacenamiento_mm3": 259.393,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2025-04-14",
+   "porcentaje": 65.08,
+   "almacenamiento_mm3": 256.681,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2025-04-21",
+   "porcentaje": 64.66,
+   "almacenamiento_mm3": 254.996,
+   "origen": "servicio"
+  },
+  {
+   "fecha": "2025-11-20",
+   "porcentaje": 97.97,
+   "almacenamiento_mm3": 386.379,
+   "origen": "semilla",
+   "fuente": "La Jornada Estado de Mexico citando a Conagua",
+   "url": "https://lajornadaestadodemexico.com/cutzamala-reporta-95-6-de-almacenamiento-en-noviembre-disminuye-1-respecto-a-octubre/",
+   "nota": null
+  },
+  {
+   "fecha": "2026-01-07",
+   "porcentaje": 94.1,
+   "almacenamiento_mm3": 371.0,
+   "origen": "semilla",
+   "fuente": "Serpientes y Escaleras citando a Conagua",
+   "url": "https://serpientesyescaleras.mx/cutzamala-arranca-2026-con-niveles-historicos-y-garantiza-abasto-de-agua/",
+   "nota": "Fecha aproximada: nota de inicios de enero de 2026; verificar el dia exacto"
+  },
+  {
+   "fecha": "2026-10-26",
+   "porcentaje": 96.78,
+   "almacenamiento_mm3": 381.688,
+   "origen": "semilla",
+   "fuente": "N+ citando a Conagua",
+   "url": "https://www.nmas.com.mx/medio-ambiente/nivel-del-sistema-cutzamala-hoy-puede-llegar-al-100-de-almacenamiento-este-2026/",
+   "nota": null
+  },
+  {
+   "fecha": "2026-11-02",
+   "porcentaje": 98.39,
+   "almacenamiento_mm3": 388.04,
+   "origen": "semilla",
+   "fuente": "N+ citando a Conagua",
+   "url": "https://www.nmas.com.mx/medio-ambiente/nivel-cutzamala-hoy-noviembre-2026-cuanta-agua-tiene-sistema-primera-semana-mes/",
+   "nota": "El Universal reporto 98.3 % y 387.62 Mm3 para el mismo corte"
+  },
+  {
+   "fecha": "2026-11-05",
+   "porcentaje": 98.87,
+   "almacenamiento_mm3": 389.9,
+   "origen": "semilla",
+   "fuente": "Quadratin Edomex citando a Conagua",
+   "url": "https://edomex.quadratin.com.mx/alcanzan-presas-del-sistema-cutzamala-casi-el-96-de-su-capacidad/",
+   "nota": "Ultimo dato capturado a mano el 13 nov 2026"
+  }
+ ]
+}

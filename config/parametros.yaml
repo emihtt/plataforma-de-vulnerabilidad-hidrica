@@ -1,0 +1,67 @@
+# Parámetros de la versión 0.
+# estado: fuente   -> viene de un dato o norma citada
+# estado: supuesto -> valor de trabajo que el equipo experto debe validar (interno/07_validacion_equipo.md)
+# La interfaz muestra como "supuesto por validar" todo lo que tenga estado: supuesto.
+
+area_de_estudio:
+  entidad: "15"                 # Estado de México
+  municipio_nombre: "Valle de Bravo"
+  municipio_clave_esperada: "110"   # confirmar contra NOM_MUN del ITER; si no coincide, gana el ITER
+  estado: fuente
+
+indice_prioridad:
+  nombre: "Índice de prioridad hídrica comunitaria (versión 0)"
+  normalizacion: "rango_percentil"   # ver interno/03_analisis.md, sección 3.1
+  pesos:                              # deben sumar 1.0
+    sin_agua_entubada: 0.35
+    marginacion: 0.20
+    aislamiento: 0.15
+    sin_almacenamiento: 0.10
+    sin_drenaje: 0.10
+    hogares_indigenas: 0.10
+  clases: 5                           # quintiles
+  estado: supuesto
+  razon: "Pesos de arranque propuestos por la dirección; se definirán con el equipo experto"
+
+robustez:
+  simulaciones: 1000
+  concentracion_dirichlet: 10
+  semilla: 20261113
+  estado: supuesto
+
+captacion_lluvia:
+  area_techo_m2: 60
+  coef_escurrimiento: 0.80
+  primer_lavado_mm: 1.0
+  dotacion_l_persona_dia: 50
+  tanques_litros: [2500, 5000, 10000]
+  tanque_referencia_litros: 5000
+  anios_serie: [2004, 2023]
+  umbral_mes_seco_mm: 20
+  estado: supuesto
+  razon: >
+    Área de techo y tanque son valores de trabajo; coeficiente y primer lavado son valores
+    usuales en la literatura de captación; la dotación de 50 L por persona al día corresponde
+    al nivel de acceso intermedio en la clasificación de la OMS (Howard y Bartram).
+
+aptitud_intervenciones:
+  scall_cobertura_minima: 0.50        # captación anual / demanda anual
+  almacenamiento_carencia_minima: 0.50
+  saneamiento_carencia_minima: 0.20
+  red_distancia_maxima_km: 2.0
+  red_cobertura_vecina_minima: 0.90
+  red_poblacion_vecina_minima: 500
+  estado: supuesto
+
+semaforo:
+  presa_verde_desde: 75               # % de llenado
+  presa_amarillo_desde: 50
+  lluvia30_verde_desde: 80            # % de lo normal
+  lluvia30_amarillo_desde: 50
+  estado: supuesto
+
+costos:
+  # No se captura ningún costo por defecto. La interfaz pide el costo unitario a quien la usa.
+  costo_unitario_scall_mxn: null
+  estado: supuesto
+  razon: "Pendiente de cotización de organizaciones implementadoras"
