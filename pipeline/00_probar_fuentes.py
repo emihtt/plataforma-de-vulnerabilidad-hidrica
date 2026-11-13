@@ -79,16 +79,16 @@ def main() -> None:
         ok, detalle = probar(metodo, url, opc)
         resultado[clave] = {"ok": ok, "detalle": detalle, "url": url}
         estado = "Respondió" if ok else "No respondió"
-        uso = "Fuente principal" if ok else respaldo
-        filas.append(f"| {nombre} | <{url}> | {estado} ({detalle}) | {hoy()} | {uso} |")
+        filas.append(f"| {nombre} | <{url}> | {estado} ({detalle}) | {hoy()} | {respaldo} |")
         print(f"{'OK ' if ok else 'XX '} {clave:22s} {detalle}")
     escribir_json(PROCESADO / "prueba_fuentes.json", {"fecha": hoy(), "fuentes": resultado})
 
     tabla = "\n".join([
         "<!-- tabla:inicio -->",
-        f"Prueba de fuentes del {hoy()} (una solicitud pequeña por fuente, límite de {LIMITE} segundos).",
+        f"Prueba de fuentes del {hoy()} (una solicitud pequeña por fuente, límite de {LIMITE} segundos). "
+        "Es solo una prueba rápida: lo que finalmente se usó de cada fuente está en la bitácora de abajo y en `public/data/fuentes.json`.",
         "",
-        "| Fuente | Dirección probada | Respuesta | Fecha | Qué se usa |",
+        "| Fuente | Dirección probada | Respuesta a la prueba | Fecha | Respaldo previsto si falla |",
         "|---|---|---|---|---|",
         *filas,
         "<!-- tabla:fin -->",

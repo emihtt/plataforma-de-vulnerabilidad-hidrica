@@ -23,7 +23,10 @@ def main() -> None:
     assert abs(sum(pesos.values()) - 1) < 1e-9, "Los pesos del índice deben sumar 1"
     assert set(pesos) == set(ORIGEN)
     props = [f["properties"] for f in cargar_localidades()["features"] if not f["properties"]["enmascarada"]]
-    rangos = {k: rango_percentil([p.get(ORIGEN[k]) for p in props]) for k in pesos}
+    # Los rangos se redondean a 4 decimales ANTES de ponderar: la aplicación recalcula con esos mismos
+    # valores publicados, y así el orden es idéntico en el pipeline y en el navegador.
+    rangos = {k: [None if r is None else round(r, 4) for r in rango_percentil([p.get(ORIGEN[k]) for p in props])]
+              for k in pesos}
     indices, faltantes = [], []
     for i in range(len(props)):
         idx, falt = indice_ponderado({k: rangos[k][i] for k in pesos}, pesos)

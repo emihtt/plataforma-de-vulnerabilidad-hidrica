@@ -1,0 +1,120 @@
+// Lluvia reciente y pronóstico (Open-Meteo), consultados desde el navegador y guardados para uso sin conexión.
+import { useEffect, useState } from 'react'
+import type { Normales } from './datos'
+import { hoyISO } from './formato'
+
+export interface DiaLluvia {
+  fecha: string
+  mm: number | null
+  prob: number | null
+  tmax: number | null
+  tmin: number | null
+}
+
+export interface LluviaGuardada {
+  consultado: string // fecha y hora de la consulta
+  dias: DiaLluvia[]
+}
+
+export type EstadoLluvia = 'cargando' | 'actual' | 'guardado' | 'sin_dato'
+
+const CLAVE = 'plataforma-agua:lluvia:v1'
+
+function leerGuardado(): LluviaGuardada | null {
+  try {
+    const t = localStorage.getItem(CLAVE)
+    return t ? (JSON.parse(t) as LluviaGuardada) : null
+  } catch {
+    return null
+  }
+}
+
+export function useLluvia(punto: { lat: number; lon: number } | undefined) {
+  const [datos, setDatos] = useState<LluviaGuardada | null>(() => leerGuardado())
+  const [estado, setEstado] = useState<EstadoLluvia>('cargando')
+
+  useEffect(() => {
+    if (!punto) return
+    let vivo = true
+    const url =
+      `https://api.open-meteo.com/v1/forecast?latitude=${punto.lat}&longitude=${punto.lon}` +
+      '&daily=precipitation_sum,precipitation_probability_max,temperature_2m_max,temperature_2m_min' +
+      '&past_days=92&forecast_days=7&timezone=America%2FMexico_City'
+    const control = new AbortController()
+    const limite = setTimeout(() => control.abort(), 12000)
+    fetch(url, { signal: control.signal })
+      .then((r) => {
+        if (!r.ok) throw new Error(String(r.status))
+        return r.json()
+      })
+      .then((j) => {
+        const d = j.daily
+        const dias: DiaLluvia[] = d.time.map((fecha: string, i: number) => ({
+          fecha,
+          mm: d.precipitation_sum[i],
+          prob: d.precipitation_probability_max?.[i] ?? null,
+          tmax: d.temperature_2m_max?.[i] ?? null,
+          tmin: d.temperature_2m_min?.[i] ?? null,
+        }))
+        const nuevo = { consultado: new Date().toISOString(), dias }
+        try {
+          localStorage.setItem(CLAVE, JSON.stringify(nuevo))
+        } catch {
+          /* sin almacenamiento local: se sigue sin guardar */
+        }
+        if (vivo) {
+          setDatos(nuevo)
+          setEstado('actual')
+        }
+      })
+      .catch(() => {
+        if (vivo) setEstado(leerGuardado() ? 'guardado' : 'sin_dato')
+      })
+      .finally(() => clearTimeout(limite))
+    return () => {
+      vivo = false
+      control.abort()
+    }
+  }, [punto?.lat, punto?.lon])
+
+  return { datos, estado }
+}
+
+export interface ResumenLluvia {
+  ultimos30: DiaLluvia[]
+  pronostico: DiaLluvia[]
+  acumulado30: number | null
+  normal30: number | null
+  pctNormal: number | null
+  hasta: string | null // último día observado
+}
+
+/** Compara la lluvia de los 30 días que terminan ayer con la normal de esa misma ventana. */
+export function resumirLluvia(g: LluviaGuardada | null, normales: Normales | null): ResumenLluvia {
+  const vacio: ResumenLluvia = { ultimos30: [], pronostico: [], acumulado30: null, normal30: null, pctNormal: null, hasta: null }
+  if (!g) return vacio
+  // "hoy" es el día de la consulta, no el día en que se mira un dato guardado
+  const hoy = g.consultado ? isoLocal(new Date(g.consultado)) : hoyISO()
+  const pasados = g.dias.filter((d) => d.fecha < hoy && d.mm !== null)
+  const ultimos30 = pasados.slice(-30)
+  const pronostico = g.dias.filter((d) => d.fecha >= hoy).slice(0, 7)
+  if (ultimos30.length < 30) return { ...vacio, ultimos30, pronostico }
+  const acumulado30 = ultimos30.reduce((s, d) => s + (d.mm ?? 0), 0)
+  const hasta = ultimos30[ultimos30.length - 1].fecha
+  const normal30 = normales?.normal_30d_mm[hasta.slice(5)] ?? null
+  const pctNormal = normal30 && normal30 > 0 ? (100 * acumulado30) / normal30 : null
+  return { ultimos30, pronostico, acumulado30, normal30, pctNormal, hasta }
+}
+
+function isoLocal(f: Date): string {
+  return `${f.getFullYear()}-${String(f.getMonth() + 1).padStart(2, '0')}-${String(f.getDate()).padStart(2, '0')}`
+}
+
+export type Senal = 'verde' | 'atencion' | 'alerta'
+
+export function senal(valor: number | null | undefined, verdeDesde: number, atencionDesde: number): Senal | null {
+  if (valor === null || valor === undefined) return null
+  if (valor >= verdeDesde) return 'verde'
+  if (valor >= atencionDesde) return 'atencion'
+  return 'alerta'
+}
