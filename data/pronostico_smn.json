@@ -1,0 +1,45 @@
+{
+ "municipio": "Valle de Bravo",
+ "idmun": "110",
+ "emision": "2026-11-13",
+ "descarga": "2026-11-13",
+ "fuente": "Servicio Meteorológico Nacional (Conagua), pronóstico por municipio",
+ "dias": [
+  {
+   "fecha": "2026-11-13",
+   "ndia": 0,
+   "tmax_c": 19.5,
+   "tmin_c": 8.6,
+   "lluvia_mm": 3.5,
+   "prob_lluvia_pct": 0.0,
+   "cielo": "Medio nublado"
+  },
+  {
+   "fecha": "2026-11-14",
+   "ndia": 1,
+   "tmax_c": 20.2,
+   "tmin_c": 7.6,
+   "lluvia_mm": 0.0,
+   "prob_lluvia_pct": 0.0,
+   "cielo": "Despejado"
+  },
+  {
+   "fecha": "2026-11-15",
+   "ndia": 2,
+   "tmax_c": 21.5,
+   "tmin_c": 7.4,
+   "lluvia_mm": 0.0,
+   "prob_lluvia_pct": 0.0,
+   "cielo": "Poco nuboso"
+  },
+  {
+   "fecha": "2026-11-16",
+   "ndia": 3,
+   "tmax_c": 22.0,
+   "tmin_c": 8.7,
+   "lluvia_mm": 0.0,
+   "prob_lluvia_pct": 0.0,
+   "cielo": "Medio nublado"
+  }
+ ]
+}

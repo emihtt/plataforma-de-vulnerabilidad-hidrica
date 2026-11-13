@@ -1,0 +1,109 @@
+{
+ "generado": "2026-11-13",
+ "fuentes": {
+  "censo_iter": {
+   "nombre": "Censo de Población y Vivienda 2020. Principales resultados por localidad (ITER), Estado de México",
+   "institucion": "INEGI",
+   "url": "https://www.inegi.org.mx/app/scitel/default?ev=9",
+   "descarga": "https://www.inegi.org.mx/contenidos/programas/ccpv/iter/zip/iter2020/iter_15csv20.zip",
+   "fecha_dato": "2020 (levantamiento del 2 al 27 de marzo de 2020)",
+   "fecha_descarga": "2026-11-13",
+   "licencia": "Términos de libre uso del INEGI",
+   "estado": "ok",
+   "usada_en": "Población, viviendas, agua entubada, drenaje, tinaco, cisterna, hogares indígenas, coordenadas y altitud",
+   "nota": "Denominador de los porcentajes: viviendas particulares habitadas con características captadas (VIVPARH_CV); en el municipio, viviendas con agua entubada más viviendas sin agua entubada suman ese total. Las localidades de una y dos viviendas vienen fila por fila; las filas 9998 y 9999 repiten su suma. Personas sin agua entubada: estimación (viviendas sin agua entubada por promedio de ocupantes)."
+  },
+  "conapo_marginacion": {
+   "nombre": "Índice de marginación por localidad 2020",
+   "institucion": "Conapo",
+   "url": "https://www.gob.mx/conapo/documentos/indices-de-marginacion-2020-284372",
+   "descarga": "https://conapo.segob.gob.mx/work/models/CONAPO/Datos_Abiertos/Localidad/IML_2020.zip",
+   "fecha_dato": "2020 (con base en el Censo 2020)",
+   "fecha_descarga": "2026-11-13",
+   "licencia": "Datos abiertos del Gobierno de México",
+   "estado": "ok",
+   "usada_en": "Grado de marginación y componente de marginación del índice de prioridad",
+   "nota": "En la metodología 2020 un índice más alto significa menos marginación; el componente del índice de prioridad usa 1 menos el índice normalizado para que crezca con la marginación. Todas las localidades con datos censales tienen índice."
+  },
+  "osm_contexto": {
+   "nombre": "Límite municipal, cuerpos de agua, ríos, caminos y áreas protegidas",
+   "institucion": "OpenStreetMap (colaboradores)",
+   "url": "https://www.openstreetmap.org/copyright",
+   "descarga": "https://overpass-api.de/api/interpreter",
+   "fecha_dato": "2026-11-13",
+   "fecha_descarga": "2026-11-13",
+   "licencia": "ODbL. © colaboradores de OpenStreetMap",
+   "estado": "ok",
+   "usada_en": "Capas de contexto del mapa",
+   "nota": "Geometrías simplificadas para celular; recorte a la caja de las localidades más 3 km."
+  },
+  "daymet_lluvia": {
+   "nombre": "Daymet versión 4, precipitación diaria por punto, 2004–2023",
+   "institucion": "ORNL DAAC, NASA",
+   "url": "https://daymet.ornl.gov/web_services",
+   "fecha_dato": "2004–2023",
+   "fecha_descarga": "2026-11-13",
+   "licencia": "Datos abiertos (NASA EOSDIS); citar Thornton et al.",
+   "estado": "ok",
+   "usada_en": "Lluvia anual y mensual por localidad; balance de captación de lluvia",
+   "nota": "Modelo en malla de 1 km, no una estación local. 62 puntos para 66 localidades (las que comparten coordenada redondeada a 0.01° usan la misma serie). Años de 365 días."
+  },
+  "conagua_presas": {
+   "nombre": "Almacenamiento diario de las principales presas (Sistema Nacional de Información del Agua)",
+   "institucion": "Conagua",
+   "url": "https://sinav30.conagua.gob.mx:8080/",
+   "fecha_dato": "2023-01-02 a 2025-04-21",
+   "fecha_descarga": "2026-11-13",
+   "licencia": "Datos abiertos del Gobierno de México",
+   "estado": "respaldo",
+   "usada_en": "Serie histórica del llenado de la presa",
+   "nota": "El servicio devolvió datos hasta 2025-04-21; para fechas posteriores responde vacío. 120 cortes semanales. El porcentaje es almacenamiento entre capacidad al nivel de aguas máximas ordinarias."
+  },
+  "presa_semilla": {
+   "nombre": "Nivel de la presa capturado a mano de notas de prensa que citan a Conagua",
+   "institucion": "Conagua, citada por medios (cada corte conserva su nota de origen)",
+   "url": "https://edomex.quadratin.com.mx/alcanzan-presas-del-sistema-cutzamala-casi-el-96-de-su-capacidad/",
+   "fecha_dato": "2026-11-05",
+   "fecha_descarga": "2026-11-13",
+   "licencia": "Cita de notas periodísticas",
+   "estado": "respaldo",
+   "usada_en": "Último dato de la presa y cortes recientes",
+   "nota": "5 cortes capturados a mano. No se interpola entre cortes."
+  },
+  "openmeteo": {
+   "nombre": "Open-Meteo: archivo histórico (normales 1991–2020), lluvia reciente y pronóstico",
+   "institucion": "Open-Meteo",
+   "url": "https://open-meteo.com/",
+   "fecha_dato": "1991–2020 (normales); al abrir la aplicación (lluvia reciente y pronóstico)",
+   "fecha_descarga": "2026-11-13",
+   "licencia": "CC BY 4.0; uso gratuito no comercial",
+   "estado": "ok",
+   "usada_en": "Lluvia de los últimos 30 días frente a lo normal, pronóstico a 7 días y semáforo de lluvia",
+   "nota": "Modelo en malla (9 a 25 km), no una estación. La lluvia reciente y la normal vienen de la misma familia de datos y del mismo punto (cabecera municipal). Para un producto de pago hay que contratar el servicio o cambiar de fuente."
+  },
+  "censo_iter_nacional": {
+   "nombre": "Censo de Población y Vivienda 2020. Principales resultados por localidad (ITER), nacional",
+   "institucion": "INEGI",
+   "url": "https://www.inegi.org.mx/app/scitel/default?ev=9",
+   "descarga": "https://www.inegi.org.mx/contenidos/programas/ccpv/iter/zip/iter2020/iter_nalcsv20.zip",
+   "fecha_dato": "2020",
+   "fecha_descarga": "2026-11-13",
+   "licencia": "Términos de libre uso del INEGI",
+   "estado": "ok",
+   "usada_en": "Usos y escala: población potencial nacional",
+   "nota": "Prueba de cordura: 1,215,497 viviendas (+1.3% frente a la cifra difundida de 1.2 millones) y 4,412,978 personas estimadas (-4.1% frente a 4.6 millones)."
+  },
+  "smn_pronostico": {
+   "nombre": "Pronóstico por municipio a cuatro días",
+   "institucion": "Servicio Meteorológico Nacional (Conagua)",
+   "url": "https://smn.conagua.gob.mx/es/web-service-api",
+   "descarga": "https://smn.conagua.gob.mx/tools/GUI/webservices/?method=1",
+   "fecha_dato": "2026-11-13",
+   "fecha_descarga": "2026-11-13",
+   "licencia": "Datos abiertos del Gobierno de México",
+   "estado": "ok",
+   "usada_en": "Pronóstico oficial en Agua ahora",
+   "nota": "Se descarga al correr el pipeline, no al abrir la aplicación; la pantalla oculta los días que ya pasaron."
+  }
+ }
+}

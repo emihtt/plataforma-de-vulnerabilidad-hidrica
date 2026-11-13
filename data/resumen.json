@@ -1,0 +1,242 @@
+{
+ "generado": "2026-11-13",
+ "municipio": {
+  "nombre": "Valle de Bravo",
+  "clave": "15110",
+  "cabecera": {
+   "cvegeo": "151100001",
+   "lat": 19.194395,
+   "lon": -100.131607,
+   "altitud_m": 1820
+  }
+ },
+ "censo": {
+  "fuente": "INEGI. Censo de Población y Vivienda 2020. Principales resultados por localidad (ITER)",
+  "anio": 2020,
+  "pob_total": 61590,
+  "viv_hab": 16129,
+  "viv_caract": 16109,
+  "prom_ocup": 3.79,
+  "viv_sin_agua_municipio": 321,
+  "viv_sin_drenaje_municipio": 384,
+  "pob_hog_indigena_municipio": 861,
+  "hablantes_li_municipio": 402,
+  "localidades_total": 72,
+  "localidades_con_datos": 66,
+  "localidades_enmascaradas": 6,
+  "pob_localidades_enmascaradas": 34,
+  "viv_sin_agua": 321,
+  "pers_sin_agua_est": 1277.0,
+  "localidades_con_viv_sin_agua": 39,
+  "viv_sin_drenaje": 384,
+  "pob_hog_indigena": 861,
+  "fila_9998_una_vivienda": {
+   "pob_total": 6,
+   "viv_total": 3,
+   "viv_hab": 2,
+   "viv_sin_agua": null,
+   "enmascarada": true
+  },
+  "fila_9999_dos_viviendas": {
+   "pob_total": 28,
+   "viv_total": 46,
+   "viv_hab": 8,
+   "viv_sin_agua": 0,
+   "enmascarada": false
+  },
+  "nota_suma": "Las localidades de una y dos viviendas vienen fila por fila; las filas 9998 y 9999 repiten su suma.",
+  "denominador": "VIVPARH_CV (viviendas particulares habitadas con características captadas)"
+ },
+ "supuestos": {
+  "indice_prioridad": {
+   "descripcion": "Pesos del índice de prioridad y número de clases",
+   "razon": "Pesos de arranque propuestos por la dirección; se definirán con el equipo experto",
+   "valores": {
+    "nombre": "Índice de prioridad hídrica comunitaria (versión 0)",
+    "normalizacion": "rango_percentil",
+    "pesos": {
+     "sin_agua_entubada": 0.35,
+     "marginacion": 0.2,
+     "aislamiento": 0.15,
+     "sin_almacenamiento": 0.1,
+     "sin_drenaje": 0.1,
+     "hogares_indigenas": 0.1
+    },
+    "clases": 5
+   }
+  },
+  "robustez": {
+   "descripcion": "Simulación de pesos para medir qué tan estable es la prioridad",
+   "razon": null,
+   "valores": {
+    "simulaciones": 1000,
+    "concentracion_dirichlet": 10,
+    "semilla": 20261113
+   }
+  },
+  "captacion_lluvia": {
+   "descripcion": "Área de techo, coeficiente de escurrimiento, primer lavado, dotación por persona y tanques",
+   "razon": "Área de techo y tanque son valores de trabajo; coeficiente y primer lavado son valores usuales en la literatura de captación; la dotación de 50 L por persona al día corresponde al nivel de acceso intermedio en la clasificación de la OMS (Howard y Bartram).",
+   "valores": {
+    "area_techo_m2": 60,
+    "coef_escurrimiento": 0.8,
+    "primer_lavado_mm": 1.0,
+    "dotacion_l_persona_dia": 50,
+    "tanques_litros": [
+     2500,
+     5000,
+     10000
+    ],
+    "tanque_referencia_litros": 5000,
+    "anios_serie": [
+     2004,
+     2023
+    ],
+    "umbral_mes_seco_mm": 20
+   }
+  },
+  "aptitud_intervenciones": {
+   "descripcion": "Umbrales de las reglas de intervenciones candidatas",
+   "razon": null,
+   "valores": {
+    "scall_cobertura_minima": 0.5,
+    "almacenamiento_carencia_minima": 0.5,
+    "saneamiento_carencia_minima": 0.2,
+    "red_distancia_maxima_km": 2.0,
+    "red_cobertura_vecina_minima": 0.9,
+    "red_poblacion_vecina_minima": 500
+   }
+  },
+  "semaforo": {
+   "descripcion": "Umbrales del semáforo de presa y de lluvia de 30 días",
+   "razon": null,
+   "valores": {
+    "presa_verde_desde": 75,
+    "presa_amarillo_desde": 50,
+    "lluvia30_verde_desde": 80,
+    "lluvia30_amarillo_desde": 50
+   }
+  },
+  "costos": {
+   "descripcion": "Costos unitarios (no hay ninguno por defecto)",
+   "razon": "Pendiente de cotización de organizaciones implementadoras",
+   "valores": {
+    "costo_unitario_scall_mxn": null
+   }
+  }
+ },
+ "lluvia": {
+  "periodo": [
+   2004,
+   2023
+  ],
+  "anual_mm_promedio_localidades": 840,
+  "mensual_mm_promedio_localidades": [
+   8.1,
+   15.6,
+   7.4,
+   16.9,
+   55.1,
+   143.0,
+   177.1,
+   183.6,
+   153.9,
+   65.9,
+   11.2,
+   2.6
+  ],
+  "umbral_mes_seco_mm": 20,
+  "fuente": "Daymet"
+ },
+ "indice": {
+  "nombre": "Índice de prioridad hídrica comunitaria (versión 0)",
+  "pesos": {
+   "sin_agua_entubada": 0.35,
+   "marginacion": 0.2,
+   "aislamiento": 0.15,
+   "sin_almacenamiento": 0.1,
+   "sin_drenaje": 0.1,
+   "hogares_indigenas": 0.1
+  },
+  "localidades": 66,
+  "grupo_superior": 14,
+  "simulaciones": 1000,
+  "origen_componentes": {
+   "sin_agua_entubada": "pct_sin_agua",
+   "marginacion": "marg_valor",
+   "aislamiento": "dist_cabecera_km",
+   "sin_almacenamiento": "pct_sin_almacenamiento_max",
+   "sin_drenaje": "pct_sin_drenaje",
+   "hogares_indigenas": "pct_hog_indigena"
+  }
+ },
+ "parametros": {
+  "area_de_estudio": {
+   "entidad": "15",
+   "municipio_nombre": "Valle de Bravo",
+   "municipio_clave_esperada": "110",
+   "estado": "fuente"
+  },
+  "indice_prioridad": {
+   "nombre": "Índice de prioridad hídrica comunitaria (versión 0)",
+   "normalizacion": "rango_percentil",
+   "pesos": {
+    "sin_agua_entubada": 0.35,
+    "marginacion": 0.2,
+    "aislamiento": 0.15,
+    "sin_almacenamiento": 0.1,
+    "sin_drenaje": 0.1,
+    "hogares_indigenas": 0.1
+   },
+   "clases": 5,
+   "estado": "supuesto",
+   "razon": "Pesos de arranque propuestos por la dirección; se definirán con el equipo experto"
+  },
+  "robustez": {
+   "simulaciones": 1000,
+   "concentracion_dirichlet": 10,
+   "semilla": 20261113,
+   "estado": "supuesto"
+  },
+  "captacion_lluvia": {
+   "area_techo_m2": 60,
+   "coef_escurrimiento": 0.8,
+   "primer_lavado_mm": 1.0,
+   "dotacion_l_persona_dia": 50,
+   "tanques_litros": [
+    2500,
+    5000,
+    10000
+   ],
+   "tanque_referencia_litros": 5000,
+   "anios_serie": [
+    2004,
+    2023
+   ],
+   "umbral_mes_seco_mm": 20,
+   "estado": "supuesto",
+   "razon": "Área de techo y tanque son valores de trabajo; coeficiente y primer lavado son valores usuales en la literatura de captación; la dotación de 50 L por persona al día corresponde al nivel de acceso intermedio en la clasificación de la OMS (Howard y Bartram).\n"
+  },
+  "aptitud_intervenciones": {
+   "scall_cobertura_minima": 0.5,
+   "almacenamiento_carencia_minima": 0.5,
+   "saneamiento_carencia_minima": 0.2,
+   "red_distancia_maxima_km": 2.0,
+   "red_cobertura_vecina_minima": 0.9,
+   "red_poblacion_vecina_minima": 500,
+   "estado": "supuesto"
+  },
+  "semaforo": {
+   "presa_verde_desde": 75,
+   "presa_amarillo_desde": 50,
+   "lluvia30_verde_desde": 80,
+   "lluvia30_amarillo_desde": 50,
+   "estado": "supuesto"
+  },
+  "costos": {
+   "costo_unitario_scall_mxn": null,
+   "estado": "supuesto",
+   "razon": "Pendiente de cotización de organizaciones implementadoras"
+  }
+ }
+}
