@@ -10,7 +10,7 @@ export default function Acerca() {
       <h1 className="m-0 text-[22px] font-extrabold">Acerca de</h1>
       <Tarjeta>
         <p className="m-0">
-          Plataforma de Agua es un proyecto de Regenera Consultora. Hacemos monitoreo, evaluación y aprendizaje, y productos de datos para organizaciones
+          Agua y territorio es un proyecto de Regenera Consultora. Hacemos monitoreo, evaluación y aprendizaje, y productos de datos para organizaciones
           sociales, fundaciones y gobiernos.
         </p>
         <p className="mt-3 mb-0">Queremos que decidir dónde y cómo garantizar agua sea más fácil y más justo, y que después se pueda saber si funcionó.</p>

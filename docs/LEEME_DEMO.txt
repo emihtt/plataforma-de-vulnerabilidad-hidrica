@@ -43,7 +43,7 @@ para revision y demostracion autorizadas; los datos conservan sus licencias.
 
 PERFILES Y PROYECTOS
 Las vistas de gestion y consulta no son cuentas ni permisos de servidor.
-Los tres proyectos iniciales y todos sus montos y mediciones son ficticios.
+Los tres proyectos iniciales y todos sus montos y mediciones son simulaciones.
 Los registros se guardan solo en este navegador y direccion local. Para llevar
 registros a otro equipo, exporta JSON e importalo sin sobrescribir conflictos.
 Las unidades de cuenca/microcuenca son modeladas HydroBASINS, no delimitaciones

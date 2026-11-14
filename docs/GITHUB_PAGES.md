@@ -1,6 +1,6 @@
 # Versión 0 en main y GitHub Pages
 
-Revisión del 14 de noviembre de 2026. Esta versión conserva la línea base censal, las fuentes y la separación entre datos públicos, modelos y ejemplos ficticios. La revisión de software no sustituye la validación científica ni comunitaria.
+Revisión del 14 de noviembre de 2026. Esta versión conserva la línea base censal, las fuentes y la separación entre datos públicos, modelos y simulaciones de ejemplo. La revisión de software no sustituye la validación científica ni comunitaria.
 
 ## Publicar desde la configuración actual
 
