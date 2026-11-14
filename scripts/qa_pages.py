@@ -91,7 +91,7 @@ def run(base):
         page.on('pageerror', lambda err: REPORT['pageerrors'].append(str(err)))
         page.on('response', lambda r: REPORT['http_errors'].append({'status': r.status, 'url': r.url}) if r.status >= 400 and r.url.startswith(base) else None)
         page.goto(base)
-        expect(page).to_have_title(re.compile('Plataforma de Agua'))
+        expect(page).to_have_title(re.compile('Agua y territorio'))
         page.get_by_role('heading', name='Entender el agua empieza en el territorio.').wait_for()
         assert context.request.get(urljoin(base, '/data/resumen.json')).status == 404
         assert context.request.get(base + '.nojekyll').status == 200

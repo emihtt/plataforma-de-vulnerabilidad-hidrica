@@ -20,7 +20,7 @@ export default function Usos() {
     <h1>Un piloto local. Una visión compartida.</h1>
     <p className="page-lead">Valle de Bravo es el primer territorio de prueba. La visión es construir un observatorio ciudadano del agua para México, con información útil para comunidades, organizaciones y gobiernos.</p>
     <Tarjeta titulo="Qué existe hoy y qué está por construir">
-      <dl className="maturity-list"><div><dt>Disponible</dt><dd>Datos censales, mapa, fuentes y fichas del piloto.</dd></div><div><dt>Demo local</dt><dd>Perfiles, proyectos, aportes y seguimiento con ejemplos ficticios. Unidades hidrográficas modeladas incluidas.</dd></div><div><dt>Prototipo</dt><dd>Prioridad relativa, agregaciones territoriales y captación histórica; requieren validación.</dd></div><div><dt>Planeado</dt><dd>Cuentas compartidas, verificación de proyectos, cartografía oficial validada y cobertura nacional.</dd></div></dl>
+      <dl className="maturity-list"><div><dt>Disponible</dt><dd>Datos censales, mapa, fuentes y fichas del piloto.</dd></div><div><dt>Demo local</dt><dd>Perfiles, proyectos, aportes y seguimiento con ejemplos simulados. Unidades hidrográficas modeladas incluidas.</dd></div><div><dt>Prototipo</dt><dd>Prioridad relativa, agregaciones territoriales y captación histórica; requieren validación.</dd></div><div><dt>Planeado</dt><dd>Cuentas compartidas, verificación de proyectos, cartografía oficial validada y cobertura nacional.</dd></div></dl>
     </Tarjeta>
     <h2 className="pt-5 text-[24px] font-extrabold">Para qué puede servir esta conversación</h2>
     <button type="button" className="primary-action" onClick={() => ir('perfiles')}>Elegir una experiencia →</button>

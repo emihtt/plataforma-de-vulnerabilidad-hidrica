@@ -13,8 +13,8 @@ export default defineConfig({
       registerType: 'prompt',
       includeAssets: ['icono.svg', 'qr.png'],
       manifest: {
-        name: 'Plataforma de Agua · Laboratorio Valle de Bravo',
-        short_name: 'Plataforma de Agua',
+        name: 'Agua y territorio · Laboratorio Valle de Bravo',
+        short_name: 'Agua y territorio',
         description: 'Datos públicos y preguntas sobre acceso al agua en Valle de Bravo. Prototipo en validación.',
         lang: 'es-MX',
         start_url: './',
