@@ -18,10 +18,8 @@ def git(*args, cwd=ROOT):
     return subprocess.check_output(['git', *args], cwd=cwd, text=True).strip()
 
 
-def publicar(artifact):
+def validar_artefacto(artifact):
     artifact = artifact.resolve()
-    if git('status', '--porcelain'):
-        raise RuntimeError('Guarda los cambios del código antes de publicar.')
     for name in ['src', 'interno', 'node_modules', '.git']:
         if (artifact / name).exists():
             raise ValueError('El directorio debe contener solo el sitio compilado.')
@@ -33,9 +31,17 @@ def publicar(artifact):
             raise ValueError('El artefacto cambió después de las pruebas de CI.')
     if version.get('validation') != 'passed':
         raise ValueError('Falta la validación del artefacto.')
-    for required in ['manifest.webmanifest', 'data/resumen.json', '.nojekyll']:
+    for required in ['manifest.webmanifest', 'data/resumen.json']:
         if not (artifact / required).is_file():
             raise ValueError(f'Falta {required} en la compilación.')
+    return version
+
+
+def publicar(artifact):
+    artifact = artifact.resolve()
+    if git('status', '--porcelain'):
+        raise RuntimeError('Guarda los cambios del código antes de publicar.')
+    version = validar_artefacto(artifact)
     subprocess.run(['git', 'fetch', 'origin', 'main', 'gh-pages'], cwd=ROOT, check=True)
     if version['source_commit'] != git('rev-parse', 'origin/main'):
         raise ValueError('El artefacto no corresponde a main vigente.')
@@ -54,6 +60,9 @@ def publicar(artifact):
             raise ValueError('El worktree aislado no coincide con el destino.')
         subprocess.run(['git', 'rm', '-r', '--ignore-unmatch', '.'], cwd=checkout, check=True, stdout=subprocess.DEVNULL)
         shutil.copytree(artifact, checkout, dirs_exist_ok=True)
+        # upload-pages-artifact omite archivos ocultos; la publicación por rama
+        # necesita este marcador aunque no aparezca en el tar oficial.
+        (checkout / '.nojekyll').touch(exist_ok=True)
         subprocess.run(['git', 'add', '-A'], cwd=checkout, check=True)
         subprocess.run(['git', 'commit', '-m', f'Publica version 0 desde main {version["source_commit"][:7]}'], cwd=checkout, check=True)
         published = git('rev-parse', 'HEAD', cwd=checkout)

@@ -7,7 +7,7 @@ Revisión del 14 de noviembre de 2026. Esta versión conserva la línea base cen
 1. Integrar la versión revisada a `main` y esperar que **Validar y publicar GitHub Pages** termine correctamente.
 2. Descargar el artefacto `github-pages` de esa ejecución y extraer tanto su ZIP como `artifact.tar` a un directorio nuevo.
 3. Con Git autenticado en una cuenta colaboradora y nombre/correo propios configurados, ejecutar `python scripts/publicar_gh_pages.py --artifact RUTA_DEL_SITIO_EXTRAIDO`.
-4. El script comprueba el commit vigente de `main`, las huellas de HTML y service worker, y publica un commit sin force en `gh-pages`, desde un worktree aislado. Conserva el historial de la publicación anterior.
+4. El script comprueba el commit vigente de `main`, las huellas de HTML y service worker, y publica un commit sin force en `gh-pages`, desde un worktree aislado. Genera allí `.nojekyll`, pues el artefacto oficial omite archivos ocultos. Conserva el historial de la publicación anterior.
 5. Esperar la ejecución de Pages y abrir <https://emihtt.github.io/plataforma-de-vulnerabilidad-hidrica/>. Comprobar `version.json`, panorama, mapa, proyecto y seguimiento, también en una ventana privada. La primera visita necesita internet.
 
 Se conserva el origen `gh-pages` del dueño; cambiarlo requiere permisos de administración que la cuenta colaboradora no tiene. CI genera un artefacto identificado por commit y detecta el modo de Pages. En modo de rama la publicación se hace con la cuenta de la persona, porque un push con el token automático no dispara el build de Pages. No se guardan credenciales en scripts o secretos nuevos.
