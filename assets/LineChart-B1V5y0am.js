@@ -1,1 +1,0 @@
-import{B as e,U as t}from"./index-PC3xVfEy.js";import{D as n,t as r}from"./CartesianChart-ChCbtJRg.js";var i=t(e()),a=[`axis`],o=(0,i.forwardRef)((e,t)=>i.createElement(r,{chartName:`LineChart`,defaultTooltipEventType:`axis`,validateTooltipEventTypes:a,tooltipPayloadSearcher:n,categoricalChartProps:e,ref:t}));export{o as t};
