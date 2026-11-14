@@ -30,7 +30,9 @@ shutil.copy2(repo / 'scripts/iniciar_demo.py', args.output / 'iniciar_demo.py')
 shutil.copy2(repo / 'docs/GUIA_JIMENA.html', args.output / 'GUIA_JIMENA.html')
 shutil.copy2(repo / 'docs/REVISION_DEMO.html', args.output / 'REVISION_DEMO.html')
 shutil.copy2(repo / 'docs/LEEME_DEMO.txt', args.output / 'LEEME_PRIMERO.txt')
-marker = {'candidate': 'Valle-de-Bravo-demo-2026-11-14', 'index_sha256': hashlib.sha256((repo / 'dist/index.html').read_bytes()).hexdigest()}
+marker = {'candidate': 'Valle-de-Bravo-perfiles-2026-11-14',
+          'index_sha256': hashlib.sha256((repo / 'dist/index.html').read_bytes()).hexdigest(),
+          'build_sha256': hashlib.sha256((repo / 'dist/index.html').read_bytes() + (repo / 'dist/sw.js').read_bytes()).hexdigest()}
 (args.output / 'sitio/demo-id.json').write_text(json.dumps(marker), encoding='utf-8')
 files = {str(p.relative_to(args.output)).replace('\\', '/'): hashlib.sha256(p.read_bytes()).hexdigest() for p in args.output.rglob('*') if p.is_file()}
 (args.output / 'integridad.json').write_text(json.dumps(files, indent=2), encoding='utf-8')

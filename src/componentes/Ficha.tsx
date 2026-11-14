@@ -19,7 +19,7 @@ function Bloque({ titulo, children }: { titulo: ReactNode; children: ReactNode }
 }
 
 export default function Ficha({ loc, alCerrar, alContinuar }: { loc: Localidad; alCerrar: () => void; alContinuar?: () => void }) {
-  const { datos, porClave, pesos, pesosBase } = useEstado()
+  const { datos, porClave, pesos, pesosBase, variables } = useEstado()
   const [arrastre, setArrastre] = useState(0)
   const inicio = useRef<number | null>(null)
   const cuerpo = useRef<HTMLDivElement>(null)
@@ -177,7 +177,7 @@ export default function Ficha({ loc, alCerrar, alContinuar }: { loc: Localidad; 
                     </span>
                   </div>
                   <div className="space-y-1.5">
-                    {COMPONENTES.map((c) => {
+                    {COMPONENTES.filter((c) => variables.includes(c.clave)).map((c) => {
                       const v = loc.iphc_componentes![c.clave]
                       return (
                         <div key={c.clave}>
@@ -197,7 +197,7 @@ export default function Ficha({ loc, alCerrar, alContinuar }: { loc: Localidad; 
                   <Pie>
                     Cada barra es la posición de la localidad entre las {porClave.size} con datos (0 = la de menor carencia, 100 = la de mayor).
                     {pesosCambiados
-                      ? ' Estás viendo el orden con los pesos que moviste en Prioridades.'
+                      ? ' Estás viendo el orden con las variables y los pesos activos de esta exploración.'
                       : loc.iphc_robustez !== undefined &&
                         ` Queda en prioridad muy alta en ${Math.round(loc.iphc_robustez * 100)} de cada 100 combinaciones de pesos.`}{' '}
                     Las clases se forman por posición en esta lista. La estabilidad al cambiar pesos no es una probabilidad de vulnerabilidad. No es una medición oficial.

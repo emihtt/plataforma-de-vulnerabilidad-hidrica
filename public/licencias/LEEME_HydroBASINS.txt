@@ -1,0 +1,22 @@
+Este producto incorpora un subconjunto derivado de HydroBASINS v1c (WWF).
+
+Fuente: https://www.hydrosheds.org/products/hydrobasins
+Lehner, B. y Grill, G. (2013). Global river hydrography and network routing:
+baseline data and new approaches to study the world's large river systems.
+Hydrological Processes, 27(15): 2171-2186. DOI: 10.1002/hyp.9740.
+
+Las condiciones aplicables a los datos se conservan en
+HydroSHEDS_TechDoc_v1_4.pdf, Apéndice A y sus anexos. Forman parte de esta
+entrega y no quedan sustituidas por una licencia del código de la aplicación.
+El material se incorpora a la aplicación como obra derivada; no se distribuyen
+los archivos continentales como un producto de datos independiente.
+El uso y cualquier redistribución de los materiales están sujetos a los términos
+de ese documento, incluidos atribución, restricciones y ausencia de garantías.
+
+Transformaciones en esta aplicación: selección de unidades que intersectan
+Valle de Bravo, adscripción de puntos censales y simplificación de 25 m
+únicamente para dibujo. Los agregados estadísticos cubren solo localidades
+del municipio, no la población total de las unidades.
+
+Las unidades de niveles 6 y 12 son delimitaciones modeladas globales y no
+delimitaciones oficiales mexicanas de cuenca ni de microcuenca FIRCO.

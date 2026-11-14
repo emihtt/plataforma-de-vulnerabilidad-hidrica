@@ -1,5 +1,6 @@
 // Tipos y carga de los archivos que genera el pipeline en public/data/.
 import { useEffect, useState } from 'react'
+import type { Hidricas } from './territorios'
 
 export type Componente =
   | 'sin_agua_entubada'
@@ -171,6 +172,7 @@ export interface PronosticoSMN {
 }
 
 export interface Datos {
+  hidricas: Hidricas | null
   localidades: Localidad[]
   resumen: Resumen
   presa: Presa | null
@@ -200,7 +202,7 @@ interface GeoLocalidades {
 }
 
 export async function cargarDatos(): Promise<Datos> {
-  const [geo, resumen, presa, normales, fuentes, nacional, smn] = await Promise.all([
+  const [geo, resumen, presa, normales, fuentes, nacional, smn, hidricas] = await Promise.all([
     traer<GeoLocalidades>('localidades.geojson'),
     traer<Resumen>('resumen.json'),
     traer<Presa>('presa.json', true),
@@ -208,13 +210,14 @@ export async function cargarDatos(): Promise<Datos> {
     traer<Datos['fuentes']>('fuentes.json', true),
     traer<Nacional>('nacional.json', true),
     traer<PronosticoSMN>('pronostico_smn.json', true),
+    traer<Hidricas>('unidades_hidricas.json', true),
   ])
   const localidades = geo!.features.map((f) => ({
     ...f.properties,
     lon: f.geometry.coordinates[0],
     lat: f.geometry.coordinates[1],
   })) as Localidad[]
-  return { localidades, resumen: resumen!, presa, normales, fuentes, nacional, smn }
+  return { localidades, resumen: resumen!, presa, normales, fuentes, nacional, smn, hidricas }
 }
 
 export function useDatos() {

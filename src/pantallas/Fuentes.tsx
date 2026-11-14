@@ -88,6 +88,7 @@ export default function Fuentes() {
       </Tarjeta>
 
       <Tarjeta titulo="Fuentes de datos">
+        <h3 className="font-extrabold">Unidades hidrográficas de esta demo</h3><p>HydroBASINS v1c estándar, niveles 6 y 12: unidades de un modelo global, no límites oficiales mexicanos de cuenca o microcuenca. La estadística agregada cubre solo localidades de Valle de Bravo.</p><p className="my-2">Lehner, B. y Grill, G. (2013). HydroBASINS / HydroSHEDS, WWF. Adscripción por el punto censal con geometría original; simplificación de 25 m únicamente para dibujar. No se distribuyen personas por área.</p><p className="mb-4"><a className="text-verde-texto underline" href="https://www.hydrosheds.org/products/hydrobasins" target="_blank" rel="noreferrer">Fuente y documentación del modelo</a> · <a className="text-verde-texto underline" href={`${import.meta.env.BASE_URL}licencias/HydroSHEDS_TechDoc_v1_4.pdf`} target="_blank" rel="noreferrer">Condiciones de uso y licencia incluida</a></p><p className="mb-4">Proyectos, metas, aportes y series precargadas: ejemplos ficticios, sin dinero ni resultados reales. Los nuevos registros son capturas locales sin verificar; no se mezclan con las fuentes censales.</p>
         <p className="m-0 mb-2 text-[14px] text-gris">Las instituciones aparecen como fuente de los datos. Ninguna participa en este proyecto ni lo avala.</p>
         <ul className="m-0 list-none space-y-3 p-0">
           {fuentes.map(([clave, f]) => (

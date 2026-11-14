@@ -3,6 +3,7 @@ import argparse
 import functools
 import http.server
 import json
+import socket
 import threading
 import urllib.request
 import webbrowser
@@ -27,16 +28,44 @@ def main():
             self.send_header('Cache-Control', 'no-cache')
             super().end_headers()
 
+    class Servidor(http.server.ThreadingHTTPServer):
+        # En Windows SO_REUSEADDR permite que dos procesos compartan el puerto.
+        # Esta demo necesita una dirección exclusiva para no mostrar otra versión.
+        allow_reuse_address = False
+        def server_bind(self):
+            if hasattr(socket, 'SO_EXCLUSIVEADDRUSE'):
+                self.socket.setsockopt(socket.SOL_SOCKET, socket.SO_EXCLUSIVEADDRUSE, 1)
+            super().server_bind()
+
     handler = functools.partial(Handler, directory=str(site))
     server = None
+    opener = urllib.request.build_opener(urllib.request.ProxyHandler({}))
     for port in range(8788, 8808):
+        ocupado = False
         try:
-            server = http.server.ThreadingHTTPServer(('127.0.0.1', port), handler)
+            with socket.create_connection(('127.0.0.1', port), timeout=.3):
+                ocupado = True
+        except OSError:
+            pass
+        if ocupado:
+            try:
+                with opener.open(f'http://127.0.0.1:{port}/demo-id.json', timeout=.6) as r:
+                    if json.load(r) == marker:
+                        url = f'http://127.0.0.1:{port}/'
+                        print('La demo ya esta abierta:', url, flush=True)
+                        if not args.no_browser:
+                            webbrowser.open(url)
+                        return
+            except Exception:
+                pass
+            continue
+        try:
+            server = Servidor(('127.0.0.1', port), handler)
             break
         except OSError:
             # Reutilizar solo una instancia de ESTA candidata; no interferir con otros servicios.
             try:
-                with urllib.request.urlopen(f'http://127.0.0.1:{port}/demo-id.json', timeout=.4) as r:
+                with opener.open(f'http://127.0.0.1:{port}/demo-id.json', timeout=.4) as r:
                     if json.load(r) == marker:
                         url = f'http://127.0.0.1:{port}/'
                         print('La demo ya esta abierta:', url)

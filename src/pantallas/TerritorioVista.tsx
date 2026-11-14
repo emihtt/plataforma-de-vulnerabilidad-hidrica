@@ -1,0 +1,22 @@
+import { useEstado } from '../lib/contexto'
+import { lineaBase, NOMBRE_ESCALA, territorios } from '../lib/territorios'
+import { num, pct } from '../lib/formato'
+import { Dato, Pie, Tarjeta } from '../componentes/ui'
+import { COMPONENTES } from '../lib/indice'
+import { proyectoEnSeleccion } from '../lib/proyectos'
+
+export default function TerritorioVista() {
+  const { datos, escala, unidad, variables, pesos, ir, abrirFicha, cartera, gestiona } = useEstado()
+  const t = territorios(datos, escala).find((t) => t.id === unidad)
+  if (!t) return <div className="workspace-page"><h1>Selecciona un territorio</h1><button type="button" className="primary-action" onClick={() => ir('mapa')}>Abrir el mapa</button></div>
+  const b = lineaBase(t)
+  const proyectos = cartera.proyectos.filter((p) => !p.archivado && (gestiona || p.visible) && proyectoEnSeleccion(p, datos, escala, t.id))
+  return <article className="workspace-page territory-sheet"><div className="workspace-actions no-print"><button type="button" className="text-action" onClick={() => ir('mapa')}>← Volver al mapa</button><button type="button" className="secondary-action" onClick={() => window.print()}>Imprimir ficha para propuesta</button></div><p className="sheet-meta">Línea base · {NOMBRE_ESCALA[escala]} · {t.id}</p><h1>{t.nombre}</h1><p className="page-lead">{escala === 'localidad' ? 'Localidad censal · INEGI 2020.' : `Unidad hidrográfica modelada · HydroBASINS nivel ${t.feature!.properties.nivel}. No es una delimitación oficial mexicana.`}</p>
+    <div className="metric-row"><div><strong>{num(b.poblacion)}</strong><span>habitantes censados en localidades incluidas</span></div><div><strong>{b.conDatos} / {b.totalLocalidades}</strong><span>localidades con datos de servicios</span></div><div><strong>2020</strong><span>año de la línea base censal</span></div></div>
+    <Tarjeta titulo="Agua y condiciones de vivienda"><Dato rotulo="Sin agua entubada">{num(b.agua.valor)} de {num(b.agua.n)} ({pct(b.agua.proporcion)})</Dato><Dato rotulo="Sin drenaje">{num(b.drenaje.valor)} de {num(b.drenaje.n)} ({pct(b.drenaje.proporcion)})</Dato><Dato rotulo="Sin tinaco ni cisterna · límites aproximados">{b.almacenamiento ? `${pct(b.almacenamiento.minimo)} a ${pct(b.almacenamiento.maximo)}` : 'Sin datos suficientes'}</Dato><Pie>Proporciones calculadas sumando numeradores y denominadores válidos; almacenamiento, suma ponderada de los límites de cada localidad. Se excluyen servicios no publicados por confidencialidad. Agua entubada no demuestra continuidad ni potabilidad.</Pie></Tarjeta>
+    <Tarjeta titulo="Criterios activos de esta exploración"><ul>{COMPONENTES.filter((c) => variables.includes(c.clave)).map((c) => <li key={c.clave}>{c.nombre}: {Math.round(pesos[c.clave] * 100)} % · {c.detalle}</li>)}</ul><Pie>Prioridad relativa preliminar, no diagnóstico absoluto ni selección automática de tecnología. Esta ficha es un insumo inicial, no una propuesta técnica validada.</Pie></Tarjeta>
+    <Tarjeta titulo="Localidades que aportan a esta ficha"><ul className="locality-chips">{t.localidades.map((l) => <li key={l.cvegeo}><button type="button" onClick={() => abrirFicha(l.cvegeo)}>{l.nombre}{l.enmascarada ? ' · servicios no publicados' : ''}</button></li>)}</ul></Tarjeta>
+    <Tarjeta titulo="Proyectos asociados en esta demostración"><p>{proyectos.length ? `${proyectos.length} registros asociados; no representan una cobertura garantizada.` : 'No hay proyectos visibles asociados a esta selección.'}</p>{proyectos.map((p) => <p key={p.id}><strong>{p.nombre}</strong> · {p.ejemplo ? 'Ejemplo ficticio: metas y dinero ilustrativos' : 'Registro local sin verificar'}</p>)}<button type="button" className="text-action no-print" onClick={() => ir('proyectos')}>Consultar proyectos del territorio →</button></Tarjeta>
+    <Tarjeta titulo="Fuentes y alcance"><p>INEGI: Censo de Población y Vivienda 2020. Los datos describen únicamente las localidades del municipio de Valle de Bravo incluidas en esta unidad; no la población total de la cuenca o microcuenca.</p>{escala !== 'localidad' && <><p>{datos.hidricas?.limites}</p><p>Lehner, B. y Grill, G. (2013). HydroBASINS / HydroSHEDS, WWF. Geometría WGS84; adscripción por punto censal, sin repartir población por superficie.</p><a href="https://www.hydrosheds.org/products/hydrobasins" target="_blank" rel="noreferrer">Documentación del modelo</a></>}<p>Faltan validación científica, contraste comunitario y datos actuales antes de tomar decisiones reales. La ficha no acredita financiamiento ni alianzas.</p></Tarjeta>
+  </article>
+}

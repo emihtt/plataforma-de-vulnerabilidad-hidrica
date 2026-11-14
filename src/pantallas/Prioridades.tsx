@@ -3,7 +3,10 @@ import { Boton, Pie, Supuesto, Tarjeta } from '../componentes/ui'
 import { useEstado } from '../lib/contexto'
 import type { Componente, Pesos } from '../lib/datos'
 import { num, pct } from '../lib/formato'
-import { COLOR_CLASE, COMPONENTES, pesosIguales } from '../lib/indice'
+import { COLOR_CLASE, COMPONENTES, normalizarPesos, pesosIguales } from '../lib/indice'
+import ControlesTerritorio from '../componentes/ControlesTerritorio'
+import ListaUnidades from '../componentes/ListaUnidades'
+import PesosUnidades from '../componentes/PesosUnidades'
 
 function sinAcentos(t: string): string {
   return t.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase()
@@ -15,10 +18,10 @@ function aNumero(t: string): number | null {
 }
 
 export default function Prioridades() {
-  const { ranking, pesos, pesosBase, setPesos, abrirFicha, datos } = useEstado()
+  const { ranking, pesos, pesosBase, pesosCrudos, setPesos, abrirFicha, datos, variables, escala } = useEstado()
   // los controles guardan puntos de 0 a 100; el índice usa su proporción (siempre suman 1)
   const [puntos, setPuntos] = useState<Pesos>(() => {
-    const p = { ...pesos }
+    const p = normalizarPesos(pesosCrudos)
     for (const k of Object.keys(p) as Componente[]) p[k] = Math.round(p[k] * 100)
     return p
   })
@@ -102,7 +105,9 @@ export default function Prioridades() {
   return (
     <div className="space-y-3 p-4">
       <h1>Prioridades para hacer mejores preguntas.</h1>
-      <p className="page-lead">Un orden relativo entre {ranking.length} localidades con datos. Los pesos son exploratorios: cambiar la lista no demuestra qué intervención funcionará.</p>
+      <p className="page-lead">Elige una escala y agrega variables gradualmente. Los pesos son exploratorios: cambiar la lista no demuestra qué intervención funcionará.</p>
+      <ControlesTerritorio />
+      {escala !== 'localidad' ? <><PesosUnidades /><ListaUnidades /></> : <>
       <div className="priorities-layout">
       <Tarjeta
         titulo={
@@ -119,7 +124,7 @@ export default function Prioridades() {
         </button>
         {controles && (
           <div className="mt-1 space-y-2">
-            {COMPONENTES.map((c) => (
+            {COMPONENTES.filter((c) => variables.includes(c.clave)).map((c) => (
               <label key={c.clave} className="block">
                 <span className="flex items-baseline justify-between gap-2 text-[15px]">
                   <span>
@@ -127,7 +132,7 @@ export default function Prioridades() {
                   </span>
                   <span className="cifra shrink-0 font-extrabold">{Math.round(pesos[c.clave] * 100)} %</span>
                 </span>
-                <input type="range" min={0} max={100} step={5} value={puntos[c.clave]} onChange={(e) => mover(c.clave, Number(e.target.value))} aria-label={`Peso de ${c.nombre}`} />
+                {variables.length > 1 && <input type="range" min={0} max={100} step={5} value={puntos[c.clave]} onChange={(e) => { const v = Number(e.target.value); if (variables.some((k) => k !== c.clave && puntos[k] > 0) || v > 0) mover(c.clave, v) }} aria-label={`Peso de ${c.nombre}`} />}
               </label>
             ))}
             <div className="flex items-center justify-between gap-3">
@@ -201,6 +206,7 @@ export default function Prioridades() {
       </details>
 
       <Pie>Fuentes: INEGI, Censo de Población y Vivienda 2020; Conapo, índice de marginación por localidad 2020. Datos generados el {datos.resumen.generado}.</Pie>
+      </>}
     </div>
   )
 }

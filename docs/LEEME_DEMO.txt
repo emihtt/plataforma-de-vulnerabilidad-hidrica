@@ -11,7 +11,7 @@ Si no se abre el navegador, copia la direccion que muestra la ventana.
 Para cerrar el servidor, vuelve a esa ventana y pulsa Ctrl+C.
 
 PLAN DE RESPALDO
-El mapa local, las fichas, las prioridades, las fuentes y el recorrido usan
+Los perfiles, las tres escalas incluidas, las fichas, los proyectos y el recorrido usan
 archivos incluidos. Funcionan sin internet con el servidor local encendido.
 Las calles externas, lluvia reciente, pronostico actualizado y enlaces a las
 fuentes requieren internet. Una consulta anterior guardada tiene su propia fecha.
@@ -40,3 +40,15 @@ Esta candidata no se publico ni se envio a nadie. El QR dentro de Acerca lleva
 al sitio publicado original; no comparte esta candidata. Revisar localmente.
 La licencia general del codigo sigue pendiente de definicion. El paquete es
 para revision y demostracion autorizadas; no es una nueva publicacion.
+
+PERFILES Y PROYECTOS
+Las vistas de gestion y consulta no son cuentas ni permisos de servidor.
+Los tres proyectos iniciales y todos sus montos y mediciones son ficticios.
+Los registros se guardan solo en este navegador y direccion local. Para llevar
+registros a otro equipo, exporta JSON e importalo sin sobrescribir conflictos.
+Las unidades de cuenca/microcuenca son modeladas HydroBASINS, no delimitaciones
+oficiales mexicanas. El censo agregado sigue cubriendo solo Valle de Bravo.
+Se incluyen licencia y atribuciones en sitio/licencias/.
+
+ESTADO GIT
+El usuario solicito dejar el commit preparado para subir despues. Sin push.
