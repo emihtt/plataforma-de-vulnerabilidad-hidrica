@@ -23,7 +23,7 @@ export default function Prioridades() {
     return p
   })
   const [busca, setBusca] = useState('')
-  const [controles, setControles] = useState(true)
+  const [controles, setControles] = useState(() => window.matchMedia('(min-width: 701px)').matches)
   const [presupuesto, setPresupuesto] = useState('')
   const [costo, setCosto] = useState('')
   const cambiado = !pesosIguales(pesos, pesosBase)
@@ -101,6 +101,9 @@ export default function Prioridades() {
 
   return (
     <div className="space-y-3 p-4">
+      <h1>Prioridades para hacer mejores preguntas.</h1>
+      <p className="page-lead">Un orden relativo entre {ranking.length} localidades con datos. Los pesos son exploratorios: cambiar la lista no demuestra qué intervención funcionará.</p>
+      <div className="priorities-layout">
       <Tarjeta
         titulo={
           <>
@@ -146,7 +149,7 @@ export default function Prioridades() {
           aria-label="Buscar localidad"
           className="mb-2 min-h-12 w-full rounded-lg border border-borde bg-white px-3"
         />
-        <ol className="m-0 list-none p-0">
+        <ol className="priority-results m-0 list-none p-0">
           {visibles.map((r) => (
             <li key={r.loc.cvegeo} className="border-b border-borde last:border-b-0">
               <button type="button" onClick={() => abrirFicha(r.loc.cvegeo)} className="flex min-h-14 w-full items-center gap-2.5 border-0 bg-transparent px-0 py-1.5 text-left">
@@ -172,8 +175,10 @@ export default function Prioridades() {
           Exportar la lista en CSV
         </Boton>
       </Tarjeta>
+      </div>
 
-      <Tarjeta titulo="¿Y con un presupuesto?">
+      <details className="rounded-xl border border-borde p-4"><summary className="cursor-pointer font-extrabold">Ejercicio opcional de presupuesto · sin costos validados</summary>
+      <Tarjeta titulo="Explorar un supuesto de costo">
         <div className="grid grid-cols-2 gap-2">
           <label className="block text-[14px] font-bold">
             Presupuesto (pesos)
@@ -191,8 +196,9 @@ export default function Prioridades() {
             {ejercicio.ultima ? `; la última sería ${ejercicio.ultima}` : ''}).
           </p>
         )}
-        <Pie>Ejercicio ilustrativo. El costo lo pone quien usa la herramienta.</Pie>
+        <Pie>Solo divide un presupuesto entre un costo uniforme aportado por quien usa la herramienta. No calcula obra, tratamiento, mantenimiento ni viabilidad; no prueba que una vivienda quedaría abastecida. No hay una cotización ni recursos comprometidos.</Pie>
       </Tarjeta>
+      </details>
 
       <Pie>Fuentes: INEGI, Censo de Población y Vivienda 2020; Conapo, índice de marginación por localidad 2020. Datos generados el {datos.resumen.generado}.</Pie>
     </div>

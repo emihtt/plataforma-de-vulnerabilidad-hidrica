@@ -19,11 +19,11 @@ const DESTINOS: { ruta: Ruta; nombre: string; icono: 'panorama' | 'mapa' | 'prio
   { ruta: 'panorama', nombre: 'Panorama', icono: 'panorama' },
   { ruta: 'mapa', nombre: 'Mapa', icono: 'mapa' },
   { ruta: 'prioridades', nombre: 'Prioridades', icono: 'prioridades' },
-  { ruta: 'agua', nombre: 'Agua ahora', icono: 'agua' },
+  { ruta: 'agua', nombre: 'Contexto hídrico', icono: 'agua' },
 ]
 
 const SECUNDARIAS: { ruta: Ruta; nombre: string }[] = [
-  { ruta: 'usos', nombre: 'Usos y escala' },
+  { ruta: 'usos', nombre: 'Usos y futuro' },
   { ruta: 'fuentes', nombre: 'Fuentes y límites' },
   { ruta: 'acerca', nombre: 'Acerca de' },
 ]
@@ -38,6 +38,7 @@ export default function App() {
   const [pesosUsuario, setPesosUsuario] = useState<Pesos | null>(null)
   const [menu, setMenu] = useState(false)
   const [conexion, setConexion] = useState(navigator.onLine)
+  const [recorrido, setRecorrido] = useState<number | null>(null)
 
   useEffect(() => {
     const alCambiar = () => setLugar(leerHash())
@@ -54,8 +55,20 @@ export default function App() {
 
   const ir = useCallback((r: Ruta) => {
     setMenu(false)
+    setRecorrido(null)
     window.location.hash = `/${r}`
   }, [])
+
+  const iniciarRecorrido = () => {
+    setPesosUsuario(null)
+    setRecorrido(0)
+    setMenu(false)
+    window.location.hash = '/panorama'
+  }
+  const mostrarPaso = (paso: number) => {
+    setRecorrido(paso)
+    window.location.hash = ['/panorama', '/mapa', '/mapa?loc=151100037', '/usos'][paso]
+  }
 
   const abrirFicha = useCallback((cvegeo: string | null) => {
     const actual = leerHash()
@@ -88,37 +101,46 @@ export default function App() {
     porClave,
     ir,
     abrirFicha,
+    iniciarRecorrido,
     lluvia: { guardada: lluviaCruda.datos, estado: lluviaCruda.estado, resumen: resumenLluvia },
   }
   const seleccion = loc ? (datos.localidades.find((l) => l.cvegeo === loc) ?? null) : null
 
   return (
     <Contexto.Provider value={estado}>
-      <div className="mx-auto flex h-full max-w-[560px] flex-col bg-fondo shadow-[0_0_0_1px_var(--color-borde)]">
-        <header className="shrink-0 bg-tinta text-white">
-          <div className="flex items-center justify-between gap-2 px-4 py-2.5">
-            <button type="button" onClick={() => ir('panorama')} className="border-0 bg-transparent p-0 text-left text-white">
-              <span className="block text-[18px] font-extrabold leading-tight">Laboratorio Valle de Bravo</span>
-              <span className="block text-[13px] leading-tight text-[#c9cbd0]">Plataforma de Agua · Regenera Consultora</span>
+      <div className="app-shell">
+        <a className="skip-link" href="#contenido" onClick={(e) => { e.preventDefault(); document.getElementById('contenido')?.focus() }}>Saltar al contenido</a>
+        <header className="app-header">
+          <div className="header-inner">
+            <button type="button" onClick={() => ir('panorama')} className="brand">
+              <svg viewBox="0 0 48 48" width="44" height="44" aria-hidden><path d="M17 4S6 17 6 25a11 11 0 0 0 22 0C28 17 17 4 17 4ZM25 38q8-9 19-2M6 44q18-8 38 0" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" /></svg>
+              <span><strong>Agua y territorio</strong><span>Valle de Bravo</span></span>
             </button>
+            <nav aria-label="Secciones principales" className="desktop-nav">
+              {DESTINOS.map((d) => <button type="button" key={d.ruta} aria-current={ruta === d.ruta ? 'page' : undefined} onClick={() => ir(d.ruta)}>{d.nombre}</button>)}
+            </nav>
+            <nav className="header-links" aria-label="Documentación">
+              <button type="button" onClick={() => ir('fuentes')} aria-current={ruta === 'fuentes' ? 'page' : undefined}>Fuentes</button>
+              <button type="button" onClick={() => ir('usos')} aria-current={ruta === 'usos' ? 'page' : undefined}>Usos y futuro</button>
+            </nav>
             <button
               type="button"
               aria-label={menu ? 'Cerrar menú' : 'Abrir menú'}
               aria-expanded={menu}
               onClick={() => setMenu((m) => !m)}
-              className="flex h-11 w-11 items-center justify-center rounded-lg border border-[#4a4a4a] bg-transparent text-white"
+              className="menu-toggle"
             >
               <Icono nombre={menu ? 'cerrar' : 'menu'} />
             </button>
           </div>
           {menu && (
-            <nav aria-label="Más secciones" className="border-t border-[#3a3a3a] px-2 pb-2">
+            <nav aria-label="Más secciones" className="extra-nav">
               {SECUNDARIAS.map((s) => (
                 <button
                   key={s.ruta}
                   type="button"
                   onClick={() => ir(s.ruta)}
-                  className="flex min-h-12 w-full items-center justify-between rounded-lg border-0 bg-transparent px-2 text-left text-[16px] font-bold text-white"
+                  className="flex min-h-12 w-full items-center justify-between rounded-lg border-0 bg-transparent px-2 text-left text-[16px] font-bold"
                 >
                   {s.nombre}
                   <Icono nombre="flecha" tam={18} />
@@ -129,10 +151,21 @@ export default function App() {
         </header>
         <EtiquetaV0 />
         {!conexion && (
-          <p className="m-0 bg-[#FFF3D6] px-4 py-1 text-[13px] font-bold text-[#7a5200]">Sin conexión: se muestran los datos guardados en este dispositivo.</p>
+          <p className="connection-notice" role="status">Sin internet · mapa local y datos incluidos disponibles. Las consultas recientes y los enlaces externos pueden fallar.</p>
         )}
 
-        <main className="relative min-h-0 flex-1 overflow-y-auto">
+        {recorrido !== null && (
+          <aside className="tour-bar" aria-label="Recorrido guiado">
+            <div><span className="tour-count">{recorrido + 1} / 4 · recorrido de 2–3 min</span><strong>{['El problema: el acceso al agua se vive en las comunidades.', 'El territorio: explora el mapa y abre un caso concreto.', 'San Gabriel Ixtla: 73 de 436 viviendas sin agua entubada en 2020.', 'La conversación: posibles usos y una visión por construir.'][recorrido]}</strong><p>{['El Censo 2020 es una línea base; no describe el servicio de hoy.', 'El color representa prioridad relativa. El tamaño estima personas en viviendas sin agua entubada.', 'La ficha distingue datos censales de simulaciones. Ni la prioridad ni la captación son un diagnóstico.', 'El observatorio nacional es una aspiración. La siguiente etapa requiere validación y colaboración.'][recorrido]}</p></div>
+            <div className="tour-actions">
+              {recorrido > 0 && <button type="button" className="text-action" onClick={() => mostrarPaso(recorrido - 1)}>Anterior</button>}
+              <button type="button" className="primary-action" onClick={() => recorrido === 3 ? ir('panorama') : mostrarPaso(recorrido + 1)}>{['Ir al mapa →', 'Abrir el caso →', 'Ver usos y futuro →', 'Terminar recorrido'][recorrido]}</button>
+              <button type="button" className="text-action" onClick={() => setRecorrido(null)} aria-label="Salir del recorrido">Salir</button>
+            </div>
+          </aside>
+        )}
+
+        <main id="contenido" tabIndex={-1} key={ruta} className={`app-main route-${ruta}`}>
           <Suspense fallback={<Cargando />}>
             {ruta === 'panorama' && <Panorama />}
             {ruta === 'mapa' && <Mapa />}
@@ -144,7 +177,7 @@ export default function App() {
           </Suspense>
         </main>
 
-        <nav aria-label="Secciones principales" className="grid shrink-0 grid-cols-4 border-t border-borde bg-white pb-[env(safe-area-inset-bottom)]">
+        <nav aria-label="Navegación móvil" className="mobile-nav grid shrink-0 grid-cols-4 border-t border-borde bg-white pb-[env(safe-area-inset-bottom)]">
           {DESTINOS.map((d) => {
             const activo = ruta === d.ruta
             return (
@@ -166,7 +199,7 @@ export default function App() {
 
         {seleccion && (
           <Suspense fallback={null}>
-            <Ficha loc={seleccion} alCerrar={() => abrirFicha(null)} />
+            <Ficha loc={seleccion} alCerrar={() => abrirFicha(null)} alContinuar={recorrido === 2 ? () => mostrarPaso(3) : undefined} />
           </Suspense>
         )}
       </div>

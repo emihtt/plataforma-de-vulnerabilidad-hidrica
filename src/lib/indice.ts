@@ -6,7 +6,7 @@ export const COMPONENTES: { clave: Componente; nombre: string; detalle: string; 
   { clave: 'sin_agua_entubada', nombre: 'Sin agua entubada', detalle: 'Viviendas sin agua entubada' },
   { clave: 'marginacion', nombre: 'Marginación', detalle: 'Índice de marginación de Conapo' },
   { clave: 'aislamiento', nombre: 'Aislamiento', detalle: 'Distancia en línea recta a la cabecera' },
-  { clave: 'sin_almacenamiento', nombre: 'Sin almacenamiento', detalle: 'Viviendas sin tinaco ni cisterna (aproximado)', aproximado: true },
+  { clave: 'sin_almacenamiento', nombre: 'Almacenamiento por verificar', detalle: 'Cota superior sin tinaco ni cisterna; cruce desconocido', aproximado: true },
   { clave: 'sin_drenaje', nombre: 'Sin drenaje', detalle: 'Viviendas sin drenaje' },
   { clave: 'hogares_indigenas', nombre: 'Hogares indígenas', detalle: 'Población en hogares indígenas' },
 ]

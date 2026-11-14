@@ -14,6 +14,7 @@ export interface Estado {
   porClave: Map<string, Priorizada>
   ir: (ruta: Ruta) => void
   abrirFicha: (cvegeo: string | null) => void
+  iniciarRecorrido: () => void
   lluvia: { guardada: LluviaGuardada | null; estado: EstadoLluvia; resumen: ResumenLluvia }
 }
 

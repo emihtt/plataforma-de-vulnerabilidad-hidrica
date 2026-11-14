@@ -2,10 +2,21 @@
 from __future__ import annotations
 
 from comun import actualizar_localidades, cargar_localidades, haversine_km, parametros
+from formulas import limites_almacenamiento
 
 
 def pct(x) -> str:
     return f"{round(x * 100)} %"
+
+
+def almacenamiento_candidato(p, umbral):
+    limites = limites_almacenamiento(p.get("viv_caract"), p.get("viv_tinaco"), p.get("viv_cisterna"))
+    if limites is None or limites[1] < umbral:
+        return None
+    return {"tipo": "Verificar almacenamiento", "razon":
+            f"Sin conocer cuántas viviendas tienen ambos equipamientos, la proporción sin tinaco ni cisterna "
+            f"podría estar entre {pct(limites[0])} y {pct(limites[1])}. La cota superior cruza el umbral exploratorio; "
+            "no demuestra una carencia mínima. Verificar con la comunidad."}
 
 
 def main() -> None:
@@ -28,9 +39,9 @@ def main() -> None:
             else:
                 lista.append({"tipo": "Captación de lluvia como complemento",
                               "razon": f"La lluvia sola no alcanza (cubriría {pct(c)} de la demanda básica); sirve como complemento."})
-        if p["pct_sin_almacenamiento_max"] >= u["almacenamiento_carencia_minima"]:
-            lista.append({"tipo": "Almacenamiento",
-                          "razon": f"Al menos {pct(p['pct_sin_almacenamiento_max'])} de las viviendas no tiene tinaco ni cisterna (aproximado)."})
+        almacenamiento = almacenamiento_candidato(p, u["almacenamiento_carencia_minima"])
+        if almacenamiento:
+            lista.append(almacenamiento)
         if p["pct_sin_drenaje"] >= u["saneamiento_carencia_minima"]:
             lista.append({"tipo": "Saneamiento descentralizado",
                           "razon": f"{pct(p['pct_sin_drenaje'])} de las viviendas no tiene drenaje."})

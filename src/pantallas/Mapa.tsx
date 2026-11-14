@@ -6,6 +6,7 @@ import { Icono, Supuesto } from '../componentes/ui'
 import { useEstado } from '../lib/contexto'
 import { rutaDatos, type Localidad } from '../lib/datos'
 import { CLASES, ESCALA } from '../lib/indice'
+import { num } from '../lib/formato'
 
 // MapLibre 6 carga su proceso de fondo desde un archivo aparte; se le indica el que empaqueta Vite.
 maplibregl.setWorkerUrl(urlTrabajador)
@@ -87,8 +88,12 @@ export default function Mapa() {
   const mapa = useRef<maplibregl.Map | null>(null)
   const [listo, setListo] = useState(false)
   const [capa, setCapa] = useState<Capa>('prioridad')
-  const [leyenda, setLeyenda] = useState(true)
+  const [leyenda, setLeyenda] = useState(() => window.matchMedia('(min-width: 701px)').matches)
   const [conBase, setConBase] = useState(false)
+  const [busca, setBusca] = useState('')
+  const [errorMapa, setErrorMapa] = useState(false)
+  const [baseSolicitada, setBaseSolicitada] = useState(false)
+  const [errorBase, setErrorBase] = useState(false)
 
   const geojson = useMemo(() => {
     const maximo = Math.max(...datos.localidades.map((l) => l.pers_sin_agua_est ?? 0))
@@ -118,17 +123,18 @@ export default function Mapa() {
     if (!caja.current) return
     const lons = datos.localidades.map((l) => l.lon)
     const lats = datos.localidades.map((l) => l.lat)
-    const m = new maplibregl.Map({
+    let m: maplibregl.Map
+    try { m = new maplibregl.Map({
       container: caja.current,
       style: ESTILO_PROPIO,
       bounds: [Math.min(...lons) - 0.01, Math.min(...lats) - 0.01, Math.max(...lons) + 0.01, Math.max(...lats) + 0.01],
-      fitBoundsOptions: { padding: { top: 16, left: 16, right: 16, bottom: 150 } },
+      fitBoundsOptions: { padding: { top: 16, left: 16, right: 16, bottom: window.matchMedia('(max-width: 700px)').matches ? 60 : 150 } },
       attributionControl: false,
       dragRotate: false,
       pitchWithRotate: false,
       maxZoom: 16,
       minZoom: 8,
-    })
+    }) } catch { setErrorMapa(true); return }
     mapa.current = m
     m.touchZoomRotate.disableRotation()
     m.addControl(new maplibregl.AttributionControl({ compact: true, customAttribution: '© colaboradores de OpenStreetMap' }), 'top-left')
@@ -178,20 +184,6 @@ export default function Mapa() {
       m.on('mouseleave', 'loc-circulo', () => (m.getCanvas().style.cursor = ''))
       setListo(true)
 
-      // Con conexión se suma un mapa base público debajo de las capas propias.
-      fetch(ESTILO_BASE)
-        .then((r) => (r.ok ? r.json() : Promise.reject(new Error('sin mapa base'))))
-        .then((estilo: maplibregl.StyleSpecification) => {
-          if (!mapa.current) return
-          if (estilo.glyphs) m.setGlyphs(estilo.glyphs)
-          if (estilo.sprite) m.setSprite(estilo.sprite as string)
-          for (const [id, fuente] of Object.entries(estilo.sources)) if (!m.getSource(id)) m.addSource(id, fuente)
-          for (const c of estilo.layers) if (!m.getLayer(c.id)) m.addLayer(c, 'ctx-protegida')
-          if (m.getLayer('fondo')) m.removeLayer('fondo')
-          for (const id of CAPAS_PROPIAS_DE_RESPALDO) m.setLayoutProperty(id, 'visibility', 'none')
-          setConBase(true)
-        })
-        .catch(() => undefined) // sin conexión: se queda solo con las capas propias
     })
 
     const cab = datos.localidades.find((l) => l.es_cabecera)
@@ -217,12 +209,33 @@ export default function Mapa() {
     fuente?.setData(geojson)
   }, [geojson, listo])
 
+  useEffect(() => {
+    if (!baseSolicitada || !listo || !mapa.current) return
+    const m = mapa.current
+    const control = new AbortController()
+    fetch(ESTILO_BASE, { signal: control.signal }).then((r) => r.ok ? r.json() : Promise.reject(new Error('sin mapa base'))).then((estilo: maplibregl.StyleSpecification) => {
+      if (control.signal.aborted) return
+      if (estilo.glyphs) m.setGlyphs(estilo.glyphs)
+      if (estilo.sprite) m.setSprite(estilo.sprite as string)
+      for (const [id, fuente] of Object.entries(estilo.sources)) if (!m.getSource(id)) m.addSource(id, fuente)
+      for (const c of estilo.layers) if (!m.getLayer(c.id)) m.addLayer(c, 'ctx-protegida')
+      if (m.getLayer('fondo')) m.removeLayer('fondo')
+      for (const id of CAPAS_PROPIAS_DE_RESPALDO) m.setLayoutProperty(id, 'visibility', 'none')
+      setConBase(true)
+    }).catch(() => { if (!control.signal.aborted) setErrorBase(true) })
+    return () => control.abort()
+  }, [baseSolicitada, listo])
+
   const def = CAPAS[capa]
   const sinDato = datos.localidades.filter((l) => l.enmascarada).length
+  const normalizar = (t: string) => t.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase()
+  const visibles = busca.trim() ? datos.localidades.filter((l) => normalizar(l.nombre).includes(normalizar(busca.trim()))) : datos.localidades.filter((l) => l.cvegeo === '151100037')
+  const elegir = (l: Localidad) => { mapa.current?.flyTo({ center: [l.lon, l.lat], zoom: 12, duration: 500, essential: false }); abrirFicha(l.cvegeo) }
 
   return (
-    <div className="absolute inset-0 flex flex-col">
-      <div className="flex shrink-0 gap-1.5 overflow-x-auto border-b border-borde bg-white px-3 py-2" role="group" aria-label="Capa del mapa">
+    <div className="map-page absolute inset-0 flex flex-col">
+      <div className="map-toolbar"><h1>El agua, localidad por localidad.</h1><p>Explora una capa y abre una comunidad. Los datos censales son de 2020.</p></div>
+      <div className="map-layers flex shrink-0 gap-1.5 overflow-x-auto border-b border-borde bg-white px-3 py-2" role="group" aria-label="Capa del mapa">
         {(Object.keys(CAPAS) as Capa[]).map((c) => (
           <button
             key={c}
@@ -237,8 +250,19 @@ export default function Mapa() {
           </button>
         ))}
       </div>
+      <div className="map-workspace">
+        <aside className="map-sidebar" aria-label="Buscar y abrir comunidades">
+          <label htmlFor="buscar-mapa">Encuentra una comunidad</label>
+          <input id="buscar-mapa" type="search" placeholder="Buscar por nombre…" value={busca} onChange={(e) => setBusca(e.target.value)} />
+          {!busca.trim() && <p className="map-case-label">Un caso para comenzar</p>}
+          <div className="map-search-results" aria-live="polite">{visibles.map((l) => <button type="button" key={l.cvegeo} onClick={() => elegir(l)}><strong>{l.nombre} <span aria-hidden>↗</span></strong><span>{l.enmascarada ? 'Servicios no publicados por confidencialidad' : `${num(l.viv_sin_agua)} de ${num(l.viv_caract)} viviendas sin agua entubada`}</span></button>)}{visibles.length === 0 && <p>No hay coincidencias. Prueba otro nombre.</p>}</div>
+          <div className="map-sidebar-note"><strong>Cómo leer el mapa</strong><p>Más oscuro indica un valor mayor en la capa seleccionada. El tamaño estima personas en viviendas sin agua entubada.</p><p>{sinDato} localidades aparecen como anillos sin datos de servicios. No equivalen a ausencia de carencia.</p><p>La prioridad compara localidades entre sí; no es un diagnóstico absoluto.</p></div>
+          <button type="button" className="text-action" disabled={baseSolicitada} onClick={() => setBaseSolicitada(true)}>{conBase ? 'Mapa de calles añadido' : baseSolicitada && !errorBase ? 'Cargando calles…' : 'Añadir calles (requiere internet)'}</button>
+          <small>{errorBase ? 'No se pudo añadir el mapa externo. El mapa local sigue disponible.' : 'La vista inicial usa cartografía incluida en la demo.'}</small>
+        </aside>
       <div className="relative min-h-0 flex-1">
         <div ref={caja} style={{ position: 'absolute', inset: 0 }} aria-label="Mapa de las localidades de Valle de Bravo" role="application" />
+        {errorMapa && <p className="map-error" role="status">Este navegador no pudo iniciar el mapa gráfico. Puedes buscar y abrir las comunidades desde la lista; prueba Chrome o Edge con aceleración gráfica.</p>}
         <div className="absolute right-2 bottom-2 left-2 rounded-xl border border-borde bg-white/95 text-[13px] shadow-sm sm:left-auto sm:w-80">
           <button
             type="button"
@@ -276,11 +300,12 @@ export default function Mapa() {
                     <Supuesto>Versión 0 · supuesto por validar</Supuesto>{' '}
                   </>
                 )}
-                {def.fuente}. Toca una localidad para ver su ficha.{!conBase && ' Mapa base no disponible: se muestran solo las capas propias.'}
+                {def.fuente}. Selecciona una localidad para ver su ficha.{!conBase && ' Cartografía local incluida · OpenStreetMap.'}
               </div>
             </div>
           )}
         </div>
+      </div>
       </div>
     </div>
   )

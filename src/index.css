@@ -6,13 +6,13 @@
 
 @theme {
   --font-sans: 'Nunito Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --color-tinta: #1a1a1a;
+  --color-tinta: #142d2a;
   --color-verde: #00a693;
   --color-verde-texto: #00766a;
   --color-gris: #6b6b6b;
   --color-meta: #6f6d7c;
-  --color-fondo: #f2f3f4;
-  --color-borde: #dadde0;
+  --color-fondo: #f1f5f3;
+  --color-borde: #d8e2dd;
   --color-morado: #9683ec;
   --color-p1: #e3f4f1;
   --color-p2: #9fd9d0;

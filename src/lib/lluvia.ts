@@ -95,11 +95,14 @@ export function resumirLluvia(g: LluviaGuardada | null, normales: Normales | nul
   if (!g) return vacio
   // "hoy" es el día de la consulta, no el día en que se mira un dato guardado
   const hoy = g.consultado ? isoLocal(new Date(g.consultado)) : hoyISO()
-  const pasados = g.dias.filter((d) => d.fecha < hoy && d.mm !== null)
-  const ultimos30 = pasados.slice(-30)
+  const inicio = new Date(`${hoy}T12:00:00Z`)
+  inicio.setUTCDate(inicio.getUTCDate() - 30)
+  const desde = inicio.toISOString().slice(0, 10)
+  const ultimos30 = g.dias.filter((d) => d.fecha >= desde && d.fecha < hoy).sort((a, b) => a.fecha.localeCompare(b.fecha))
   const pronostico = g.dias.filter((d) => d.fecha >= hoy).slice(0, 7)
-  if (ultimos30.length < 30) return { ...vacio, ultimos30, pronostico }
-  const acumulado30 = ultimos30.reduce((s, d) => s + (d.mm ?? 0), 0)
+  // No sustituir días faltantes por cero ni completar la ventana con días más antiguos.
+  if (ultimos30.length !== 30 || new Set(ultimos30.map((d) => d.fecha)).size !== 30 || ultimos30.some((d) => d.mm === null || !Number.isFinite(d.mm))) return { ...vacio, ultimos30, pronostico }
+  const acumulado30 = ultimos30.reduce((s, d) => s + d.mm!, 0)
   const hasta = ultimos30[ultimos30.length - 1].fecha
   const normal30 = normales?.normal_30d_mm[hasta.slice(5)] ?? null
   const pctNormal = normal30 && normal30 > 0 ? (100 * acumulado30) / normal30 : null

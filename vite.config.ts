@@ -15,7 +15,7 @@ export default defineConfig({
       manifest: {
         name: 'Plataforma de Agua · Laboratorio Valle de Bravo',
         short_name: 'Plataforma de Agua',
-        description: 'Dónde y cómo garantizar agua en las comunidades de Valle de Bravo. Versión 0 con datos públicos.',
+        description: 'Datos públicos y preguntas sobre acceso al agua en Valle de Bravo. Prototipo en validación.',
         lang: 'es-MX',
         start_url: './',
         scope: './',
