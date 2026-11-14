@@ -1,7 +1,0 @@
-{
-  "source_commit": "9098bc2e10a96b8fe5dffa495e79d013c8be4e95",
-  "workflow_run": "https://github.com/emihtt/plataforma-de-vulnerabilidad-hidrica/actions/runs/43625244494",
-  "validation": "passed",
-  "index_sha256": "2533ce885989ef9285ebde932618d4876a894324838b92ec3e73a7ce85d977c9",
-  "service_worker_sha256": "962a10f2a90386e13566746eecd7c5b37b550e069eb0d47051d34e4eff5080c3"
-}
