@@ -1,4 +1,4 @@
-import { Boton, Pie, Tarjeta } from '../componentes/ui'
+import { Boton, Tarjeta } from '../componentes/ui'
 import { useEstado } from '../lib/contexto'
 
 const AUDIENCIAS = [
@@ -8,7 +8,7 @@ const AUDIENCIAS = [
   ['Gobiernos y academia', 'Revisar datos, discutir supuestos y acordar qué información hace falta antes de usar el análisis en planeación.'],
 ]
 const FASES = [
-  ['Después del evento', 'Recoger preguntas de Jimena y de quienes vean la demo; corregir la candidata y acordar el alcance del piloto.', 'Depende de: revisión del equipo, responsables y prioridades. Esfuerzo y recursos por estimar.'],
+  ['Después del evento', 'Recoger preguntas de quienes vean la demo; corregir la candidata y acordar el alcance del piloto.', 'Depende de: revisión del equipo, responsables y prioridades. Esfuerzo y recursos por estimar.'],
   ['Validación científica y con comunidades', 'Revisar universos censales y cruces, sensibilidad del índice, lluvia comparable y balance de captación. Contrastar necesidades y datos actuales con las comunidades.', 'Depende de: participación y consentimiento, especialistas, estaciones y datos públicos con permisos claros. Sin compromisos de terceros.'],
   ['Nuevos módulos, uno por uno', 'Evaluar cuencas, ríos y lagos, sequía, precipitación, salud ecosistémica, conservación, restauración y derecho al agua. Publicar solo lo que se pueda validar y mantener.', 'Depende de: pregunta de uso, fuente y licencia, metodología, pruebas y responsable de actualización para cada módulo.'],
   ['Cobertura nacional y sostenibilidad', 'Probar el método en otros territorios antes de escalar hacia un observatorio ciudadano del agua para México.', 'Depende de: comparabilidad entre territorios, gobernanza, accesibilidad, operación, mantenimiento y un modelo de financiamiento por definir. Sin presupuesto ni alianzas asegurados.'],
@@ -29,8 +29,7 @@ export default function Usos() {
       <ol className="roadmap">{FASES.map(([titulo, texto, dependencia]) => <li key={titulo}><h3>{titulo}</h3><p>{texto}</p><small>{dependencia}</small></li>)}</ol>
     </Tarjeta>
     <Tarjeta titulo="Una invitación a construir, con expectativas claras">
-      <p className="m-0">La oportunidad de conseguir apoyo existe; todavía no hay financiamiento asegurado. Las instituciones citadas aportan datos públicos, no avalan la plataforma. La posible colaboración con Isla Urbana no se concretó.</p>
-      <Pie>No se incorporaron análisis institucionales privados ni materiales de PROFEPA. Cualquier incorporación futura requiere verificar propiedad, autorización, licencia y posibilidad de compartirlos.</Pie>
+      <p className="m-0">La oportunidad de conseguir apoyo existe; todavía no hay financiamiento asegurado. Las instituciones citadas aportan datos públicos, no avalan la plataforma.</p>
     </Tarjeta>
     <div className="flex flex-wrap gap-3 pt-3"><Boton onClick={iniciarRecorrido}>Repetir recorrido</Boton><Boton secundario onClick={() => ir('fuentes')}>Revisar fuentes y límites</Boton></div>
   </div>

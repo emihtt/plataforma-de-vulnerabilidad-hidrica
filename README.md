@@ -12,7 +12,7 @@ Aplicación web para computadora y celular que reúne datos públicos sobre el a
 - Proyectos locales con componentes, metas agregadas y aportes financieros separados. Tres ejemplos ficticios; capturas propias sin verificar. Persistencia en el navegador, respaldo/importación JSON y archivo reversible.
 - Seguimiento con indicadores definidos y mediciones fechadas. No se imputan faltantes ni se atribuye causalidad; metas y resultados permanecen separados.
 
-La guía de presentación está en [docs/GUIA_JIMENA.html](docs/GUIA_JIMENA.html); cambios, pruebas y pendientes en [docs/REVISION_DEMO.html](docs/REVISION_DEMO.html). El usuario pidió dejar el commit preparado para subir después, sin push ni despliegue.
+Cambios, pruebas y pendientes en [docs/REVISION_DEMO.html](docs/REVISION_DEMO.html).
 
 La compilación incluye los datos y la licencia HydroSHEDS en `public/licencias/`. Los ZIP continentales se conservan fuera de Git y no se distribuyen como un producto de datos independiente. Para reconstruir únicamente estas unidades: `python pipeline/13_unidades_hidricas.py`. No hace falta regenerar el censo ni ejecutar el pipeline completo para abrir la candidata.
 

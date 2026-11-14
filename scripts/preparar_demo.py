@@ -27,7 +27,10 @@ for f in args.runtime_dir.iterdir():
 shutil.copy2(repo / 'scripts/iniciar_demo.py', args.output / 'iniciar_demo.py')
 (args.output / 'ABRIR_DEMO.cmd').write_text('@echo off\r\n"%~dp0runtime\\python.exe" "%~dp0iniciar_demo.py"\r\nif errorlevel 1 pause\r\n', encoding='ascii')
 (args.output / 'ABRIR_DEMO_Mac.command').write_text('#!/bin/sh\ncd "$(dirname "$0")"\npython3 iniciar_demo.py\n', encoding='utf-8')
-shutil.copy2(repo / 'docs/GUIA_JIMENA.html', args.output / 'GUIA_JIMENA.html')
+# La guía de presentación es un documento interno: no vive en el repositorio público.
+guia = repo / 'interno/GUIA_PRESENTACION.html'
+if guia.is_file():
+    shutil.copy2(guia, args.output / 'GUIA_PRESENTACION.html')
 shutil.copy2(repo / 'docs/REVISION_DEMO.html', args.output / 'REVISION_DEMO.html')
 shutil.copy2(repo / 'docs/LEEME_DEMO.txt', args.output / 'LEEME_PRIMERO.txt')
 marker = {'candidate': 'Valle-de-Bravo-perfiles-2026-11-14',

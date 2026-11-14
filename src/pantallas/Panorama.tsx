@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react'
 import { useEstado } from '../lib/contexto'
 import { rutaDatos } from '../lib/datos'
-import { num } from '../lib/formato'
+import { Estimacion, Pie, Semaforo, Supuesto, Tarjeta } from '../componentes/ui'
+import { fechaCorta, fechaLarga, num, plural } from '../lib/formato'
+import { senal } from '../lib/lluvia'
 
 type Geometria = { type: string; coordinates: number[][][] }
 
@@ -26,8 +28,12 @@ function Territorio() {
 }
 
 export default function Panorama() {
-  const { datos, ir, iniciarRecorrido } = useEstado()
+  const { datos, ir, iniciarRecorrido, lluvia } = useEstado()
   const c = datos.resumen.censo
+  const presa = datos.presa
+  const ultimo = presa?.serie[presa.serie.length - 1]
+  const u = datos.resumen.parametros.semaforo
+  const r = lluvia.resumen
   return <div className="panorama-page">
     <section className="intro-hero">
       <div className="hero-copy">
@@ -44,6 +50,31 @@ export default function Panorama() {
       <div><strong className="cifra">{num(c.viv_sin_agua)}</strong><span>viviendas sin agua entubada</span><small>En localidades con datos de servicios · INEGI 2020</small></div>
       <div><strong className="cifra">{num(c.localidades_con_datos)} <em>de</em> {num(c.localidades_total)}</strong><span>localidades con datos de servicios</span><small>{num(c.localidades_enmascaradas)} sin información por confidencialidad</small></div>
       <div><strong className="cifra">2020</strong><span>año de la información censal</span><small>Una línea base para contrastar con la realidad actual</small></div>
+    </section>
+    <section className="panorama-linea-base" aria-label="Presa y viviendas sin agua entubada">
+      <Tarjeta>
+        <p className="m-0 text-[20px] font-bold leading-snug">
+          {ultimo ? <>La presa está al <strong className="cifra font-extrabold text-verde-texto">{ultimo.porcentaje.toLocaleString('es-MX')} %</strong> ({fechaLarga(ultimo.fecha)}). </> : <>Nivel de la presa: sin dato. </>}
+          En el municipio, <strong className="cifra font-extrabold text-verde-texto">{num(c.pers_sin_agua_est)} personas</strong> en{' '}
+          <strong className="cifra font-extrabold text-verde-texto">{num(c.localidades_con_viv_sin_agua)} localidades</strong> viven en viviendas sin agua entubada (Censo 2020).
+        </p>
+        <Pie>
+          Personas: <Estimacion /> viviendas sin agua entubada por el promedio de ocupantes de cada localidad.
+          {ultimo?.origen === 'semilla' && ' Presa: último dato capturado a mano de una nota que cita a Conagua.'} No hay datos de servicios para{' '}
+          {num(c.localidades_enmascaradas)} {plural(c.localidades_enmascaradas, 'localidad', 'localidades')} de una o dos viviendas, donde viven {num(c.pob_localidades_enmascaradas)} personas.
+        </Pie>
+      </Tarjeta>
+      <Tarjeta titulo={<>Semáforo hídrico <Supuesto>umbrales por validar</Supuesto></>}>
+        <div className="flex items-center justify-between gap-3 border-b border-borde py-2">
+          <div><div className="font-bold">Presa Valle de Bravo</div><div className="text-[14px] text-gris">{ultimo ? `${ultimo.porcentaje.toLocaleString('es-MX')} % de llenado · ${fechaCorta(ultimo.fecha)}` : 'Sin dato'}</div></div>
+          <Semaforo estado={senal(ultimo?.porcentaje, u.presa_verde_desde, u.presa_amarillo_desde)} />
+        </div>
+        <div className="flex items-center justify-between gap-3 py-2">
+          <div><div className="font-bold">Lluvia de los últimos 30 días</div><div className="text-[14px] text-gris">{r.pctNormal !== null && r.hasta ? `${num(r.pctNormal)} % de lo normal · al ${fechaCorta(r.hasta)}` : lluvia.estado === 'cargando' ? 'Consultando…' : 'Sin dato: no hubo conexión para consultarla'}</div></div>
+          <Semaforo estado={senal(r.pctNormal, u.lluvia30_verde_desde, u.lluvia30_amarillo_desde)} />
+        </div>
+        <Pie>Presa llena no significa agua en todas las casas. Lluvia: Open-Meteo, modelo en malla; comparación exploratoria por validar.</Pie>
+      </Tarjeta>
     </section>
     <section className="itinerary" aria-label="Qué puedes explorar">
       {[['Leer el territorio', 'Ubica las carencias y sus fuentes.', 'mapa'], ['Abrir una comunidad', 'Conoce los datos y lo que aún falta saber.', 'prioridades'], ['Imaginar posibilidades', 'Revisa posibles usos y las siguientes etapas.', 'usos']].map(([titulo, texto, ruta], i) => <button key={titulo} type="button" onClick={() => ir(ruta as 'mapa' | 'prioridades' | 'usos')}><span className="step-number">{i + 1}</span><span><strong>{titulo}</strong><span>{texto}</span></span><span className="step-arrow" aria-hidden>→</span></button>)}

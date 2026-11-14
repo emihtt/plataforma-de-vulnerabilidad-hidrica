@@ -28,12 +28,12 @@ No se incluye un runtime macOS y no se probo el lanzador en una Mac real.
 ABRIR_DEMO_Mac.command es una comodidad y puede requerir permiso de ejecucion.
 
 DOCUMENTOS
-GUIA_JIMENA.pdf / .html: apertura, guion de 2-3 minutos, audiencias, limites y fases.
+La guia de presentacion es un documento interno y se entrega aparte.
 REVISION_DEMO.html: cambios, pruebas, evidencia y trabajo tecnico posterior.
 RESPALDO_VISUAL.html: capturas de esta candidata para contingencias.
 integridad.json: huellas de los archivos empacados (excepto el propio manifiesto).
 
-LIMITE INDICADO POR ALAN: 14 de noviembre de 2026, 06:00, hora de Mexico.
+LIMITE DE ENTREGA: 14 de noviembre de 2026, 06:00, hora de Mexico.
 No se asumen los horarios previos de 09:00 o 16:00 para el evento/pasarela.
 
 Esta candidata no se publico ni se envio a nadie. El QR dentro de Acerca lleva

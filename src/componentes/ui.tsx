@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react'
 import type { Senal } from '../lib/lluvia'
 
-export const ETIQUETA_V0 = 'Prototipo · datos históricos y estimaciones · en validación'
+export const ETIQUETA_V0 = 'Versión 0 · índices preliminares en validación'
 
 export function EtiquetaV0() {
   return (
