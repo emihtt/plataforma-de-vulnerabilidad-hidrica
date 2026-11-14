@@ -24,7 +24,7 @@ const NOMBRES: Record<string, string> = {
   anios_serie: 'Años de la serie de lluvia',
   umbral_mes_seco_mm: 'Mes seco: menos de (mm)',
   scall_cobertura_minima: 'Captación domiciliaria: cobertura mínima de la demanda',
-  almacenamiento_carencia_minima: 'Almacenamiento: viviendas sin tinaco ni cisterna, desde',
+  almacenamiento_carencia_minima: 'Verificar almacenamiento: umbral sobre la cota superior (no mínimo observado)',
   saneamiento_carencia_minima: 'Saneamiento: viviendas sin drenaje, desde',
   red_distancia_maxima_km: 'Extensión de red: distancia máxima (km)',
   red_cobertura_vecina_minima: 'Extensión de red: cobertura mínima de la localidad vecina',
@@ -58,16 +58,17 @@ export default function Fuentes() {
       <h1 className="m-0 text-[22px] font-extrabold">Fuentes y límites</h1>
 
       <Tarjeta titulo="Límites">
-        <p className="m-0">Esta es una versión 0. Usa datos públicos y supuestos de trabajo que un equipo especialista está revisando.</p>
+        <p className="m-0">Esta es una versión 0 con datos públicos y supuestos de trabajo. La revisión científica y la validación con las comunidades están pendientes.</p>
         <ul className="my-2 space-y-1.5 pl-5">
           <li>Las cifras de vivienda y población son del Censo 2020. No dicen cómo está hoy cada comunidad.</li>
           <li>"Agua entubada" no significa agua todos los días ni agua potable.</li>
           <li>La lluvia viene de modelos en malla, no de una estación en cada comunidad.</li>
           <li>
-            El censo no publica servicios en localidades de una o dos viviendas. Esas comunidades no aparecen en la lista de prioridades, y suelen ser las más
-            aisladas.
+            El censo no publica servicios en localidades de una o dos viviendas. Esas comunidades no aparecen en la lista de prioridades;
+            requieren información acordada con sus habitantes. Su ausencia no significa que no tengan necesidades.
           </li>
-          <li>El índice de prioridad combina carencias con pesos que se pueden cambiar. No es una medición oficial.</li>
+          <li>El índice ordena localidades, no mide vulnerabilidad absoluta. Sus cinco clases se forman por posición. La estabilidad ante cambios de pesos no es una probabilidad de vulnerabilidad.</li>
+          <li>La captación es una simulación histórica, no acredita potabilidad ni abasto garantizado. La distancia en línea recta no demuestra factibilidad de una red.</li>
           <li>Las intervenciones que se sugieren son candidatas a evaluar en campo con la comunidad; no son recomendaciones técnicas.</li>
         </ul>
         <p className="m-0">
@@ -75,7 +76,19 @@ export default function Fuentes() {
         </p>
       </Tarjeta>
 
+      <Tarjeta titulo="Almacenamiento: lo que sí permite decir el censo">
+        <p className="m-0">Sin el cruce entre viviendas con tinaco (T) y cisterna (C), la proporción sin ninguno solo puede acotarse dentro del mismo universo de viviendas (N).</p>
+        <p className="my-3 rounded-lg bg-fondo p-3 font-mono text-[14px]">máx(0, 1 − (T + C) / N) ≤ proporción sin ambos ≤ 1 − máx(T, C) / N</p>
+        <p className="m-0">El índice conserva la cota superior como variable exploratoria para no cambiar silenciosamente la metodología de esta demo. Las fichas muestran ambos extremos. Un máximo alto activa una pregunta de verificación, no una carencia mínima demostrada.</p>
+      </Tarjeta>
+
+      <Tarjeta titulo="Lluvia: comparación pendiente de homogeneizar">
+        <p className="m-0">La referencia ERA5 de Open-Meteo usa 1991–2020 en un punto de la cabecera. La captación usa Daymet 2004–2023 en las localidades. Cambian producto, periodo y área: sus totales no permiten atribuir la diferencia a una causa ni medir un cambio climático.</p>
+        <Pie>La razón entre lluvia reciente y normal es exploratoria; también requiere comprobar productos y condiciones equivalentes. Antes de decisiones: comparar periodos y áreas iguales, revisar unidades y contrastar con estaciones. No se ha hecho esa validación en esta candidata.</Pie>
+      </Tarjeta>
+
       <Tarjeta titulo="Fuentes de datos">
+        <h3 className="font-extrabold">Unidades hidrográficas de esta demo</h3><p>HydroBASINS v1c estándar, niveles 6 y 12: unidades de un modelo global, no límites oficiales mexicanos de cuenca o microcuenca. La estadística agregada cubre solo localidades de Valle de Bravo.</p><p className="my-2">Lehner, B. y Grill, G. (2013). HydroBASINS / HydroSHEDS, WWF. Adscripción por el punto censal con geometría original; simplificación de 25 m únicamente para dibujar. No se distribuyen personas por área.</p><p className="mb-4"><a className="text-verde-texto underline" href="https://www.hydrosheds.org/products/hydrobasins" target="_blank" rel="noreferrer">Fuente y documentación del modelo</a> · <a className="text-verde-texto underline" href={`${import.meta.env.BASE_URL}licencias/HydroSHEDS_TechDoc_v1_4.pdf`} target="_blank" rel="noreferrer">Condiciones de uso y licencia incluida</a></p><p className="mb-4">Proyectos, metas, aportes y series precargadas: ejemplos ficticios, sin dinero ni resultados reales. Los nuevos registros son capturas locales sin verificar; no se mezclan con las fuentes censales.</p>
         <p className="m-0 mb-2 text-[14px] text-gris">Las instituciones aparecen como fuente de los datos. Ninguna participa en este proyecto ni lo avala.</p>
         <ul className="m-0 list-none space-y-3 p-0">
           {fuentes.map(([clave, f]) => (

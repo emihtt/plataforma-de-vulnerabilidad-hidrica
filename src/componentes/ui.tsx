@@ -5,8 +5,7 @@ export const ETIQUETA_V0 = 'Versión 0 · índices preliminares en validación'
 
 export function EtiquetaV0() {
   return (
-    <p className="m-0 border-b border-borde bg-white px-4 py-1 text-[13px] font-semibold text-gris">
-      <span className="mr-1.5 inline-block h-2 w-2 rounded-full bg-morado align-middle" aria-hidden />
+    <p className="prototype-notice">
       {ETIQUETA_V0}
     </p>
   )
@@ -14,7 +13,7 @@ export function EtiquetaV0() {
 
 export function Tarjeta({ titulo, children, className = '' }: { titulo?: ReactNode; children: ReactNode; className?: string }) {
   return (
-    <section className={`rounded-xl border border-borde bg-white p-4 ${className}`}>
+    <section className={`tarjeta rounded-xl border border-borde bg-white p-4 ${className}`}>
       {titulo && <h2 className="m-0 mb-2 text-[17px] font-extrabold leading-tight">{titulo}</h2>}
       {children}
     </section>

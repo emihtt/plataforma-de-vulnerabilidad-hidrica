@@ -1,0 +1,113 @@
+name: Validar y publicar GitHub Pages
+
+on:
+  push:
+    branches: [main, mejoras-propuestas, revision-main-github-pages]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: '3.13'
+          cache: pip
+          cache-dependency-path: |
+            pipeline/requirements.txt
+            scripts/requirements-test.txt
+      - run: npm ci
+      - run: npm test
+      - run: npm audit --omit=dev --audit-level=high
+      - run: python -m pip install -r pipeline/requirements.txt -r scripts/requirements-test.txt
+      - run: python -m pytest pipeline/tests -q
+      - run: npm run build:pages
+      - run: python -m playwright install --with-deps chromium
+      - name: Probar aplicación bajo la ruta de GitHub Pages
+        run: python scripts/qa_pages.py
+        env:
+          QA_OUTPUT_DIR: ${{ runner.temp }}/qa-pages
+      - name: Guardar evidencia de pruebas
+        if: always()
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
+        with:
+          name: pruebas-pages-${{ github.run_id }}
+          path: ${{ runner.temp }}/qa-pages
+          if-no-files-found: ignore
+      - name: Identificar la compilación validada
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        run: |
+          python - <<'PY'
+          import hashlib, json, os
+          from pathlib import Path
+          root = Path('dist')
+          data = {'source_commit': os.environ['GITHUB_SHA'], 'workflow_run': f'https://github.com/{os.environ["GITHUB_REPOSITORY"]}/actions/runs/{os.environ["GITHUB_RUN_ID"]}', 'validation': 'passed', 'index_sha256': hashlib.sha256((root/'index.html').read_bytes()).hexdigest(), 'service_worker_sha256': hashlib.sha256((root/'sw.js').read_bytes()).hexdigest()}
+          (root/'version.json').write_text(json.dumps(data, indent=2), encoding='utf-8')
+          PY
+      - name: Preparar artefacto publicable
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: dist
+
+  destino:
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    needs: validar
+    runs-on: ubuntu-latest
+    permissions:
+      pages: read
+    outputs:
+      mode: ${{ steps.sitio.outputs.mode }}
+    steps:
+      - name: Detectar el origen configurado de Pages
+        id: sitio
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python - <<'PY'
+          import json, os, urllib.request
+          url = f'https://api.github.com/repos/{os.environ["GITHUB_REPOSITORY"]}/pages'
+          req = urllib.request.Request(url, headers={'Authorization': 'Bearer ' + os.environ['GH_TOKEN'], 'Accept': 'application/vnd.github+json'})
+          with urllib.request.urlopen(req, timeout=20) as response:
+              mode = json.load(response)['build_type']
+          if mode not in ('legacy', 'workflow'):
+              raise ValueError('Origen de Pages desconocido')
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as out:
+              out.write(f'mode={mode}\n')
+          if mode == 'legacy':
+              with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as out:
+                  out.write('Compilación validada y artefacto disponible. El sitio usa `gh-pages`: publicar ese artefacto con una cuenta autorizada. El token automático no dispara el build de Pages al hacer push. Ver `docs/GITHUB_PAGES.md`.\n')
+          PY
+
+  publicar:
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request' && needs.destino.outputs.mode == 'workflow'
+    needs: [validar, destino]
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/configure-pages@v5
+      - name: Publicar la compilación validada
+        id: deployment
+        uses: actions/deploy-pages@v4

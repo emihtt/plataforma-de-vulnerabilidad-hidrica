@@ -13,6 +13,19 @@ import numpy as np
 CLASES = ["Muy alta", "Alta", "Media", "Baja", "Muy baja"]
 
 
+def limites_almacenamiento(n, tinacos, cisternas):
+    """Sin cruce entre equipamientos: max(0,1-(T+C)/N) <= sin ambos <= 1-max(T,C)/N.
+
+    No se interpreta el extremo superior como una carencia mínima. Los tres conteos
+    deben corresponder al mismo universo; valores faltantes o inválidos no se estiman.
+    """
+    if any(v is None or not math.isfinite(v) for v in (n, tinacos, cisternas)):
+        return None
+    if n <= 0 or not 0 <= tinacos <= n or not 0 <= cisternas <= n:
+        return None
+    return max(0, 1 - (tinacos + cisternas) / n), 1 - max(tinacos, cisternas) / n
+
+
 # ---------- 3.1 Índice de prioridad ----------
 
 def rango_percentil(valores: Sequence) -> list:

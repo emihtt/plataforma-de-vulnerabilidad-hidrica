@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { Bar, CartesianGrid, ComposedChart, Line, ResponsiveContainer, XAxis, YAxis } from 'recharts'
 import { useEstado } from '../lib/contexto'
 import type { Localidad } from '../lib/datos'
+import { limitesAlmacenamiento } from '../lib/almacenamiento'
 import { MESES_CORTOS, dec, num, pct } from '../lib/formato'
 import { COLOR_CLASE, COMPONENTES } from '../lib/indice'
 import { Aviso, Dato, ETIQUETA_V0, Estimacion, Icono, Pie, Supuesto } from './ui'
@@ -17,20 +18,32 @@ function Bloque({ titulo, children }: { titulo: ReactNode; children: ReactNode }
   )
 }
 
-export default function Ficha({ loc, alCerrar }: { loc: Localidad; alCerrar: () => void }) {
-  const { datos, porClave, pesos, pesosBase } = useEstado()
+export default function Ficha({ loc, alCerrar, alContinuar }: { loc: Localidad; alCerrar: () => void; alContinuar?: () => void }) {
+  const { datos, porClave, pesos, pesosBase, variables } = useEstado()
   const [arrastre, setArrastre] = useState(0)
   const inicio = useRef<number | null>(null)
   const cuerpo = useRef<HTMLDivElement>(null)
+  const dialogo = useRef<HTMLDivElement>(null)
+  const cierre = useRef<HTMLButtonElement>(null)
   const par = datos.resumen.parametros.captacion_lluvia
   const pr = porClave.get(loc.cvegeo)
   const pesosCambiados = (Object.keys(pesos) as (keyof typeof pesos)[]).some((k) => Math.abs(pesos[k] - pesosBase[k]) > 1e-6)
 
   useEffect(() => {
     cuerpo.current?.scrollTo(0, 0)
-    const tecla = (e: KeyboardEvent) => e.key === 'Escape' && alCerrar()
+    const anterior = document.activeElement as HTMLElement | null
+    cierre.current?.focus()
+    const tecla = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') alCerrar()
+      if (e.key === 'Tab') {
+        const botones = Array.from(dialogo.current?.querySelectorAll<HTMLElement>('button, a[href], input, [tabindex="0"]') ?? []).filter((e) => e.offsetParent !== null && e.tabIndex >= 0)
+        const primero = botones[0], ultimo = botones[botones.length - 1]
+        if (e.shiftKey && document.activeElement === primero) { e.preventDefault(); ultimo?.focus() }
+        else if (!e.shiftKey && document.activeElement === ultimo) { e.preventDefault(); primero?.focus() }
+      }
+    }
     window.addEventListener('keydown', tecla)
-    return () => window.removeEventListener('keydown', tecla)
+    return () => { window.removeEventListener('keydown', tecla); anterior?.focus() }
   }, [loc.cvegeo, alCerrar])
 
   // Cerrar con gesto: arrastrar el encabezado hacia abajo
@@ -54,19 +67,20 @@ export default function Ficha({ loc, alCerrar }: { loc: Localidad; alCerrar: () 
   }
 
   const sc = loc.scall
+  const almacenamiento = limitesAlmacenamiento(loc.viv_caract, loc.viv_tinaco, loc.viv_cisterna)
   const tanque = sc?.tanques[String(par.tanque_referencia_litros)]
   const serie = sc
     ? sc.captable_mensual_l.map((l, i) => ({ mes: MESES_CORTOS[i], captable: Math.round(l), demanda: Math.round(sc.demanda_l_dia * DIAS_MES[i]) }))
     : []
 
   return (
-    <div className="fixed inset-0 z-30 mx-auto flex max-w-[560px] flex-col justify-end" role="dialog" aria-modal="true" aria-label={`Ficha de ${loc.nombre}`}>
-      <button type="button" aria-label="Cerrar ficha" onClick={alCerrar} className="min-h-0 flex-1 border-0 bg-black/35" />
+    <div ref={dialogo} className="ficha-overlay fixed inset-0 z-30 flex flex-col justify-end" role="dialog" aria-modal="true" aria-label={`Ficha de ${loc.nombre}`}>
+      <button type="button" tabIndex={-1} aria-label="Cerrar ficha" onClick={alCerrar} className="ficha-backdrop min-h-0 flex-1 border-0 bg-black/35" />
       <div
-        className="flex max-h-[86%] flex-col rounded-t-2xl bg-white shadow-[0_-4px_24px_rgba(0,0,0,0.2)]"
+        className="ficha-panel flex max-h-[86%] flex-col rounded-t-2xl bg-white shadow-[0_-4px_24px_rgba(0,0,0,0.2)]"
         style={{ transform: `translateY(${arrastre}px)`, transition: arrastre ? 'none' : 'transform 0.15s' }}
       >
-        <div {...gestos} className="shrink-0 cursor-grab touch-none px-4 pt-2 pb-2">
+        <div {...gestos} className="ficha-header shrink-0 cursor-grab touch-none px-4 pt-2 pb-2">
           <div className="mx-auto mb-2 h-1.5 w-12 rounded-full bg-borde" aria-hidden />
           <div className="flex items-start justify-between gap-3">
             <div>
@@ -76,6 +90,7 @@ export default function Ficha({ loc, alCerrar }: { loc: Localidad; alCerrar: () 
               </p>
             </div>
             <button
+              ref={cierre}
               type="button"
               onClick={alCerrar}
               onPointerDown={(e) => e.stopPropagation()}
@@ -87,7 +102,7 @@ export default function Ficha({ loc, alCerrar }: { loc: Localidad; alCerrar: () 
           </div>
         </div>
 
-        <div ref={cuerpo} className="min-h-0 overflow-y-auto px-4 pb-6">
+        <div ref={cuerpo} className="ficha-body min-h-0 overflow-y-auto px-4 pb-6">
           <p className="m-0 mb-2 text-[13px] font-semibold text-gris">{ETIQUETA_V0}</p>
           <div className="grid grid-cols-2 gap-2 pb-3">
             <div className="rounded-lg bg-fondo p-2.5">
@@ -125,6 +140,8 @@ export default function Ficha({ loc, alCerrar }: { loc: Localidad; alCerrar: () 
                 </Dato>
                 <Dato rotulo="Viviendas con tinaco">{pct(loc.pct_tinaco)}</Dato>
                 <Dato rotulo="Viviendas con cisterna o aljibe">{pct(loc.pct_cisterna)}</Dato>
+                <Dato rotulo="Sin tinaco ni cisterna: intervalo posible (aprox.)">{almacenamiento ? `${pct(almacenamiento.minimo)} a ${pct(almacenamiento.maximo)}` : 'Pendiente: datos insuficientes'}</Dato>
+                <Pie>Extremos redondeados. No se conoce cuántas viviendas tienen ambos. El extremo superior es una cota, no un mínimo ni un porcentaje observado.</Pie>
                 <Dato rotulo="Viviendas sin drenaje">
                   {num(loc.viv_sin_drenaje)} ({pct(loc.pct_sin_drenaje)})
                 </Dato>
@@ -144,7 +161,7 @@ export default function Ficha({ loc, alCerrar }: { loc: Localidad; alCerrar: () 
                 <Bloque
                   titulo={
                     <>
-                      Prioridad <Supuesto>índice preliminar</Supuesto>
+                      Prioridad relativa <Supuesto>índice preliminar</Supuesto>
                     </>
                   }
                 >
@@ -160,7 +177,7 @@ export default function Ficha({ loc, alCerrar }: { loc: Localidad; alCerrar: () 
                     </span>
                   </div>
                   <div className="space-y-1.5">
-                    {COMPONENTES.map((c) => {
+                    {COMPONENTES.filter((c) => variables.includes(c.clave)).map((c) => {
                       const v = loc.iphc_componentes![c.clave]
                       return (
                         <div key={c.clave}>
@@ -180,10 +197,10 @@ export default function Ficha({ loc, alCerrar }: { loc: Localidad; alCerrar: () 
                   <Pie>
                     Cada barra es la posición de la localidad entre las {porClave.size} con datos (0 = la de menor carencia, 100 = la de mayor).
                     {pesosCambiados
-                      ? ' Estás viendo el orden con los pesos que moviste en Prioridades.'
+                      ? ' Estás viendo el orden con las variables y los pesos activos de esta exploración.'
                       : loc.iphc_robustez !== undefined &&
                         ` Queda en prioridad muy alta en ${Math.round(loc.iphc_robustez * 100)} de cada 100 combinaciones de pesos.`}{' '}
-                    No es una medición oficial.
+                    Las clases se forman por posición en esta lista. La estabilidad al cambiar pesos no es una probabilidad de vulnerabilidad. No es una medición oficial.
                   </Pie>
                 </Bloque>
               )}
@@ -199,7 +216,7 @@ export default function Ficha({ loc, alCerrar }: { loc: Localidad; alCerrar: () 
                   <Dato rotulo={`Lluvia promedio al año (${par.anios_serie[0]}–${par.anios_serie[1]})`}>{num(loc.lluvia_anual_mm)} mm</Dato>
                   <Dato rotulo={`Meses secos seguidos (menos de ${par.umbral_mes_seco_mm} mm)`}>{num(loc.meses_secos)}</Dato>
                   <Dato rotulo="Demanda básica que cubriría la lluvia de un techo, en el año">{pct(sc.cobertura_potencial)}</Dato>
-                  {tanque && <Dato rotulo={`Meses al año con la demanda cubierta, con tanque de ${num(par.tanque_referencia_litros)} L`}>{dec(tanque.meses_autonomia)}</Dato>}
+                  {tanque && <Dato rotulo={`Meses/año con ≥90 % de la demanda simulada · tanque ${num(par.tanque_referencia_litros)} L`}>{dec(tanque.meses_autonomia)}</Dato>}
                   <div className="mt-3 h-44" role="img" aria-label="Gráfica mensual de litros de lluvia captables en un techo frente a la demanda de una vivienda">
                     <ResponsiveContainer width="100%" height="100%">
                       <ComposedChart data={serie} margin={{ top: 4, right: 4, bottom: 0, left: -8 }}>
@@ -221,10 +238,11 @@ export default function Ficha({ loc, alCerrar }: { loc: Localidad; alCerrar: () 
                   </p>
                   <Pie>
                     Supuestos por validar: techo de {par.area_techo_m2} m², {par.dotacion_l_persona_dia} litros por persona al día, {dec(sc.personas_por_vivienda)}{' '}
-                    personas por vivienda (promedio de la localidad), se aprovecha {Math.round(par.coef_escurrimiento * 100)} % de la lluvia. La captación cubre
+                    personas por vivienda (promedio de la localidad), coeficiente de escurrimiento {par.coef_escurrimiento} y descarte de {par.primer_lavado_mm} mm por día con lluvia. La captación cubre
                     sobre todo los meses de lluvia; en los meses secos hace falta almacenamiento grande u otra fuente. Lluvia: {loc.lluvia_fuente}, un modelo en
                     malla, no una estación en la comunidad.
                   </Pie>
+                  <Aviso>Simulación histórica: no demuestra agua potable ni abasto garantizado. Los meses no son necesariamente consecutivos. Requiere revisar lluvia, techo, pérdidas, almacenamiento, tratamiento y necesidades con la comunidad.</Aviso>
                 </Bloque>
               )}
 
@@ -243,6 +261,7 @@ export default function Ficha({ loc, alCerrar }: { loc: Localidad; alCerrar: () 
                 )}
                 <Pie>
                   <Supuesto>umbrales por validar</Supuesto> Son candidatas a evaluar en campo con la comunidad; no son recomendaciones técnicas.
+                  La cercanía en línea recta no demuestra que exista red, capacidad disponible ni viabilidad de conexión.
                 </Pie>
               </Bloque>
 
@@ -250,6 +269,7 @@ export default function Ficha({ loc, alCerrar }: { loc: Localidad; alCerrar: () 
             </>
           )}
         </div>
+        {alContinuar && <div className="ficha-continue"><button type="button" className="primary-action" onClick={alContinuar}>Continuar: usos y futuro →</button></div>}
       </div>
     </div>
   )

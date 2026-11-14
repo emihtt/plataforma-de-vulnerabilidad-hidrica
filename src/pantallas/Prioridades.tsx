@@ -1,9 +1,12 @@
 import { useMemo, useState } from 'react'
 import { Boton, Pie, Supuesto, Tarjeta } from '../componentes/ui'
 import { useEstado } from '../lib/contexto'
-import type { Componente, Pesos } from '../lib/datos'
 import { num, pct } from '../lib/formato'
 import { COLOR_CLASE, COMPONENTES, pesosIguales } from '../lib/indice'
+import { useControlesPesos } from '../lib/useControlesPesos'
+import ControlesTerritorio from '../componentes/ControlesTerritorio'
+import ListaUnidades from '../componentes/ListaUnidades'
+import PesosUnidades from '../componentes/PesosUnidades'
 
 function sinAcentos(t: string): string {
   return t.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase()
@@ -15,31 +18,13 @@ function aNumero(t: string): number | null {
 }
 
 export default function Prioridades() {
-  const { ranking, pesos, pesosBase, setPesos, abrirFicha, datos } = useEstado()
-  // los controles guardan puntos de 0 a 100; el índice usa su proporción (siempre suman 1)
-  const [puntos, setPuntos] = useState<Pesos>(() => {
-    const p = { ...pesos }
-    for (const k of Object.keys(p) as Componente[]) p[k] = Math.round(p[k] * 100)
-    return p
-  })
+  const { ranking, pesos, pesosBase, abrirFicha, datos, variables, escala } = useEstado()
+  const { puntos, mover, restablecer } = useControlesPesos()
   const [busca, setBusca] = useState('')
-  const [controles, setControles] = useState(true)
+  const [controles, setControles] = useState(() => window.matchMedia('(min-width: 701px)').matches)
   const [presupuesto, setPresupuesto] = useState('')
   const [costo, setCosto] = useState('')
   const cambiado = !pesosIguales(pesos, pesosBase)
-
-  const mover = (k: Componente, v: number) => {
-    const nuevo = { ...puntos, [k]: v }
-    if (Object.values(nuevo).every((x) => x === 0)) return
-    setPuntos(nuevo)
-    setPesos(nuevo)
-  }
-  const restablecer = () => {
-    const p = { ...pesosBase }
-    for (const k of Object.keys(p) as Componente[]) p[k] = Math.round(p[k] * 100)
-    setPuntos(p)
-    setPesos(pesosBase)
-  }
 
   const visibles = useMemo(() => {
     const q = sinAcentos(busca.trim())
@@ -101,6 +86,11 @@ export default function Prioridades() {
 
   return (
     <div className="space-y-3 p-4">
+      <h1>Prioridades para hacer mejores preguntas.</h1>
+      <p className="page-lead">Elige una escala y agrega variables gradualmente. Los pesos son exploratorios: cambiar la lista no demuestra qué intervención funcionará.</p>
+      <ControlesTerritorio />
+      {escala !== 'localidad' ? <><PesosUnidades /><ListaUnidades /></> : <>
+      <div className="priorities-layout">
       <Tarjeta
         titulo={
           <>
@@ -116,7 +106,7 @@ export default function Prioridades() {
         </button>
         {controles && (
           <div className="mt-1 space-y-2">
-            {COMPONENTES.map((c) => (
+            {COMPONENTES.filter((c) => variables.includes(c.clave)).map((c) => (
               <label key={c.clave} className="block">
                 <span className="flex items-baseline justify-between gap-2 text-[15px]">
                   <span>
@@ -124,7 +114,7 @@ export default function Prioridades() {
                   </span>
                   <span className="cifra shrink-0 font-extrabold">{Math.round(pesos[c.clave] * 100)} %</span>
                 </span>
-                <input type="range" min={0} max={100} step={5} value={puntos[c.clave]} onChange={(e) => mover(c.clave, Number(e.target.value))} aria-label={`Peso de ${c.nombre}`} />
+                {variables.length > 1 && <input type="range" min={0} max={100} step={5} value={puntos[c.clave]} onChange={(e) => { const v = Number(e.target.value); if (variables.some((k) => k !== c.clave && puntos[k] > 0) || v > 0) mover(c.clave, v) }} aria-label={`Peso de ${c.nombre}`} />}
               </label>
             ))}
             <div className="flex items-center justify-between gap-3">
@@ -146,7 +136,7 @@ export default function Prioridades() {
           aria-label="Buscar localidad"
           className="mb-2 min-h-12 w-full rounded-lg border border-borde bg-white px-3"
         />
-        <ol className="m-0 list-none p-0">
+        <ol className="priority-results m-0 list-none p-0">
           {visibles.map((r) => (
             <li key={r.loc.cvegeo} className="border-b border-borde last:border-b-0">
               <button type="button" onClick={() => abrirFicha(r.loc.cvegeo)} className="flex min-h-14 w-full items-center gap-2.5 border-0 bg-transparent px-0 py-1.5 text-left">
@@ -172,8 +162,10 @@ export default function Prioridades() {
           Exportar la lista en CSV
         </Boton>
       </Tarjeta>
+      </div>
 
-      <Tarjeta titulo="¿Y con un presupuesto?">
+      <details className="rounded-xl border border-borde p-4"><summary className="cursor-pointer font-extrabold">Ejercicio opcional de presupuesto · sin costos validados</summary>
+      <Tarjeta titulo="Explorar un supuesto de costo">
         <div className="grid grid-cols-2 gap-2">
           <label className="block text-[14px] font-bold">
             Presupuesto (pesos)
@@ -191,10 +183,12 @@ export default function Prioridades() {
             {ejercicio.ultima ? `; la última sería ${ejercicio.ultima}` : ''}).
           </p>
         )}
-        <Pie>Ejercicio ilustrativo. El costo lo pone quien usa la herramienta.</Pie>
+        <Pie>Solo divide un presupuesto entre un costo uniforme aportado por quien usa la herramienta. No calcula obra, tratamiento, mantenimiento ni viabilidad; no prueba que una vivienda quedaría abastecida. No hay una cotización ni recursos comprometidos.</Pie>
       </Tarjeta>
+      </details>
 
       <Pie>Fuentes: INEGI, Censo de Población y Vivienda 2020; Conapo, índice de marginación por localidad 2020. Datos generados el {datos.resumen.generado}.</Pie>
+      </>}
     </div>
   )
 }

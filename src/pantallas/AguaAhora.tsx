@@ -29,8 +29,8 @@ export default function AguaAhora() {
 
   const barras = useMemo(
     () => [
-      ...r.ultimos30.map((d) => ({ dia: d.fecha.slice(8), mm: d.mm ?? 0, tipo: 'observado' })),
-      ...r.pronostico.map((d) => ({ dia: d.fecha.slice(8), mm: d.mm ?? 0, tipo: 'pronostico' })),
+      ...r.ultimos30.map((d) => ({ dia: d.fecha.slice(8), mm: d.mm, tipo: 'observado' })),
+      ...r.pronostico.map((d) => ({ dia: d.fecha.slice(8), mm: d.mm, tipo: 'pronostico' })),
     ],
     [r],
   )
@@ -41,6 +41,8 @@ export default function AguaAhora() {
 
   return (
     <div className="space-y-3 p-4">
+      <h1>Contexto hídrico, con fecha y fuente.</h1>
+      <p className="page-lead">Los registros históricos y las capturas manuales no son información en tiempo real. La lluvia reciente y el pronóstico requieren una consulta externa.</p>
       <Tarjeta titulo="Presa Valle de Bravo">
         {ultimo && presa ? (
           <>
@@ -83,7 +85,7 @@ export default function AguaAhora() {
       <Tarjeta titulo="Lluvia: últimos 30 días y pronóstico">
         {lluvia.estado === 'guardado' && consultado && (
           <div className="mb-2">
-            <Aviso>Sin conexión. Se muestra la última consulta guardada, del {fechaLarga(lluvia.guardada!.consultado.slice(0, 10))}.</Aviso>
+            <Aviso>No se pudo actualizar la consulta. Se muestra la copia guardada, del {fechaLarga(lluvia.guardada!.consultado.slice(0, 10))}.</Aviso>
           </div>
         )}
         {barras.length > 0 ? (
@@ -139,13 +141,13 @@ export default function AguaAhora() {
               </div>
             )}
             <Pie>
-              Open-Meteo, punto de la cabecera municipal; consultado el {consultado ? fechaLarga(lluvia.guardada!.consultado.slice(0, 10)) : 'sin fecha'}. Lo normal es el
-              promedio {normales?.periodo.join('–')} del mismo modelo. Es un modelo en malla, no una estación. Umbrales del semáforo: {u.lluvia30_amarillo_desde} y{' '}
+              Open-Meteo, punto de la cabecera municipal; consultado el {consultado ? fechaLarga(lluvia.guardada!.consultado.slice(0, 10)) : 'sin fecha'}. La referencia histórica es ERA5,
+              periodo {normales?.periodo.join('–')}. Es información modelada, no una estación. Comparación exploratoria: la equivalencia con el producto reciente está pendiente de validar. No es una anomalía climática validada. Umbrales del semáforo: {u.lluvia30_amarillo_desde} y{' '}
               {u.lluvia30_verde_desde} % de lo normal <Supuesto />.
             </Pie>
           </>
         ) : (
-          <p className="m-0 text-gris">{lluvia.estado === 'cargando' ? 'Consultando la lluvia reciente…' : 'Sin dato: no hay conexión y este dispositivo no tiene una consulta guardada.'}</p>
+          <p className="m-0 text-gris">{lluvia.estado === 'cargando' ? 'Consultando la lluvia reciente…' : 'Sin dato: no fue posible completar la consulta externa y este navegador no tiene una copia guardada válida.'}</p>
         )}
       </Tarjeta>
 
@@ -186,8 +188,7 @@ export default function AguaAhora() {
           </div>
           <Pie>
             Promedio mensual de las localidades del municipio, {resumen.lluvia.periodo.join('–')}: {num(resumen.lluvia.anual_mm_promedio_localidades)} mm al año. Daymet,
-            malla de 1 km (ORNL DAAC, NASA). Es otro modelo que el de la lluvia reciente y sus totales no son comparables entre sí; el equipo especialista
-            definirá la fuente de lluvia.
+            malla de 1 km (ORNL DAAC, NASA). Cambian producto, periodo y área respecto a la referencia ERA5 de Open-Meteo (1991–2020, cabecera). No se atribuye la diferencia a una causa. Falta una comparación bajo condiciones equivalentes y contraste con estaciones.
           </Pie>
         </Tarjeta>
       )}

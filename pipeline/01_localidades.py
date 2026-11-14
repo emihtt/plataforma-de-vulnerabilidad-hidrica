@@ -7,6 +7,7 @@ from __future__ import annotations
 import zipfile
 
 import pandas as pd
+from formulas import limites_almacenamiento
 
 from comun import (CRUDO, PUBLICO, descargar, escribir_json, gms_a_decimal, haversine_km, hoy,
                    parametros, registrar_fuente)
@@ -63,7 +64,9 @@ def calcular_indicadores(locs: pd.DataFrame) -> pd.DataFrame:
     locs["pct_sin_drenaje"] = locs["VPH_NODREN"] / den
     locs["pct_tinaco"] = locs["VPH_TINACO"] / den
     locs["pct_cisterna"] = locs["VPH_CISTER"] / den
-    locs["pct_sin_almacenamiento_max"] = 1 - locs[["VPH_TINACO", "VPH_CISTER"]].max(axis=1) / den
+    limites = [limites_almacenamiento(n, t, c) for n, t, c in zip(den, locs["VPH_TINACO"], locs["VPH_CISTER"])]
+    locs["pct_sin_almacenamiento_min"] = [v[0] if v else float("nan") for v in limites]
+    locs["pct_sin_almacenamiento_max"] = [v[1] if v else float("nan") for v in limites]
     locs["pct_hog_indigena"] = (locs["PHOG_IND"] / locs["POBHOG"]).clip(upper=1)
     cab = locs[locs["loc_num"] == 1].iloc[0]
     locs["dist_cabecera_km"] = [haversine_km(la, lo, cab["lat"], cab["lon"]) for la, lo in zip(locs["lat"], locs["lon"])]
@@ -115,6 +118,7 @@ def main() -> None:
                 "viv_tinaco": e(f["VPH_TINACO"]), "viv_cisterna": e(f["VPH_CISTER"]),
                 "pct_tinaco": r(f["pct_tinaco"]), "pct_cisterna": r(f["pct_cisterna"]),
                 "pct_sin_almacenamiento_max": r(f["pct_sin_almacenamiento_max"]),
+                "pct_sin_almacenamiento_min": r(f["pct_sin_almacenamiento_min"]),
                 "pob_hog_indigena": e(f["PHOG_IND"]), "pct_hog_indigena": r(f["pct_hog_indigena"]),
                 "hablantes_li": e(f["P3YM_HLI"]),
             })

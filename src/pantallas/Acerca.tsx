@@ -23,7 +23,7 @@ export default function Acerca() {
       {conQR && (
         <Tarjeta titulo="Abrir en otro celular">
           <img src={`${import.meta.env.BASE_URL}qr.png`} alt="Código QR con la dirección de esta página" width={200} height={200} className="mx-auto block" onError={() => setConQR(false)} />
-          <Pie>Escanea el código con la cámara. Después de la primera visita, la página abre sin conexión.</Pie>
+          <Pie>Este QR lleva al sitio publicado original, que puede diferir de la candidata local. Para mostrar esta demo usa el paquete local. El modo sin internet requiere servir los archivos incluidos; no basta con abrir el HTML con doble clic.</Pie>
         </Tarjeta>
       )}
       <Boton secundario onClick={() => ir('fuentes')} className="w-full">

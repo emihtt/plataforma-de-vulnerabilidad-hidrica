@@ -1,5 +1,6 @@
 // Tipos y carga de los archivos que genera el pipeline en public/data/.
 import { useEffect, useState } from 'react'
+import type { Hidricas } from './territorios'
 
 export type Componente =
   | 'sin_agua_entubada'
@@ -171,6 +172,7 @@ export interface PronosticoSMN {
 }
 
 export interface Datos {
+  hidricas: Hidricas | null
   localidades: Localidad[]
   resumen: Resumen
   presa: Presa | null
@@ -183,8 +185,10 @@ export interface Datos {
 export const rutaDatos = (archivo: string) => `${import.meta.env.BASE_URL}data/${archivo}`
 
 async function traer<T>(archivo: string, opcional = false): Promise<T | null> {
+  const control = new AbortController()
+  const limite = setTimeout(() => control.abort(), 12000)
   try {
-    const r = await fetch(rutaDatos(archivo))
+    const r = await fetch(rutaDatos(archivo), { signal: control.signal })
     if (!r.ok) throw new Error(`${archivo}: ${r.status}`)
     const tipo = r.headers.get('content-type') ?? ''
     if (opcional && tipo.includes('text/html')) return null // el servidor devolvió la página en lugar del archivo
@@ -192,7 +196,7 @@ async function traer<T>(archivo: string, opcional = false): Promise<T | null> {
   } catch (e) {
     if (opcional) return null
     throw e
-  }
+  } finally { clearTimeout(limite) }
 }
 
 interface GeoLocalidades {
@@ -200,7 +204,7 @@ interface GeoLocalidades {
 }
 
 export async function cargarDatos(): Promise<Datos> {
-  const [geo, resumen, presa, normales, fuentes, nacional, smn] = await Promise.all([
+  const [geo, resumen, presa, normales, fuentes, nacional, smn, hidricas] = await Promise.all([
     traer<GeoLocalidades>('localidades.geojson'),
     traer<Resumen>('resumen.json'),
     traer<Presa>('presa.json', true),
@@ -208,20 +212,23 @@ export async function cargarDatos(): Promise<Datos> {
     traer<Datos['fuentes']>('fuentes.json', true),
     traer<Nacional>('nacional.json', true),
     traer<PronosticoSMN>('pronostico_smn.json', true),
+    traer<Hidricas>('unidades_hidricas.json', true),
   ])
   const localidades = geo!.features.map((f) => ({
     ...f.properties,
     lon: f.geometry.coordinates[0],
     lat: f.geometry.coordinates[1],
   })) as Localidad[]
-  return { localidades, resumen: resumen!, presa, normales, fuentes, nacional, smn }
+  return { localidades, resumen: resumen!, presa, normales, fuentes, nacional, smn, hidricas }
 }
 
 export function useDatos() {
   const [datos, setDatos] = useState<Datos | null>(null)
   const [error, setError] = useState<string | null>(null)
   useEffect(() => {
-    cargarDatos().then(setDatos, (e) => setError(String(e)))
+    let activo = true
+    cargarDatos().then((d) => { if (activo) setDatos(d) }, (e) => { if (activo) setError(String(e)) })
+    return () => { activo = false }
   }, [])
   return { datos, error }
 }

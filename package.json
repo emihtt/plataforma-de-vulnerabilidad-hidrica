@@ -3,9 +3,11 @@
   "private": true,
   "version": "0.0.1",
   "type": "module",
+  "engines": { "node": ">=24.0.0" },
   "scripts": {
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
+    "build:pages": "tsc --noEmit && vite build --base=/plataforma-de-vulnerabilidad-hidrica/",
     "preview": "vite preview",
     "test": "vitest run"
   },

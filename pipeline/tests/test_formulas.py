@@ -14,7 +14,7 @@ sys.path.insert(0, str(PIPELINE))
 
 from comun import PUBLICO, gms_a_decimal, haversine_km, parametros  # noqa: E402
 from formulas import (balance_captacion, clases_por_quintil, indice_ponderado, meses_secos_consecutivos,  # noqa: E402
-                      rango_percentil, robustez, semaforo)
+                      rango_percentil, robustez, semaforo, limites_almacenamiento)
 
 
 def modulo(nombre: str):
@@ -29,6 +29,24 @@ def localidades():
     if not ruta.exists():
         pytest.skip("Falta localidades.geojson: corre el pipeline")
     return [f["properties"] for f in json.loads(ruta.read_text(encoding="utf-8"))["features"]]
+
+
+def test_almacenamiento_intervalo_y_cruces():
+    inferior, superior = limites_almacenamiento(100, 60, 30)
+    assert (inferior, superior) == pytest.approx((.1, .4))
+    for cruce in range(31):
+        assert inferior - 1e-12 <= (100 - 60 - 30 + cruce) / 100 <= superior + 1e-12
+    assert limites_almacenamiento(100, 80, 70) == pytest.approx((0, .2))
+    for valores in [(0, 0, 0), (100, None, 2), (100, 101, 0), (100, -1, 0), (float('nan'), 0, 0)]:
+        assert limites_almacenamiento(*valores) is None
+
+
+def test_almacenamiento_no_afirma_minimo_por_cota_superior():
+    candidato = modulo('07_aptitud').almacenamiento_candidato({'viv_caract': 436, 'viv_tinaco': 184, 'viv_cisterna': 140}, .5)
+    assert candidato['tipo'] == 'Verificar almacenamiento'
+    assert 'entre 26 % y 58 %' in candidato['razon']
+    assert 'no demuestra una carencia mínima' in candidato['razon']
+    assert all('Al menos' not in i['razon'] for p in localidades() for i in p.get('intervenciones', []))
 
 
 # 1. Coordenadas

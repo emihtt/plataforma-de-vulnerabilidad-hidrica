@@ -48,8 +48,11 @@ export function diaSemana(iso: string): string {
 }
 
 export function hoyISO(): string {
-  const h = new Date()
-  return `${h.getFullYear()}-${String(h.getMonth() + 1).padStart(2, '0')}-${String(h.getDate()).padStart(2, '0')}`
+  return fechaMexico(new Date())
+}
+
+export function fechaMexico(fecha: Date): string {
+  return new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Mexico_City', year: 'numeric', month: '2-digit', day: '2-digit' }).format(fecha)
 }
 
 export function plural(n: number, uno: string, varios: string): string {

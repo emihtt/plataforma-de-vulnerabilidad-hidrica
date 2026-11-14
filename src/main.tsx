@@ -1,13 +1,14 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import { registerSW } from 'virtual:pwa-register'
 import App from './App'
+import Actualizacion from './componentes/Actualizacion'
+import Recuperacion from './componentes/Recuperacion'
 import './index.css'
-
-registerSW({ immediate: true })
+import './demo.css'
+import './perfiles.css'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <App />
+    <Recuperacion><App /><Actualizacion /></Recuperacion>
   </StrictMode>,
 )

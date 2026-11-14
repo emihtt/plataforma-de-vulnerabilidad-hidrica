@@ -1,19 +1,47 @@
 # Plataforma de Agua · Laboratorio Valle de Bravo (versión 0)
 
-Aplicación web para celular que reúne datos públicos sobre el acceso al agua en las localidades del municipio de Valle de Bravo, Estado de México. Es un proyecto de Regenera Consultora.
+Aplicación web para computadora y celular que reúne datos públicos sobre el acceso al agua en las localidades del municipio de Valle de Bravo, Estado de México. Es un proyecto de Regenera Consultora.
 
-**Versión 0 · índices preliminares en validación.** Los índices, umbrales y supuestos son puntos de partida que un equipo especialista está revisando. No es una medición oficial.
+**Versión 0 · índices preliminares en validación.** Los índices, umbrales y supuestos son puntos de partida pendientes de revisión científica y comunitaria. No es una medición oficial.
+
+## Candidata con perfiles · mejoras propuestas
+
+- Cinco entradas agrupadas en gestión (organizaciones, financiadores y gobiernos) y consulta (comunidades y cuidado de cuenca). Son vistas locales; no cuentas ni permisos de servidor.
+- Localidades y unidades modeladas HydroBASINS en dos escalas: una regional y once de detalle que intersectan el piloto. No equivalen a delimitaciones oficiales mexicanas. Estadísticas únicamente de localidades de Valle de Bravo.
+- Variables graduales, comenzando con agua entubada; fichas territoriales imprimibles y agregaciones con denominadores válidos.
+- Proyectos locales con componentes, metas agregadas y aportes financieros separados. Tres ejemplos ficticios; capturas propias sin verificar. Persistencia en el navegador, respaldo/importación JSON y archivo reversible.
+- Seguimiento con indicadores definidos y mediciones fechadas. No se imputan faltantes ni se atribuye causalidad; metas y resultados permanecen separados.
+
+La guía de presentación es interna y se entrega aparte. Cambios, pruebas y pendientes en [docs/REVISION_DEMO.html](docs/REVISION_DEMO.html). Las instrucciones de publicación están en [docs/GITHUB_PAGES.md](docs/GITHUB_PAGES.md).
+
+La compilación incluye los datos y la licencia HydroSHEDS en `public/licencias/`. Los ZIP continentales se conservan fuera de Git y no se distribuyen como un producto de datos independiente. Para reconstruir únicamente estas unidades: `python pipeline/13_unidades_hidricas.py`. No hace falta regenerar el censo ni ejecutar el pipeline completo para abrir la candidata.
+
+Pruebas: `npm test`, `python -m pytest pipeline/tests -q`. Para el recorrido de navegador: servir `dist` por HTTP y ejecutar `python scripts/qa_perfiles.py http://127.0.0.1:4180/` con Playwright/Chromium instalados.
 
 ## Qué muestra
 
-- **Panorama:** cifras del municipio, nivel de la presa y semáforo de presa y lluvia.
+- **Panorama y perfiles:** introducción, línea base censal y acceso a experiencias de gestión y consulta.
 - **Mapa:** las localidades del Censo 2020, con su carencia de agua entubada, su prioridad, su potencial de captación de lluvia y su población en hogares indígenas.
 - **Ficha de localidad:** agua y saneamiento, vulnerabilidad, prioridad desglosada, captación de lluvia e intervenciones candidatas a evaluar.
 - **Prioridades:** lista ordenada con pesos que se pueden mover, ejercicio de presupuesto y exportación en CSV.
-- **Agua ahora:** presa, lluvia reciente frente a lo normal y pronóstico.
+- **Contexto hídrico:** registros históricos y manuales de presa, consulta externa de lluvia y pronóstico; comparación climática exploratoria por validar.
 - **Fuentes y límites:** cada fuente con su fecha, y cada supuesto a la vista.
 
-Después de la primera visita, la aplicación abre sin conexión.
+Después de una primera visita completa y de que se instale la caché PWA, los datos incluidos y las vistas abren sin conexión. La lluvia y el mapa de calles externos requieren internet. La aplicación avisa cuando hay una versión nueva y espera a que la persona decida recargar.
+
+## GitHub Pages
+
+La aplicación es estática: no necesita servidor de API ni claves. Usa rutas con `#` para que recargar una sección no produzca un 404 en Pages.
+
+```bash
+npm ci
+npm test
+npm run build:pages
+```
+
+Se publica únicamente `dist/`, con la base `/plataforma-de-vulnerabilidad-hidrica/`. El workflow `.github/workflows/validar-y-publicar.yml` comprueba código, datos y navegador en las propuestas; solo prepara publicaciones después de una ejecución exitosa en `main`.
+
+**Origen de publicación:** se conserva la rama `gh-pages` configurada por el dueño. CI valida `main` y genera el artefacto; `scripts/publicar_gh_pages.py` permite publicarlo con una cuenta autorizada. Si el dueño cambia el origen a GitHub Actions, el mismo workflow activa la publicación automática. Véase [la guía completa](docs/GITHUB_PAGES.md).
 
 ## Fuentes de datos
 
@@ -27,6 +55,7 @@ Después de la primera visita, la aplicación abre sin conexión.
 | Almacenamiento de la presa | Conagua (servicio de datos y notas de prensa que la citan) | Datos abiertos del Gobierno de México |
 | Pronóstico por municipio | Servicio Meteorológico Nacional (Conagua) | Datos abiertos del Gobierno de México |
 | Mapa base con conexión | OpenFreeMap, OpenMapTiles | Datos de OpenStreetMap |
+| Unidades hidrográficas modeladas | HydroBASINS v1c, niveles 6 y 12 (HydroSHEDS / WWF) | Términos incluidos en `public/licencias/` |
 
 Las instituciones aparecen como fuente de los datos. Ninguna participa en este proyecto ni lo avala.
 
@@ -43,7 +72,7 @@ El estado de cada fuente (cuál respondió, cuál se sustituyó por su respaldo)
 
 ## Cómo reproducir
 
-Requiere Node 20 o superior y Python 3.10 o superior.
+La versión se prueba con Node 24 LTS y Python 3.13. Se requiere Node 24 o superior; `.nvmrc` selecciona la misma versión principal que CI.
 
 ```bash
 # Datos
@@ -55,13 +84,13 @@ python pipeline/ejecutar.py --solo 04   # un solo paso
 pytest pipeline/tests -q
 
 # Aplicación
-npm install
+npm ci
 npm run dev
 npm test
 npm run build && npm run preview
 ```
 
-El pipeline descarga solo de las fuentes de la tabla, guarda lo crudo en `data/crudo/` (fuera del repositorio) y escribe en `public/data/` lo que consume la aplicación. Ninguna cifra de la interfaz está escrita a mano: todas salen de esos archivos.
+El pipeline descarga de las fuentes de la tabla, guarda lo crudo en `data/crudo/` (fuera del repositorio) y escribe en `public/data/` lo que consume la aplicación. La línea base proviene de esos archivos; la presa incluye registros manuales identificados por fuente. Los proyectos, metas, aportes y mediciones precargados son ejemplos ficticios rotulados; las capturas nuevas se almacenan localmente y no se confunden con el censo.
 
 Los pesos del índice, los umbrales y los supuestos de captación de lluvia están en [`config/parametros.yaml`](config/parametros.yaml). Cambiarlos y volver a correr el pipeline actualiza toda la aplicación. Las fórmulas están en `pipeline/formulas.py`, con sus pruebas en `pipeline/tests/`.
 
@@ -78,7 +107,7 @@ ESTADO_DATOS.md          bitácora de fuentes
 
 ## Privacidad
 
-Solo hay datos agregados por localidad. La aplicación no usa analítica de terceros ni recoge datos personales.
+La base territorial contiene datos agregados por localidad. Los proyectos nuevos se guardan en el navegador y en los respaldos que exporte la persona; no se envían a un servidor compartido. No hay cuentas ni registro individual de beneficiarios. La aplicación no usa analítica de terceros; las consultas opcionales de cartografía y meteorología contactan a sus proveedores.
 
 ## Licencia
 
