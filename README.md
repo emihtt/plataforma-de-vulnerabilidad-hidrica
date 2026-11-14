@@ -1,4 +1,4 @@
-# Plataforma de Agua · Laboratorio Valle de Bravo (versión 0)
+# Agua y territorio · Laboratorio Valle de Bravo (versión 0)
 
 Aplicación web para computadora y celular que reúne datos públicos sobre el acceso al agua en las localidades del municipio de Valle de Bravo, Estado de México. Es un proyecto de Regenera Consultora.
 
@@ -9,7 +9,7 @@ Aplicación web para computadora y celular que reúne datos públicos sobre el a
 - Cinco entradas agrupadas en gestión (organizaciones, financiadores y gobiernos) y consulta (comunidades y cuidado de cuenca). Son vistas locales; no cuentas ni permisos de servidor.
 - Localidades y unidades modeladas HydroBASINS en dos escalas: una regional y once de detalle que intersectan el piloto. No equivalen a delimitaciones oficiales mexicanas. Estadísticas únicamente de localidades de Valle de Bravo.
 - Variables graduales, comenzando con agua entubada; fichas territoriales imprimibles y agregaciones con denominadores válidos.
-- Proyectos locales con componentes, metas agregadas y aportes financieros separados. Tres ejemplos ficticios; capturas propias sin verificar. Persistencia en el navegador, respaldo/importación JSON y archivo reversible.
+- Proyectos locales con componentes, metas agregadas y aportes financieros separados. Tres ejemplos simulados; capturas propias sin verificar. Persistencia en el navegador, respaldo/importación JSON y archivo reversible.
 - Seguimiento con indicadores definidos y mediciones fechadas. No se imputan faltantes ni se atribuye causalidad; metas y resultados permanecen separados.
 
 La guía de presentación es interna y se entrega aparte. Cambios, pruebas y pendientes en [docs/REVISION_DEMO.html](docs/REVISION_DEMO.html). Las instrucciones de publicación están en [docs/GITHUB_PAGES.md](docs/GITHUB_PAGES.md).
@@ -90,7 +90,7 @@ npm test
 npm run build && npm run preview
 ```
 
-El pipeline descarga de las fuentes de la tabla, guarda lo crudo en `data/crudo/` (fuera del repositorio) y escribe en `public/data/` lo que consume la aplicación. La línea base proviene de esos archivos; la presa incluye registros manuales identificados por fuente. Los proyectos, metas, aportes y mediciones precargados son ejemplos ficticios rotulados; las capturas nuevas se almacenan localmente y no se confunden con el censo.
+El pipeline descarga de las fuentes de la tabla, guarda lo crudo en `data/crudo/` (fuera del repositorio) y escribe en `public/data/` lo que consume la aplicación. La línea base proviene de esos archivos; la presa incluye registros manuales identificados por fuente. Los proyectos, metas, aportes y mediciones precargados son simulaciones rotuladas; las capturas nuevas se almacenan localmente y no se confunden con el censo.
 
 Los pesos del índice, los umbrales y los supuestos de captación de lluvia están en [`config/parametros.yaml`](config/parametros.yaml). Cambiarlos y volver a correr el pipeline actualiza toda la aplicación. Las fórmulas están en `pipeline/formulas.py`, con sus pruebas en `pipeline/tests/`.
 

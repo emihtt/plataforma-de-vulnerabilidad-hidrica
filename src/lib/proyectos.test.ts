@@ -31,7 +31,7 @@ it('no crea una clase muy alta al haber una sola cuenca', () => {
   expect(r).toHaveLength(1); expect(r[0].clase).toBeNull()
   expect(rangos([0, 0, null, 1])).toEqual([1 / 3, 1 / 3, null, 5 / 6])
 })
-it('los tres ejemplos son ficticios y tienen territorios y relaciones válidas', () => {
+it('los tres ejemplos son simulaciones y tienen territorios y relaciones válidas', () => {
   const ejemplos = crearEjemplos(datos)
   expect(ejemplos).toHaveLength(3)
   ejemplos.forEach((p) => { expect(p.ejemplo).toBe(true); expect(() => validarProyecto(p)).not.toThrow() })
