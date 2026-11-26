@@ -93,6 +93,13 @@ def run(base):
         page.goto(base)
         expect(page).to_have_title(re.compile('Agua y territorio'))
         page.get_by_role('heading', name='Entender el agua empieza en el territorio.').wait_for()
+        page.get_by_role('link', name='Qué hacer si ves…').click()
+        expect(page.get_by_role('heading', name='Qué hacer si ves…')).to_be_visible()
+        expect(page.locator('main summary')).to_have_count(6)
+        expect(page.get_by_text('Información orientativa, no asesoría legal.', exact=True)).to_be_visible()
+        expect(page.get_by_text('Fecha de corte:', exact=False)).to_be_visible()
+        page.get_by_text('Descarga de aguas residuales', exact=True).click()
+        expect(page.get_by_text('Evidencia útil', exact=True).nth(1)).to_be_visible()
         assert context.request.get(urljoin(base, '/data/resumen.json')).status == 404
         assert context.request.get(base + '.nojekyll').status == 200
         manifest = context.request.get(base + 'manifest.webmanifest').json()
@@ -100,7 +107,7 @@ def run(base):
         assert urljoin(base, manifest['start_url']) == base
         for icon in manifest['icons']:
             assert context.request.get(urljoin(base, icon['src'])).status == 200
-        for route in ['perfiles', 'mapa', 'prioridades', 'proyectos', 'seguimiento', 'agua', 'fuentes', 'usos', 'acerca']:
+        for route in ['perfiles', 'mapa', 'prioridades', 'proyectos', 'seguimiento', 'agua', 'fuentes', 'usos', 'acerca', 'guia']:
             if route == 'agua':
                 assert not external_requests, external_requests
             page.goto(base + '#/' + route)
@@ -190,8 +197,14 @@ def run(base):
         page.reload()
         page.get_by_role('application', name='Mapa de microcuencas modeladas').wait_for()
         page.screenshot(path=str(OUT / 'pages-sin-internet.png'))
+        page.goto(base + '#/guia')
+        page.reload()
+        expect(page.get_by_role('heading', name='Qué hacer si ves…')).to_be_visible()
+        page.get_by_text('Fuga o falta de servicio de agua', exact=True).click()
+        expect(page.get_by_text('Evidencia útil', exact=True).last).to_be_visible()
+        page.screenshot(path=str(OUT / 'pages-guia-sin-internet.png'))
         context.set_offline(False)
-        REPORT['checks'].append('PWA bajo subdirectorio: mapa y recarga sin conexión')
+        REPORT['checks'].append('PWA bajo subdirectorio: mapa y guía se pueden recargar sin conexión')
         assert not REPORT['pageerrors'], REPORT['pageerrors']
         assert not REPORT['http_errors'], REPORT['http_errors']
         browser.close()

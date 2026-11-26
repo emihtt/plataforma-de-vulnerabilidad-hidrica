@@ -84,6 +84,11 @@ export default function Panorama() {
       <div><h2>Un punto de partida, con límites claros.</h2><p>Esta herramienta propone una prioridad <strong>relativa</strong> entre localidades a partir de datos públicos. Ayuda a preparar preguntas y conversaciones; requiere validación con las comunidades antes de orientar decisiones reales.</p><button type="button" className="text-action" onClick={() => ir('fuentes')}>Consultar fuentes, supuestos y límites →</button></div>
       <dl className="maturity-list"><div><dt>Disponible</dt><dd>Mapa y datos públicos de Valle de Bravo</dd></div><div><dt>Demo local</dt><dd>Perfiles y proyectos simulados con seguimiento</dd></div><div><dt>Prototipo</dt><dd>Priorización y simulación de captación</dd></div><div><dt>A futuro</dt><dd>Observatorio ciudadano del agua para México</dd></div></dl>
     </section>
+    <section className="mx-4 my-5 rounded-xl border border-borde bg-white p-4 sm:p-6" aria-labelledby="guia-en-panorama">
+      <h2 id="guia-en-panorama" className="m-0 text-xl font-extrabold">¿Viste algo que afecta al agua?</h2>
+      <p className="my-2 text-gris">Identifica la situación y revisa qué información puede ser útil sin ponerte en riesgo.</p>
+      <a className="text-action inline-block" href="#/guia">Qué hacer si ves… <span aria-hidden>→</span></a>
+    </section>
     <footer className="site-footer"><span>Agua y territorio · Regenera Consultora</span><button type="button" onClick={() => ir('acerca')}>Acerca del proyecto ↗</button></footer>
   </div>
 }
