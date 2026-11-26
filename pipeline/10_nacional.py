@@ -59,7 +59,9 @@ def main() -> None:
                         "personas_est": round(float(g["pers"].sum()))})
     resto_v = viv - int(con_dato["VPH_AGUAFV"].sum())
     por_tam.append({"tamano": "Localidades de una y dos viviendas (el censo solo publica el agregado)", "localidades": None,
-                    "viviendas": resto_v, "personas_est": round(pers - float(con_dato["pers"].sum()))})
+                    # Las personas de este grupo no se estiman: restar dos estimaciones hechas con
+                    # promedios distintos (por entidad y por localidad) da un número sin sentido.
+                    "viviendas": resto_v, "personas_est": None})
     mitad = con_dato[con_dato["VPH_AGUAFV"] / con_dato["VIVPARH_CV"] >= 0.5]
     por_ent = [{"entidad": r["NOM_ENT"].strip(), "viviendas": int(r["VPH_AGUAFV"]), "personas_est": round(float(r["pers"]))}
                for _, r in estados.sort_values("VPH_AGUAFV", ascending=False).iterrows()]

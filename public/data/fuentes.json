@@ -1,5 +1,5 @@
 {
- "generado": "2026-11-13",
+ "generado": "2026-11-26",
  "fuentes": {
   "censo_iter": {
    "nombre": "Censo de Población y Vivienda 2020. Principales resultados por localidad (ITER), Estado de México",
@@ -49,26 +49,26 @@
    "nota": "Modelo en malla de 1 km, no una estación local. 62 puntos para 66 localidades (las que comparten coordenada redondeada a 0.01° usan la misma serie). Años de 365 días."
   },
   "conagua_presas": {
-   "nombre": "Almacenamiento diario de las principales presas (Sistema Nacional de Información del Agua)",
-   "institucion": "Conagua",
-   "url": "https://sinav30.conagua.gob.mx:8080/",
-   "fecha_dato": "2023-01-02 a 2025-04-21",
-   "fecha_descarga": "2026-11-13",
+   "nombre": "Almacenamiento en presas del Sistema Cutzamala, reportes diarios por mes",
+   "institucion": "Conagua, Organismo de Cuenca Aguas del Valle de México",
+   "url": "https://www.gob.mx/conagua/documentos/almacenamiento-en-presas-del-sistema-cutzamala",
+   "fecha_dato": "2019-01-07 a 2026-11-24",
+   "fecha_descarga": "2026-11-26",
    "licencia": "Datos abiertos del Gobierno de México",
-   "estado": "respaldo",
-   "usada_en": "Serie histórica del llenado de la presa",
-   "nota": "El servicio devolvió datos hasta 2025-04-21; para fechas posteriores responde vacío. 120 cortes semanales. El porcentaje es almacenamiento entre capacidad al nivel de aguas máximas ordinarias."
+   "estado": "ok",
+   "usada_en": "Serie y último registro del llenado de la presa; semáforo de presa",
+   "nota": "2,670 días leídos de los reportes en PDF; en pantalla, un corte por semana (lunes) y el último día publicado. El porcentaje es almacenamiento entre capacidad (394.39 millones de m³). Cada fila se acepta solo si almacenamiento y porcentaje son consistentes con esa capacidad. Meses sin reporte legible: 2020-06, 2020-08, 2021-08, 2022-09, 2026-03. En 1 días dos reportes dan valores distintos; se usa el publicado después."
   },
   "presa_semilla": {
-   "nombre": "Nivel de la presa capturado a mano de notas de prensa que citan a Conagua",
-   "institucion": "Conagua, citada por medios (cada corte conserva su nota de origen)",
-   "url": "https://edomex.quadratin.com.mx/alcanzan-presas-del-sistema-cutzamala-casi-el-96-de-su-capacidad/",
-   "fecha_dato": "2026-11-05",
-   "fecha_descarga": "2026-11-13",
-   "licencia": "Cita de notas periodísticas",
-   "estado": "respaldo",
-   "usada_en": "Último dato de la presa y cortes recientes",
-   "nota": "5 cortes capturados a mano. No se interpola entre cortes."
+   "nombre": "Cortes de la presa capturados a mano (respaldo)",
+   "institucion": "Conagua, reportes diarios; capturados a mano",
+   "url": "https://www.gob.mx/conagua/documentos/almacenamiento-en-presas-del-sistema-cutzamala",
+   "fecha_dato": "2026-11-24",
+   "fecha_descarga": "2026-11-26",
+   "licencia": "Datos abiertos del Gobierno de México",
+   "estado": "ok",
+   "usada_en": "Solo si los reportes de Conagua no pueden leerse",
+   "nota": "No se usó en esta corrida: todos los datos vienen de los reportes oficiales."
   },
   "openmeteo": {
    "nombre": "Open-Meteo: archivo histórico (normales 1991–2020), lluvia reciente y pronóstico",
@@ -87,7 +87,7 @@
    "url": "https://www.inegi.org.mx/app/scitel/default?ev=9",
    "descarga": "https://www.inegi.org.mx/contenidos/programas/ccpv/iter/zip/iter2020/iter_nalcsv20.zip",
    "fecha_dato": "2020",
-   "fecha_descarga": "2026-11-13",
+   "fecha_descarga": "2026-11-26",
    "licencia": "Términos de libre uso del INEGI",
    "estado": "ok",
    "usada_en": "Usos y escala: población potencial nacional",

@@ -52,7 +52,7 @@ Se publica únicamente `dist/`, con la base `/plataforma-de-vulnerabilidad-hidri
 | Límite municipal, agua, ríos, caminos | © colaboradores de OpenStreetMap | ODbL |
 | Lluvia diaria por localidad | Daymet versión 4 (ORNL DAAC, NASA) | Datos abiertos |
 | Lluvia reciente, normales y pronóstico | Open-Meteo | CC BY 4.0; uso gratuito no comercial |
-| Almacenamiento de la presa | Conagua (servicio de datos y notas de prensa que la citan) | Datos abiertos del Gobierno de México |
+| Almacenamiento de la presa | Conagua, reporte diario de almacenamiento del Sistema Cutzamala | Datos abiertos del Gobierno de México |
 | Pronóstico por municipio | Servicio Meteorológico Nacional (Conagua) | Datos abiertos del Gobierno de México |
 | Mapa base con conexión | OpenFreeMap, OpenMapTiles | Datos de OpenStreetMap |
 | Unidades hidrográficas modeladas | HydroBASINS v1c, niveles 6 y 12 (HydroSHEDS / WWF) | Términos incluidos en `public/licencias/` |
@@ -111,7 +111,11 @@ La base territorial contiene datos agregados por localidad. Los proyectos nuevos
 
 ## Licencia
 
-La licencia del código está por definirse. Los datos conservan la licencia de su fuente.
+- **Código:** abierto, con licencia Apache 2.0. Véase [`LICENSE`](LICENSE) y [`NOTICE`](NOTICE).
+- **Datos, textos y notas de método elaborados por Regenera Consultora:** Creative Commons Atribución 4.0 Internacional (CC BY 4.0).
+- **Datos y capas de otras fuentes:** conservan la licencia de su fuente y llevan su crédito.
+
+El detalle, fuente por fuente, está en [`LICENCIA_DATOS.md`](LICENCIA_DATOS.md).
 
 ## Contacto
 

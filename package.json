@@ -1,6 +1,7 @@
 {
   "name": "plataforma-agua",
   "private": true,
+  "license": "Apache-2.0",
   "version": "0.0.1",
   "type": "module",
   "engines": { "node": ">=24.0.0" },

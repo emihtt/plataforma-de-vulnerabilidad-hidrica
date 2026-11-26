@@ -11,14 +11,14 @@ const FASES = [
   ['Después del evento', 'Recoger preguntas de quienes vean la demo; corregir la candidata y acordar el alcance del piloto.', 'Depende de: revisión del equipo, responsables y prioridades. Esfuerzo y recursos por estimar.'],
   ['Validación científica y con comunidades', 'Revisar universos censales y cruces, sensibilidad del índice, lluvia comparable y balance de captación. Contrastar necesidades y datos actuales con las comunidades.', 'Depende de: participación y consentimiento, especialistas, estaciones y datos públicos con permisos claros. Sin compromisos de terceros.'],
   ['Nuevos módulos, uno por uno', 'Evaluar cuencas, ríos y lagos, sequía, precipitación, salud ecosistémica, conservación, restauración y derecho al agua. Publicar solo lo que se pueda validar y mantener.', 'Depende de: pregunta de uso, fuente y licencia, metodología, pruebas y responsable de actualización para cada módulo.'],
-  ['Cobertura nacional y sostenibilidad', 'Probar el método en otros territorios antes de escalar hacia un observatorio ciudadano del agua para México.', 'Depende de: comparabilidad entre territorios, gobernanza, accesibilidad, operación, mantenimiento y un modelo de financiamiento por definir. Sin presupuesto ni alianzas asegurados.'],
+  ['Cobertura nacional y sostenibilidad', 'Probar el método en otros territorios antes de escalar hacia una red pública de información del agua para México.', 'Depende de: comparabilidad entre territorios, gobernanza, accesibilidad, operación, mantenimiento y un modelo de financiamiento por definir. Sin presupuesto ni alianzas asegurados.'],
 ]
 
 export default function Usos() {
   const { ir, iniciarRecorrido } = useEstado()
   return <div className="space-y-3 p-4">
     <h1>Un piloto local. Una visión compartida.</h1>
-    <p className="page-lead">Valle de Bravo es el primer territorio de prueba. La visión es construir un observatorio ciudadano del agua para México, con información útil para comunidades, organizaciones y gobiernos.</p>
+    <p className="page-lead">Valle de Bravo es el primer territorio de prueba. La visión es construir una red pública de información del agua para México, con información útil para comunidades, organizaciones y gobiernos.</p>
     <Tarjeta titulo="Qué existe hoy y qué está por construir">
       <dl className="maturity-list"><div><dt>Disponible</dt><dd>Datos censales, mapa, fuentes y fichas del piloto.</dd></div><div><dt>Demo local</dt><dd>Perfiles, proyectos, aportes y seguimiento con ejemplos simulados. Unidades hidrográficas modeladas incluidas.</dd></div><div><dt>Prototipo</dt><dd>Prioridad relativa, agregaciones territoriales y captación histórica; requieren validación.</dd></div><div><dt>Planeado</dt><dd>Cuentas compartidas, verificación de proyectos, cartografía oficial validada y cobertura nacional.</dd></div></dl>
     </Tarjeta>

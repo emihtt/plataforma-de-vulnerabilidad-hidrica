@@ -2,6 +2,7 @@ import { useMemo } from 'react'
 import { Bar, BarChart, CartesianGrid, Cell, Line, LineChart, ReferenceLine, ResponsiveContainer, XAxis, YAxis } from 'recharts'
 import { Aviso, Pie, Semaforo, Supuesto, Tarjeta } from '../componentes/ui'
 import { useEstado } from '../lib/contexto'
+import type { PuntoPresa } from '../lib/datos'
 import { MESES_CORTOS, dec, diaSemana, fechaCorta, fechaLarga, hoyISO, num } from '../lib/formato'
 import { senal } from '../lib/lluvia'
 
@@ -12,6 +13,19 @@ function aTiempo(iso: string): number {
   return Date.UTC(a, m - 1, d)
 }
 
+/** Serie para la gráfica. Si entre dos cortes pasan más de tres semanas (mes sin reporte), se inserta un hueco para que la línea no los una. */
+function conCortes(serie: PuntoPresa[]) {
+  const salida: { t: number; oficial: number | null; semilla: number | null }[] = []
+  let previo: number | null = null
+  for (const p of serie) {
+    const t = aTiempo(p.fecha)
+    if (previo !== null && t - previo > 21 * 86_400_000) salida.push({ t: previo + 86_400_000, oficial: null, semilla: null })
+    salida.push({ t, oficial: p.origen === 'semilla' ? null : p.porcentaje, semilla: p.origen === 'semilla' ? p.porcentaje : null })
+    previo = t
+  }
+  return salida
+}
+
 export default function AguaAhora() {
   const { datos, lluvia } = useEstado()
   const { presa, smn, resumen, normales } = datos
@@ -19,7 +33,7 @@ export default function AguaAhora() {
   const r = lluvia.resumen
   const ultimo = presa?.serie[presa.serie.length - 1]
 
-  const seriePresa = useMemo(() => (presa ? presa.serie.map((p) => ({ t: aTiempo(p.fecha), servicio: p.origen === 'servicio' ? p.porcentaje : null, semilla: p.origen === 'semilla' ? p.porcentaje : null })) : []), [presa])
+  const seriePresa = useMemo(() => (presa ? conCortes(presa.serie) : []), [presa])
   const anios = useMemo(() => {
     if (!seriePresa.length) return []
     const a0 = new Date(seriePresa[0].t).getUTCFullYear()
@@ -55,10 +69,10 @@ export default function AguaAhora() {
             </div>
             {ultimo.origen === 'semilla' && (
               <div className="mt-2">
-                <Aviso>Último dato capturado a mano de una nota de prensa que cita a Conagua ({ultimo.fuente}).</Aviso>
+                <Aviso>No se pudieron leer los reportes de Conagua: se muestra el último corte del archivo de respaldo, copiado de esos mismos reportes.</Aviso>
               </div>
             )}
-            <div className="mt-3 h-48" role="img" aria-label="Serie del porcentaje de llenado de la presa desde 2023">
+            <div className="mt-3 h-48" role="img" aria-label={`Serie del porcentaje de llenado de la presa desde ${(presa.desde ?? presa.serie[0].fecha).slice(0, 4)}`}>
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={seriePresa} margin={{ top: 10, right: 10, bottom: 0, left: 0 }}>
                   <CartesianGrid stroke="#DADDE0" vertical={false} />
@@ -66,15 +80,19 @@ export default function AguaAhora() {
                   <YAxis domain={[0, 100]} ticks={[0, 25, 50, 75, 100]} tick={eje} tickLine={false} axisLine={false} tickFormatter={(v: number) => `${v} %`} width={54} />
                   <ReferenceLine y={u.presa_verde_desde} stroke="#9896A4" strokeDasharray="3 3" />
                   <ReferenceLine y={u.presa_amarillo_desde} stroke="#9896A4" strokeDasharray="3 3" />
-                  <Line dataKey="servicio" stroke="#008B7B" strokeWidth={2} dot={false} isAnimationActive={false} />
+                  <Line dataKey="oficial" stroke="#008B7B" strokeWidth={2} dot={false} connectNulls={false} isAnimationActive={false} />
                   <Line dataKey="semilla" stroke="none" isAnimationActive={false} dot={{ r: 4, fill: '#fff', stroke: '#1A1A1A', strokeWidth: 2 }} />
                 </LineChart>
               </ResponsiveContainer>
             </div>
             <Pie>
-              Línea: servicio de datos de Conagua, un corte por semana hasta el {fechaCorta(presa.ultima_fecha_servicio)}. Círculos: cortes capturados a mano de
-              notas que citan a Conagua; entre ellos no hay datos y no se interpola. Líneas punteadas: umbrales del semáforo ({u.presa_amarillo_desde} y{' '}
-              {u.presa_verde_desde} %) <Supuesto />. Presa llena no significa agua en todas las casas.
+              Fuente: {presa.fuente?.institucion ?? 'Conagua'},{' '}
+              <a className="font-bold text-verde-texto" href={presa.fuente?.url ?? 'https://www.gob.mx/conagua'} target="_blank" rel="noreferrer">
+                reporte diario de almacenamiento en presas del Sistema Cutzamala
+              </a>
+              . Se muestra un corte por semana y el último día publicado. Donde falta un mes en los reportes, la línea se interrumpe: no se interpola.
+              Líneas punteadas: umbrales del semáforo ({u.presa_amarillo_desde} y {u.presa_verde_desde} %) <Supuesto />. Presa llena no significa agua en
+              todas las casas.
             </Pie>
           </>
         ) : (
