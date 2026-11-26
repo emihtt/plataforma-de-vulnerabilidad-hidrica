@@ -15,6 +15,11 @@ export default function Acerca() {
         </p>
         <p className="mt-3 mb-0">Queremos que decidir dónde y cómo garantizar agua sea más fácil y más justo, y que después se pueda saber si funcionó.</p>
         <p className="mt-3 mb-0">
+          <strong>Uso de inteligencia artificial.</strong> Parte del código y de los textos de este prototipo se elaboró con apoyo de asistentes de
+          inteligencia artificial generativa. Las cifras no las genera ninguna inteligencia artificial: provienen de las fuentes públicas citadas en
+          «Fuentes y límites», y los proyectos de ejemplo son simulaciones rotuladas como tales.
+        </p>
+        <p className="mt-3 mb-0">
           <a className="font-extrabold text-verde-texto" href="mailto:contacto@regeneraconsultora.com.mx">
             contacto@regeneraconsultora.com.mx
           </a>

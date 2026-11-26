@@ -47,7 +47,7 @@ export default function Panorama() {
       <Territorio />
     </section>
     <section className="stat-band" aria-label="Línea base censal">
-      <div><strong className="cifra">{num(c.viv_sin_agua)}</strong><span>viviendas sin agua entubada</span><small>En localidades con datos de servicios · INEGI 2020</small></div>
+      <div><strong className="cifra">{num(c.viv_sin_agua)}</strong><span>viviendas sin agua entubada</span><small>Rezago en acceso a agua entubada (Censo 2020) · INEGI, localidades con datos de servicios</small></div>
       <div><strong className="cifra">{num(c.localidades_con_datos)} <em>de</em> {num(c.localidades_total)}</strong><span>localidades con datos de servicios</span><small>{num(c.localidades_enmascaradas)} sin información por confidencialidad</small></div>
       <div><strong className="cifra">2020</strong><span>año de la información censal</span><small>Una línea base para contrastar con la realidad actual</small></div>
     </section>
@@ -60,7 +60,7 @@ export default function Panorama() {
         </p>
         <Pie>
           Personas: <Estimacion /> viviendas sin agua entubada por el promedio de ocupantes de cada localidad.
-          {ultimo?.origen === 'semilla' && ' Presa: último dato capturado a mano de una nota que cita a Conagua.'} No hay datos de servicios para{' '}
+          {' '}Presa: Conagua, reporte diario de almacenamiento del Sistema Cutzamala. No hay datos de servicios para{' '}
           {num(c.localidades_enmascaradas)} {plural(c.localidades_enmascaradas, 'localidad', 'localidades')} de una o dos viviendas, donde viven {num(c.pob_localidades_enmascaradas)} personas.
         </Pie>
       </Tarjeta>

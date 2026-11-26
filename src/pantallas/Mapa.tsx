@@ -31,7 +31,7 @@ const CAPAS: Record<Capa, DefCapa> = {
   },
   agua: {
     nombre: 'Carencia de agua',
-    titulo: 'Viviendas sin agua entubada',
+    titulo: 'Rezago en acceso a agua entubada (Censo 2020)',
     clases: ['0 %', 'Hasta 5 %', '5 a 15 %', '15 a 30 %', 'Más de 30 %'],
     fuente: 'INEGI, Censo 2020',
   },

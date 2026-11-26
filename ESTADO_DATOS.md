@@ -35,14 +35,14 @@ Prueba de fuentes del 2026-11-13 (una solicitud pequeña por fuente, límite de 
 ### Lluvia por localidad (Daymet)
 2026-11-13. 62 puntos descargados para 66 localidades, periodo 2004–2023. No se usó el respaldo de Open-Meteo.
 
-### Presa Valle de Bravo (Conagua)
-2026-11-13. El servicio de Conagua respondió, pero solo trae datos hasta 2025-04-21; para fechas recientes devuelve una lista vacía. Se usan 120 cortes semanales del servicio y 5 cortes de la semilla capturada a mano. El último dato (2026-11-05, 98.87 %) viene de la semilla: en pantalla dice «último dato capturado a mano». El Sistema de Información Hidrológica respondió a la prueba, pero no se exploró como vía alterna.
-
-### ITER nacional (INEGI)
-2026-11-13. Descargado. Viviendas sin agua entubada: 1,215,497; personas estimadas: 4,412,978; localidades con la mitad o más de sus viviendas sin agua entubada: 17,766. Diferencia con la cifra difundida: +1.3% en viviendas y -4.1% en personas (tolerancia 10 %).
-
 ### Pronóstico oficial (Servicio Meteorológico Nacional)
 2026-11-13. Respondió. Emisión del 2026-11-13, 4 días para Valle de Bravo (clave de municipio 110). Campos leídos del archivo: tmax, tmin, prec, probprec, desciel.
 
 ### Diferencia entre mallas de lluvia
 2026-11-13. Open-Meteo (reanálisis ERA5) da 1,670 mm al año en un punto de la cabecera (1991–2020); Daymet da en promedio 840 mm al año en las localidades (2004–2023). Cambian producto, periodo y área de muestreo: esta comparación heterogénea no permite atribuir la diferencia a una causa. La captación mantiene Daymet como simulación exploratoria; la relación entre lluvia reciente y normal de Open-Meteo también requiere comprobar equivalencia de productos. Pendiente: comparar áreas y periodos iguales, revisar unidades y contrastar con estaciones antes de seleccionar una fuente para decisiones reales.
+
+### ITER nacional (INEGI)
+2026-11-26. Descargado. Viviendas sin agua entubada: 1,215,497; personas estimadas: 4,412,978; localidades con la mitad o más de sus viviendas sin agua entubada: 17,766. Diferencia con la cifra difundida: +1.3% en viviendas y -4.1% en personas (tolerancia 10 %).
+
+### Presa Valle de Bravo (Conagua)
+2026-11-26. Fuente principal: reportes diarios del Organismo de Cuenca Aguas del Valle de México (https://www.gob.mx/conagua/documentos/almacenamiento-en-presas-del-sistema-cutzamala). Se leyeron 2,670 días entre 2019-01-01 y 2026-11-24; la serie publicada tiene 381 cortes de esos reportes, 0 del servicio SINA y 0 de la semilla. Último registro: 2026-11-24, 98.76 % (reporte). Meses sin reporte legible: 2020-06, 2020-08, 2021-08, 2022-09, 2026-03. Días con valores distintos entre dos reportes: 1. Mes tomado del nombre del archivo porque la página no lo trae como texto: 2017-09, 2018-09, 2019-09. Ya no se usan notas de prensa. Sin avisos de lectura.

@@ -120,7 +120,8 @@ export interface PuntoPresa {
   fecha: string
   porcentaje: number
   almacenamiento_mm3: number | null
-  origen: 'servicio' | 'semilla'
+  /** reporte: reporte diario de Conagua; servicio y semilla son respaldos */
+  origen: 'reporte' | 'servicio' | 'semilla'
   fuente?: string
   url?: string
   nota?: string | null
@@ -128,9 +129,10 @@ export interface PuntoPresa {
 
 export interface Presa {
   capacidad_mm3: number | null
-  origen: 'servicio' | 'semilla'
+  origen: 'reporte' | 'servicio' | 'semilla'
   ultima_actualizacion: string
-  ultima_fecha_servicio: string | null
+  desde?: string
+  fuente?: { institucion: string; nombre: string; url: string; url_ultimo_reporte: string | null }
   serie: PuntoPresa[]
 }
 
