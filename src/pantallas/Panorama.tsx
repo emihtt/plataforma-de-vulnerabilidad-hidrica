@@ -86,7 +86,7 @@ export default function Panorama() {
     </section>
     <section className="mx-4 my-5 rounded-xl border border-borde bg-white p-4 sm:p-6" aria-labelledby="guia-en-panorama">
       <h2 id="guia-en-panorama" className="m-0 text-xl font-extrabold">¿Viste algo que afecta al agua?</h2>
-      <p className="my-2 text-gris">Identifica la situación y revisa qué información puede ser útil sin ponerte en riesgo.</p>
+      <p className="my-2 text-gris">Identifica la situación, a qué autoridad le toca y cómo contactarla, sin ponerte en riesgo.</p>
       <a className="text-action inline-block" href="#/guia">Qué hacer si ves… <span aria-hidden>→</span></a>
     </section>
     <footer className="site-footer"><span>Agua y territorio · Regenera Consultora</span><button type="button" onClick={() => ir('acerca')}>Acerca del proyecto ↗</button></footer>

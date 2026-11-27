@@ -100,6 +100,9 @@ def run(base):
         expect(page.get_by_text('Fecha de corte:', exact=False)).to_be_visible()
         page.get_by_text('Descarga de aguas residuales', exact=True).click()
         expect(page.get_by_text('Evidencia útil', exact=True).nth(1)).to_be_visible()
+        expect(page.locator('main a[href="https://app.conagua.gob.mx/podan/"]').first).to_have_attribute('target', '_blank')
+        expect(page.locator('main details[open] a[href^="tel:"]').first).to_be_visible()
+        expect(page.get_by_text('VERIFICAR', exact=False)).to_have_count(0)
         assert context.request.get(urljoin(base, '/data/resumen.json')).status == 404
         assert context.request.get(base + '.nojekyll').status == 200
         manifest = context.request.get(base + 'manifest.webmanifest').json()
@@ -200,7 +203,7 @@ def run(base):
         page.goto(base + '#/guia')
         page.reload()
         expect(page.get_by_role('heading', name='Qué hacer si ves…')).to_be_visible()
-        page.get_by_text('Fuga o falta de servicio de agua', exact=True).click()
+        page.get_by_text('Fuga o falta de agua', exact=True).click()
         expect(page.get_by_text('Evidencia útil', exact=True).last).to_be_visible()
         page.screenshot(path=str(OUT / 'pages-guia-sin-internet.png'))
         context.set_offline(False)
