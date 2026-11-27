@@ -44,7 +44,7 @@ def descargar(url: str, destino: Path, timeout: int = 120, reintentos: int = 2,
     ultimo = None
     for intento in range(reintentos + 1):
         try:
-            with requests.get(url, headers=AGENTE, timeout=timeout, stream=True,
+            with requests.get(url, headers={**AGENTE, **(kwargs.pop("headers", None) or {})}, timeout=timeout, stream=True,
                               verify=verificar_ssl, **kwargs) as r:
                 r.raise_for_status()
                 tmp = destino.with_suffix(destino.suffix + ".parcial")

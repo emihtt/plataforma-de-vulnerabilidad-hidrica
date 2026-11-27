@@ -47,7 +47,7 @@ export default function Panorama() {
       <Territorio />
     </section>
     <section className="stat-band" aria-label="Línea base censal">
-      <div><strong className="cifra">{num(c.viv_sin_agua)}</strong><span>viviendas sin agua entubada</span><small>En localidades con datos de servicios · INEGI 2020</small></div>
+      <div><strong className="cifra">{num(c.viv_sin_agua)}</strong><span>viviendas sin agua entubada</span><small>Rezago en acceso a agua entubada (Censo 2020) · INEGI, localidades con datos de servicios</small></div>
       <div><strong className="cifra">{num(c.localidades_con_datos)} <em>de</em> {num(c.localidades_total)}</strong><span>localidades con datos de servicios</span><small>{num(c.localidades_enmascaradas)} sin información por confidencialidad</small></div>
       <div><strong className="cifra">2020</strong><span>año de la información censal</span><small>Una línea base para contrastar con la realidad actual</small></div>
     </section>
@@ -60,7 +60,7 @@ export default function Panorama() {
         </p>
         <Pie>
           Personas: <Estimacion /> viviendas sin agua entubada por el promedio de ocupantes de cada localidad.
-          {ultimo?.origen === 'semilla' && ' Presa: último dato capturado a mano de una nota que cita a Conagua.'} No hay datos de servicios para{' '}
+          {' '}Presa: Conagua, reporte diario de almacenamiento del Sistema Cutzamala. No hay datos de servicios para{' '}
           {num(c.localidades_enmascaradas)} {plural(c.localidades_enmascaradas, 'localidad', 'localidades')} de una o dos viviendas, donde viven {num(c.pob_localidades_enmascaradas)} personas.
         </Pie>
       </Tarjeta>
@@ -82,7 +82,7 @@ export default function Panorama() {
     </section>
     <section className="honest-intro">
       <div><h2>Un punto de partida, con límites claros.</h2><p>Esta herramienta propone una prioridad <strong>relativa</strong> entre localidades a partir de datos públicos. Ayuda a preparar preguntas y conversaciones; requiere validación con las comunidades antes de orientar decisiones reales.</p><button type="button" className="text-action" onClick={() => ir('fuentes')}>Consultar fuentes, supuestos y límites →</button></div>
-      <dl className="maturity-list"><div><dt>Disponible</dt><dd>Mapa y datos públicos de Valle de Bravo</dd></div><div><dt>Demo local</dt><dd>Perfiles y proyectos simulados con seguimiento</dd></div><div><dt>Prototipo</dt><dd>Priorización y simulación de captación</dd></div><div><dt>A futuro</dt><dd>Observatorio ciudadano del agua para México</dd></div></dl>
+      <dl className="maturity-list"><div><dt>Disponible</dt><dd>Mapa y datos públicos de Valle de Bravo</dd></div><div><dt>Demo local</dt><dd>Perfiles y proyectos simulados con seguimiento</dd></div><div><dt>Prototipo</dt><dd>Priorización y simulación de captación</dd></div><div><dt>A futuro</dt><dd>Red pública de información del agua para México</dd></div></dl>
     </section>
     <section className="mx-4 my-5 rounded-xl border border-borde bg-white p-4 sm:p-6" aria-labelledby="guia-en-panorama">
       <h2 id="guia-en-panorama" className="m-0 text-xl font-extrabold">¿Viste algo que afecta al agua?</h2>

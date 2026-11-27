@@ -1,5 +1,5 @@
 {
- "generado": "2026-11-13",
+ "generado": "2026-11-26",
  "fuente": "INEGI. Censo de Población y Vivienda 2020. Principales resultados por localidad (ITER), nacional",
  "viviendas_sin_agua": 1215497,
  "personas_est": 4412978,
@@ -35,7 +35,7 @@
    "tamano": "Localidades de una y dos viviendas (el censo solo publica el agregado)",
    "localidades": null,
    "viviendas": 26194,
-   "personas_est": -156061
+   "personas_est": null
   }
  ],
  "por_entidad": [
