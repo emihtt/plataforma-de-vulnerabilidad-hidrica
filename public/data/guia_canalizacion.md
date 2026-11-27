@@ -1,13 +1,13 @@
 # Qué hacer si ves…
 
 > **Información orientativa, no asesoría legal.** Esta guía te dice a qué autoridad le toca cada situación y cómo contactarla. La plataforma no recibe denuncias ni las publica.
-> **Fecha de corte:** 26 de noviembre de 2026. Los enlaces se abrieron y funcionaban ese día.
+> **Fecha de corte:** 27 de noviembre de 2026. Los enlaces se abrieron y funcionaban ese día.
 
 ## Antes de empezar
 
 - **Describe lo que ves, no a quién culpas.** La autoridad es quien revisa si había permiso. Si no sabes si existe, dilo así: «no sé si cuenta con autorización».
 - **Cuida tu seguridad.** No entres a terrenos privados, no confrontes a nadie, no vayas sin compañía ni de noche. Si ves personas armadas o un peligro inmediato, aléjate y llama al 911.
-- **Ninguna vía es anónima ante la autoridad.** PROFEPA pide nombre, domicilio y teléfono, y los confirma para dar seguimiento. Puedes pedir que se guarde en secreto tu identidad. [VERIFICAR: art. 190 de la LGEEPA, no leído en su fuente hoy]
+- **Ninguna vía es anónima ante la autoridad.** PROFEPA pide nombre, domicilio y teléfono si lo tienes, y los confirma para dar seguimiento. Puedes pedir que se guarde en secreto tu identidad (Ley General del Equilibrio Ecológico y la Protección al Ambiente, artículo 190).
 - **Tus fotos guardan la ubicación y la hora.** Eso sirve en un reporte a la autoridad, pero si publicas la foto en redes sociales, otras personas pueden saber desde dónde la tomaste. No fotografíes rostros ni placas para publicarlos.
 - **Si crees que el caso debe investigarse penalmente,** la Fiscalía General de la República (FGR) orienta y canaliza en su Centro de Atención Ciudadana: <https://tudenuncia.fgr.org.mx>. El folio que te da es de orientación, no abre una investigación.
 
@@ -122,7 +122,7 @@
 
 **Qué no es denunciable o pide cautela**
 - Ollas que solo juntan agua de lluvia y no están sobre un arroyo.
-- Bordos tradicionales para que beba el ganado. El límite entre una olla permitida y una obra que requiere concesión aún no está claro. [VERIFICAR con abogada]
+- Bordos tradicionales para que beba el ganado. No está claro dónde termina una olla permitida y dónde empieza una obra que requiere concesión: describe lo que ves y deja que Conagua lo determine.
 - Obras que ya tienen título de concesión.
 - Un año muy lluvioso también hace aparecer agua nueva en las imágenes. Una diferencia entre fechas no prueba por sí sola que haya una obra.
 
@@ -168,10 +168,10 @@
 
 **A quién le toca**
 - **El organismo de agua del municipio** (Organismo Descentralizado Operador de Agua de Valle de Bravo) y el Ayuntamiento.
-- **La Comisión de Derechos Humanos del Estado de México (CODHEM)**, si la falta de servicio se prolonga y la autoridad no responde. La Ley General de Aguas prohíbe cortar por completo el servicio de agua, incluso por falta de pago. [VERIFICAR: artículo de la Ley General de Aguas, no leído en su fuente hoy]
+- **La Comisión de Derechos Humanos del Estado de México (CODHEM)**, si la falta de servicio se prolonga y la autoridad no responde. La Ley General de Aguas (artículo 9) dice que el organismo operador no puede suspender por completo el agua potable por falta de pago: debe dar al menos la cantidad mínima para el consumo humano básico.
 
 **Canal oficial**
-- Organismo de agua de Valle de Bravo: [PENDIENTE: no se encontró un canal de reportes en línea el 26 de noviembre].
+- Organismo de agua de Valle de Bravo: no encontramos un canal de reportes en línea. Repórtalo al Ayuntamiento.
 - Ayuntamiento de Valle de Bravo: Calle 5 de Febrero #100, teléfono 726 262 8064, presidencia@valledebravo.gob.mx
 - CODHEM, queja en línea: <https://tramites.codhem.org.mx/tramites>. Teléfono 800 999 4000, las 24 horas. Correo: quejas@codhem.org.mx
 
@@ -189,7 +189,7 @@
 
 ## Canales revisados
 
-| Canal | Enlace | Estado el 26 de noviembre de 2026 |
+| Canal | Enlace | Estado el 26 de noviembre de 2026; los enlaces volvieron a abrir el 27 |
 | --- | --- | --- |
 | PROFEPA, formulario de denuncia | https://www.profepa.gob.mx/innovaportal/v/1156/1/mx/haz_tu_denuncia.html | Abre; muestra la cédula de registro con la fecha del día |
 | PROFEPA, información y canales | https://www.gob.mx/profepa/articulos/denuncia-ante-la-profepa | Abre; página del 5 de noviembre de 2025 |
