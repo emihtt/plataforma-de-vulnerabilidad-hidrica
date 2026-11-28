@@ -37,7 +37,7 @@ Los resultados calculados parten de datos de otras fuentes. Quien los reutilice 
 | Almacenamiento de la presa | Conagua, reporte diario de almacenamiento del Sistema Cutzamala | Datos abiertos del Gobierno de México |
 | Pronóstico por municipio | Servicio Meteorológico Nacional (Conagua) | Datos abiertos del Gobierno de México |
 | Mapa base con conexión | OpenFreeMap, OpenMapTiles | Datos de OpenStreetMap (ODbL) |
-| Unidades hidrográficas modeladas | HydroBASINS v1c (HydroSHEDS / WWF) | Términos incluidos en [`public/licencias/`](public/licencias/) |
+| Unidades hidrográficas modeladas | HydroBASINS v1c (HydroSHEDS / WWF) | Licencia de HydroSHEDS versión 1 (© World Wildlife Fund, Inc.); términos y atribución requerida en [`public/licencias/`](public/licencias/) |
 
 Estas instituciones aparecen como fuente de los datos. Ninguna participa en este proyecto ni lo avala. La fecha y el estado de cada fuente están en [`ESTADO_DATOS.md`](ESTADO_DATOS.md) y en `public/data/fuentes.json`.
 
