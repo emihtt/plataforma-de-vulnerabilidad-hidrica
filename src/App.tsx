@@ -9,6 +9,7 @@ import { COMPATIBLES, territorios } from './lib/territorios'
 import { useProyectos } from './lib/useProyectos'
 import Acerca from './pantallas/Acerca'
 import Fuentes from './pantallas/Fuentes'
+import Guia from './pantallas/Guia'
 import Panorama from './pantallas/Panorama'
 import Prioridades from './pantallas/Prioridades'
 import Usos from './pantallas/Usos'
@@ -29,7 +30,7 @@ const DESTINOS = [
 ] as const
 const SECUNDARIAS: { ruta: Ruta; nombre: string }[] = [
   { ruta: 'perfiles', nombre: 'Elegir experiencia' }, { ruta: 'usos', nombre: 'Usos y futuro' },
-  { ruta: 'agua', nombre: 'Contexto hídrico' }, { ruta: 'fuentes', nombre: 'Fuentes y límites' }, { ruta: 'acerca', nombre: 'Acerca de' },
+  { ruta: 'agua', nombre: 'Contexto hídrico' }, { ruta: 'fuentes', nombre: 'Fuentes y límites' }, { ruta: 'acerca', nombre: 'Acerca de' }, { ruta: 'guia', nombre: 'Qué hacer si ves…' },
 ]
 function Cargando({ texto = 'Cargando…' }: { texto?: string }) { return <p className="m-0 p-6 text-center text-gris">{texto}</p> }
 const CLAVE_PERFIL = 'agua-territorio:perfil:v1'
@@ -126,7 +127,7 @@ export default function App() {
         <button type="button" onClick={() => ir('panorama')} className="brand"><svg viewBox="0 0 48 48" width="44" height="44" aria-hidden><path d="M17 4S6 17 6 25a11 11 0 0 0 22 0C28 17 17 4 17 4ZM25 38q8-9 19-2M6 44q18-8 38 0" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" /></svg><span><strong>Agua y territorio</strong><span>Valle de Bravo</span></span></button>
         <nav aria-label="Secciones principales" className="desktop-nav">{DESTINOS.map((d) => <button type="button" key={d.ruta} aria-current={ruta === d.ruta ? 'page' : undefined} onClick={() => ir(d.ruta)}>{d.nombre}</button>)}</nav>
         <button type="button" aria-label={menu ? 'Cerrar menú' : 'Abrir menú'} aria-expanded={menu} onClick={() => setMenu((m) => !m)} className="menu-toggle"><Icono nombre={menu ? 'cerrar' : 'menu'} /></button>
-      </div>{menu && <nav aria-label="Más secciones" className="extra-nav">{SECUNDARIAS.map((s) => <button key={s.ruta} type="button" onClick={() => ir(s.ruta)}>{s.nombre}</button>)}</nav>}</header>
+      </div>{menu && <nav aria-label="Más secciones" className="extra-nav">{SECUNDARIAS.map((s) => <button key={s.ruta} type="button" aria-current={ruta === s.ruta ? 'page' : undefined} onClick={() => ir(s.ruta)}>{s.nombre}</button>)}</nav>}</header>
       <EtiquetaV0 />
       <div className="profile-strip"><span>Vista: <strong>{perfilInfo.nombre}</strong> <span className="profile-mode">· demostración local, sin cuentas</span></span><button type="button" onClick={() => ir('perfiles')}>Cambiar perfil</button></div>
       {!conexion && <p className="connection-notice" role="status">Sin internet · territorios, fichas y proyectos locales disponibles. Las consultas externas pueden fallar.</p>}
@@ -134,7 +135,7 @@ export default function App() {
       {recorrido !== null && <aside className="tour-bar" aria-label="Recorrido guiado"><div><span className="tour-count">{recorrido + 1} / 5 · recorrido de 2–3 min</span><strong>{['Elige una experiencia para explorar.', 'Mira el territorio y agrega solo las variables que necesitas.', 'Distingue las intervenciones de sus aportes financieros.', 'Revisa cambios registrados, sin atribuir impacto.', 'Una versión demostrable y una visión por construir.'][recorrido]}</strong><p>{['Las cinco entradas se agrupan en gestión y consulta; no son cuentas ni permisos.', 'Prueba localidades, cuencas y microcuencas. Las unidades HydroBASINS están rotuladas como modeladas.', 'Este proyecto es una simulación: sus metas, dinero y avances son ilustrativos.', 'La serie del proyecto es de ejemplo. No modifica el Censo 2020 ni prueba causalidad.', 'La validación científica, comunitaria y la operación compartida son etapas posteriores.'][recorrido]}</p></div><div className="tour-actions">{recorrido > 0 && <button type="button" className="text-action" onClick={() => mostrarPaso(recorrido - 1)}>Anterior</button>}<button type="button" className="primary-action" onClick={() => recorrido === 4 ? ir('panorama') : mostrarPaso(recorrido + 1)}>{['Explorar territorio →', 'Ver proyecto de ejemplo →', 'Ver seguimiento →', 'Ver usos y futuro →', 'Terminar recorrido'][recorrido]}</button><button type="button" className="text-action" onClick={() => setRecorrido(null)}>Salir</button></div></aside>}
       <main id="contenido" tabIndex={-1} key={ruta} className={`app-main route-${ruta}`}><Suspense fallback={<Cargando />}>
         {ruta === 'panorama' && <Panorama />}{ruta === 'mapa' && <Explorador />}{ruta === 'prioridades' && <Prioridades />}
-        {ruta === 'agua' && <AguaAhora />}{ruta === 'usos' && <Usos />}{ruta === 'fuentes' && <Fuentes />}{ruta === 'acerca' && <Acerca />}
+        {ruta === 'agua' && <AguaAhora />}{ruta === 'usos' && <Usos />}{ruta === 'fuentes' && <Fuentes />}{ruta === 'acerca' && <Acerca />}{ruta === 'guia' && <Guia />}
         {ruta === 'perfiles' && <Perfiles />}{ruta === 'proyectos' && <Proyectos />}{ruta === 'seguimiento' && <Seguimiento />}{ruta === 'territorio' && <TerritorioVista />}
       </Suspense></main>
       <nav aria-label="Navegación móvil" className="mobile-nav grid shrink-0 grid-cols-5 border-t border-borde bg-white pb-[env(safe-area-inset-bottom)]">{DESTINOS.map((d) => <button type="button" key={d.ruta} onClick={() => ir(d.ruta)} aria-current={ruta === d.ruta ? 'page' : undefined} className={`flex min-h-14 flex-col items-center justify-center gap-0.5 border-0 border-t-[3px] bg-transparent px-1 text-[11px] font-bold ${ruta === d.ruta ? 'border-verde text-verde-texto' : 'border-transparent text-gris'}`}><Icono nombre={d.icono} tam={22} />{d.nombre}</button>)}</nav>

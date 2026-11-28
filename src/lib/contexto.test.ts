@@ -13,3 +13,7 @@ it('conserva escala, unidad y variables en un enlace compartible', () => {
   vi.stubGlobal('window', { location: { hash: '#' + hashTerritorio('territorio', 'microcuenca', 'hb12-123', ['sin_agua_entubada', 'sin_drenaje']) } })
   expect(leerHash()).toMatchObject({ ruta: 'territorio', escala: 'microcuenca', unidad: 'hb12-123', variables: ['sin_agua_entubada', 'sin_drenaje'], aviso: false })
 })
+it('abre la guía desde un enlace directo sin filtros', () => {
+  vi.stubGlobal('window', { location: { hash: '#/guia' } })
+  expect(leerHash()).toMatchObject({ ruta: 'guia', escala: 'localidad', loc: null, aviso: false })
+})
